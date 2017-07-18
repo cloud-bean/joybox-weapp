@@ -1,0 +1,59 @@
+<style lang="less">
+.sign-button{
+  width: 80%;
+  margin-top: 20rpx;
+  color:white;
+  font-size: 36rpx;
+  background-color: #1aad19;
+}
+.input-form{
+  width: 80%;
+  display: flex;
+  justify-content:flex-start;
+  align-items:center;
+  font-size: 34rpx;
+  margin: 10rpx 0;
+
+  // padding-left: 100rpx;
+  border-bottom: 1rpx solid #f3f3f3;
+}
+.text{
+// padding:0 10rpx;
+width:20%;
+
+}
+.input
+{
+  width:80%;
+}
+.container{
+  margin-top: 30rpx;
+}
+</style>
+<template>
+  <view class="container">
+    <view class="input-form">
+      <label class="text">账号</label>
+      <input class="input" placeholder="填写悦盒账号" />
+</view>
+<view class="input-form">
+
+      <label class="text">密码</label>
+      <input class="input" placeholder="填写密码" />
+    </view>
+
+      <button class="sign-button">登录</button>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class SignInPage extends wepy.page {
+  config = {
+    navigationBarTitleText: '登录悦盒Lite',
+    backgroundColor: '#efeff4'
+  }
+}
+
+</script>

@@ -1,0 +1,25 @@
+<style lang="less">
+
+</style>
+<template>
+
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class userInfo extends wepy.component {
+  props = {
+
+  }
+
+  data = {
+  }
+  events = {
+
+  }
+
+  methods = {
+
+  }
+}
+</script>

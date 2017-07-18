@@ -1,0 +1,17 @@
+<style lang="less">
+
+</style>
+<template>
+
+</template>
+
+<script>
+import wepy from 'wepy'
+import userInfo from '../components/taskListPage/userInfo'
+
+export default class TaskListPage extends wepy.page {
+  components = {
+    userInfo: userInfo
+  }
+}
+</script>

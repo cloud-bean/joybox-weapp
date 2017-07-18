@@ -21,13 +21,14 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/signInPage'
     ],
     window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      backgroundTextStyle: 'dark',
+      navigationBarBackgroundColor: 'black',
+      navigationBarTitleText: '悦盒Lite',
+      navigationBarTextStyle: '#fff',
+      backgroundColor: '#eeeeee'
     }
   }
 
