@@ -1,13 +1,70 @@
 <style lang="less">
-
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20rpx 20rpx;
+  border-bottom: 1px solid #e5e5e5;
+}
+.headimg{
+  flex-grow: 1;
+  display: flex;
+  justify-content:center;
+}
+.message{
+  flex-grow: 6
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
+}
+.info{
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 40rpx ;
+}
+.name{
+  font-size: 34rpx;
+  margin-bottom: 10rpx;
+}
+.slogan{
+  font-size: 24rpx;
+  color: #888888;
+}
+image{
+  margin: auto 0;
+  width: 100rpx;
+  height: 100rpx;
+  background-color: #eeeeee;
+  border-radius:10%;
+}
 </style>
 <template>
+  <view class="">
+    <view class="header">
+      <view class="headimg">
+        <image mode="top" src="./head.jpg"></image>
+      </view>
+      <view class="message">
+        <view class="name">辛那克斯</view>
+        <view class="slogan">Learning with Joy</view>
+      </view>
+    </view>
+    <view class="info">
+      <banner></banner>
+      <banner></banner>
+      <banner></banner>
+    </view>
+  </view>
 
 </template>
 <script>
 import wepy from 'wepy'
-
+import banner from './banner'
 export default class userInfo extends wepy.component {
+  components={
+    banner
+  }
   props = {
 
   }
