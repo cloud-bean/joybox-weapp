@@ -1,14 +1,14 @@
-<style lang="less">
+<style lang="less" scoped>
 .banner{
   display: flex;
   justify-content: flex-start;
 }
 .small-text{
-  font-size: 24rpx;
+  font-size: 27rpx;
 
 }
 .text{
-  border-radius: 5rpx 0 0 5rpx;
+  border-radius: 10rpx 0 0 10rpx;
   color: white;
   padding: 10rpx 20rpx;
   background: #09BB07;
@@ -16,7 +16,7 @@
 .num{
   background: #D8D8D8;
   color: #888888;
-  border-radius: 0px 5rpx 5rpx 0px;
+  border-radius: 0px 10rpx 10rpx 0px;
   padding: 10rpx 20rpx;
 
 }

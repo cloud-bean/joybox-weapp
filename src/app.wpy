@@ -7,6 +7,9 @@
   justify-content: space-between;
   box-sizing: border-box;
 }
+body{
+  background-color: #eee;
+}
 </style>
 
 <script>
@@ -28,8 +31,9 @@ export default class extends wepy.app {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: 'black',
       navigationBarTitleText: '悦盒Lite',
-      navigationBarTextStyle: '#fff',
-      backgroundColor: '#eeeeee'
+      navigationBarTextStyle: '#eee',
+      backgroundColor: '#eeeeee',
+      enablePullDownRefresh: true
     }
   }
 

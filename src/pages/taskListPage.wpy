@@ -1,17 +1,75 @@
-<style lang="less">
+<style lang="less" scoped>
+.wrapper{
 
+}
+.user-info{
+  // margin-top: 20rpx;
+}
+.sub-title{
+  padding: 15rpx;
+  color: #888;
+  background-color: #efeff4;
+  font-size: 28rpx;
+}
 </style>
 <template>
-<userInfo></userInfo>
+  <view class="wrapper">
+    <view class="sub-title">用户基本信息</view>
+    <view class="user-info">
+      <userInfo></userInfo>
+    </view>
+    <navbar></navbar>
+    <repeat for="{{tasks}}" key="index" index="index" item="item">
+        <taskItem :taskData="item"></taskItem>
+    </repeat>
+
+
+  </view>
 </template>
 
 <script>
 import wepy from 'wepy'
 import userInfo from '../components/taskListPage/userInfo'
+import navbar from '../components/taskListPage/navbar'
+import taskItem from '../components/taskListPage/taskItem'
 
 export default class TaskListPage extends wepy.page {
   components = {
-    userInfo: userInfo
+    userInfo,
+    navbar,
+    taskItem
+  }
+  config = {
+    backgroundColor: '#efeff4'
+  }
+  data = {
+    selected: false,
+    tasks: [
+      {
+        title: '英语听说训练',
+        createAt: '2017-5-19',
+        gold: 5,
+        exp: 100
+      },
+      {
+        title: '英语听说训练',
+        createAt: '2017-5-19',
+        gold: 5,
+        exp: 100
+      },
+      {
+        title: '英语听说训练',
+        createAt: '2017-5-19',
+        gold: 5,
+        exp: 100
+      }
+    ]
+  }
+  computed = {
+
+  }
+  methods= {
+
   }
 }
 </script>

@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="less" scoped>
 .header{
   display: flex;
   flex-direction: row;

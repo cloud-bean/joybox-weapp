@@ -1,0 +1,51 @@
+<style lang="less" scoped>
+.navbar{
+  display: flex;
+  justify-content: space-around;
+  background-color: #fafafa;
+
+}
+.navbar-item {
+  font-size: 28rpx;
+  padding: 28rpx 0;
+  width: 100%;
+  .item{
+    text-align: center;
+  }
+}
+
+.active{
+  color: #09BB07;
+  border-bottom: 2px solid #09BB07;
+}
+</style>
+<template>
+  <view class="navbar">
+    <view wx:for="{{contents}}" wx:key="*this" class="navbar-item {{activeIndex == index ? 'active' : ''}}" id="{{index}}" @tap="handleTapNav">
+      <view class="item">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class Navbar extends wepy.component {
+  data = {
+    contents: [
+      '未完成',
+      '近期完成'
+    ],
+    activeIndex: 0
+  };
+  methods = {
+    handleTapNav(e) {
+      this.activeIndex = e.currentTarget.id
+    }
+
+  }
+}
+</script>

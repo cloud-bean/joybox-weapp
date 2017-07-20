@@ -1,0 +1,77 @@
+<style lang="less" scoped>
+.task-item{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20rpx 40rpx;
+  border-bottom: 1px solid #e5e5e5;
+  .info{
+    height: 120rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 20rpx;
+    .title{
+      font-size: 34rpx;
+      color: #222;
+    }
+    .sub-title{
+      font-size: 28rpx;
+      color: #888;
+    }
+  }
+  .type{
+
+    image{
+      margin: auto 0;
+      width: 120rpx;
+      height: 120rpx;
+      background-color: #eeeeee;
+    }
+  }
+  .indicator{
+    font-size: 28rpx;
+    color: #c7c7cc;
+    margin-left: 260rpx;
+    font-size: 30rpx;
+  }
+
+}
+</style>
+<template>
+  <view class="task-item">
+    <view class="type">
+      <image mode="top" src="./head.jpg"></image>
+    </view>
+    <view class="info">
+      <view class="title">
+        {{taskData.title}}
+      </view>
+      <view class="sub-title">
+        {{taskData.createAt}}
+      </view>
+      <view class="sub-title">
+        经验:{{taskData.exp}} 悦币:{{taskData.gold}}
+      </view>
+    </view>
+    <view class="indicator">
+      >
+    </view>
+  </view>
+
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class TaskItem extends wepy.component {
+  data = {
+
+  }
+  props=[
+    'taskData'
+  ]
+  methods = {
+
+  }
+}
+</script>
