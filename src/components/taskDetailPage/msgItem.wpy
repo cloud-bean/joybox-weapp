@@ -1,0 +1,72 @@
+<style lang="less" scoped>
+.msg-item{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .head{
+
+  }
+  .info{
+    display: flex;
+    flex-direction: column;
+    color: #adadad;
+    font-size: 28rpx;
+    text-align: left;
+    height: 74rpx;
+    justify-content: space-around;
+    margin-left: 10rpx;
+    .name{
+      font-size: 24rpx;
+      color: #949494;
+    }
+    .msg{
+      font-size: 26rpx;
+      color: #353535;
+    }
+  }
+  padding: 15rpx 40rpx;
+}
+image{
+  margin: auto 0;
+  width: 74rpx;
+  height: 74rpx;
+  background-color: #eeeeee;
+  border-radius:10%;
+  // margin-left: 10rpx;
+  // margin-bottom: 10rpx;
+}
+</style>
+<template>
+  <view class="msg-item">
+    <view class="head">
+      <image mode="top" src="./head.jpg"></image>
+    </view>
+    <view class="info">
+      <view class="name">辛那克斯 2017-07-20 21：00</view>
+      <view class="msg">已拍照提交作业</view>
+    </view>
+  </view>
+
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class msgItem extends wepy.component {
+  components={
+
+  }
+  props = {
+
+  }
+
+  data = {
+  }
+  events = {
+
+  }
+
+  methods = {
+
+  }
+}
+</script>

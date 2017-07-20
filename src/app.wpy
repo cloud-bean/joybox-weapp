@@ -1,4 +1,5 @@
 <style lang="less">
+@import "./plugin/wxParse/wxParse.wxss";
 .container {
   height: 100%;
   display: flex;
@@ -24,6 +25,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/taskDetailPage',
       'pages/taskListPage',
       'pages/signInPage'
     ],

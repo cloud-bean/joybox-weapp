@@ -1,0 +1,65 @@
+<style lang="less" scoped>
+.complete-list{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .head-list{
+    flex-grow: 5;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .info{
+    flex-grow: 3;
+    color: #adadad;
+    font-size: 28rpx;
+    text-align: center;
+  }
+  padding: 10rpx 10rpx;
+  border-bottom:1px solid  #adadad;
+}
+image{
+  margin: auto 0;
+  width: 60rpx;
+  height: 60rpx;
+  background-color: #eeeeee;
+  border-radius:50%;
+  margin-left: 10rpx;
+  margin-bottom: 10rpx;
+}
+</style>
+<template>
+  <view class="complete-list">
+    <view class="head-list">
+      <image mode="top" src="./head.jpg"></image>
+      <image mode="top" src="./head.jpg"></image>
+      <image mode="top" src="./head.jpg"></image>
+    </view>
+    <view class="info">
+      3人完成作业
+    </view>
+  </view>
+
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class completeList extends wepy.component {
+  components={
+
+  }
+  props = {
+
+  }
+
+  data = {
+  }
+  events = {
+
+  }
+
+  methods = {
+
+  }
+}
+</script>
