@@ -3,30 +3,65 @@
 .submit{
   background-color: #09BB07;
   color: white;
-  position: absolute;
+  position: fixed;
+  // padding: 20rpx;
+  width: 80%;
+  // border-radius: 10rpx;
   bottom:20rpx;
-  right:20rpx;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  // right:20rpx;
+}
+.record-box{
+  position: absolute;
+  top:300rpx;
+  left: 0;
+  right: 0;
+  width: 70%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  z-index: 1000;
+}
+.md-container{
+  padding: 10rpx 20rpx;
+}
+.mask{
+  width: 100%;
+  height: 1500rpx;
+  /* Bg: */
+  opacity: 0.5;
+  background: #000000;
+  position: absolute;
+  z-index: 999;
+  top: 0;
 }
 </style>
 
 <template>
   <import src="../plugin/wxParse/wxParse.wxml"/>
-
-  <view class="wxParse">
+  <view class="mask">
+  </view>
+  <view class="wxParse md-container">
     <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
   </view>
-  <completeList></completeList>
+  <view class="record-box">
+    <recordBox></recordBox>
+  </view>
+  <view class="md-container">
+    <completeList></completeList>
+  </view>
   <msgItem></msgItem>
   <msgItem></msgItem>
   <msgItem></msgItem>
-  <button class="submit">提交</button>
+  <button class="submit" @tap="open">提交</button>
 </template>
 
 <script>
 import wepy from 'wepy'
 import completeList from '../components/taskDetailPage/completeList'
 import msgItem from '../components/taskDetailPage/msgItem'
-
+import recordBox from '../components/taskDetailPage/recordBox'
 var WxParse = require('../plugin/wxParse/wxParse.js')
 
 export default class TaskDetailPage extends wepy.page {
@@ -34,7 +69,8 @@ export default class TaskDetailPage extends wepy.page {
   }
   components = {
     completeList,
-    msgItem
+    msgItem,
+    recordBox
   }
   onLoad() {
     var text = '# 口语训练 \n'
@@ -42,6 +78,22 @@ export default class TaskDetailPage extends wepy.page {
     +'## 请将这5个句子翻译成英语 \n'
     +' * 我确信你能为你的朋友找到一些有用的书。 \n * 对我们来说学会如何花钱很重要  \n * 我们将邀请invite他给我们作一个关于健康饮食报告 \n * 这部电影如此无聊以致我一点都不想再看了。\n';
     WxParse.wxParse('article', 'md', text, this, 5);
+  }
+  methods = {
+    handleSubmit(){
+
+    },
+    open () {
+      wepy.showActionSheet({
+        itemList: ['拍照提交', '录音提交', '文字提交'],
+        success: function(res) {
+          console.log(res.tapIndex)
+        },
+        fail: function(res) {
+          console.log(res.errMsg)
+        }
+      })
+    }
   }
 }
 </script>
