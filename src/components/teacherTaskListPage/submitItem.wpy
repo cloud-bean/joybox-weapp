@@ -1,0 +1,52 @@
+<style lang="less" scoped>
+.submit-item{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  padding: 20rpx 20rpx;
+  border-bottom: 1px solid #e5e5e5;
+    .title{
+
+      font-size: 28rpx;
+      color: #c7c7cc;
+    }
+    .sub-title{
+      font-size: 28rpx;
+      color: #888;
+    }
+    .name{
+      font-size: 28rpx;
+      color: #222;
+      font-size: 30rpx;
+    }
+}
+</style>
+<template>
+  <view class="submit-item">
+    <view class="sub-title">
+      [初一培优]
+    </view>
+    <view class="title">
+      英语口语训练
+    </view>
+    <view class="name">
+      辛那克斯
+    </view>
+    <view class="sub-title">
+      >
+    </view>
+</view>
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class submitItem extends wepy.component {
+  data = {
+
+  }
+  methods = {
+
+  }
+}
+</script>

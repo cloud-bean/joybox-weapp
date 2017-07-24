@@ -2,15 +2,23 @@
 
 </style>
 <template>
-  <view class="container">
+  <view class="">
+<submitItem></submitItem>
+<submitItem></submitItem>
+
+<submitItem></submitItem>
+<submitItem></submitItem>
+<submitItem></submitItem>
 
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-
+import submitItem from '../components/teacherTaskListPage/submitItem'
 export default class TeacherTaskListPage extends wepy.page {
-
+  components = {
+    submitItem
+  }
 }
 </script>
