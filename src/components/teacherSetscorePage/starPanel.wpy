@@ -1,0 +1,34 @@
+<style lang="less" scoped>
+.star-panel{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 64rpx;
+  padding: 20rpx 20rpx;
+  color: #ccc;
+}
+.active{
+  color: yellow;
+}
+</style>
+<template>
+  <view class="star-panel">
+      <text  wx:for="level" wx:for-index="i" id="{{i}}" class="fa fa-star {{ cur > i ? 'active':''}}" @tap="handleTap"></text>
+  </view>
+
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class starPanel extends wepy.component {
+  data = {
+    level:[1,2,3,4,5],
+    cur: 0,
+  }
+  methods = {
+    handleTap(e){
+      this.cur = 1+Number(e.currentTarget.id);
+    }
+  }
+}
+</script>

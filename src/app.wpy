@@ -29,6 +29,8 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/teacherSetscorePage',
+      'pages/teacherTaskListPage',
       'pages/taskDetailPage',
       'pages/taskListPage',
       'pages/signInPage'
