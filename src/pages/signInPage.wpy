@@ -34,25 +34,47 @@ width:20%;
   <view class="container">
     <view class="input-form">
       <label class="text">账号</label>
-      <input class="input" placeholder="填写悦盒账号" />
-</view>
-<view class="input-form">
-
-      <label class="text">密码</label>
-      <input class="input" placeholder="填写密码" />
+      <input id="email" class="input" placeholder="填写悦盒账号" bindblur="bindChange"/>
     </view>
-
-      <button class="sign-button">登录</button>
+    <view class="input-form">
+      <label class="text">密码</label>
+      <input id="password" class="input" placeholder="填写密码" bindblur="bindChange"/>
+    </view>
+    <button class="sign-button" @tap="signIn">登录</button>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
+import config from '../config'
 
 export default class SignInPage extends wepy.page {
   config = {
     navigationBarTitleText: '登录悦盒Lite',
     backgroundColor: '#efeff4'
+  }
+  data = {
+    inputContent: {}
+  }
+  methods = {
+    async signIn(){
+      console.log('sign');
+      const that = this;
+      const res = await wepy.request({
+        url : config.server.authServer,
+        data: {
+          'email': that.inputContent['email'],
+          'password': that.inputContent['password']
+        },
+        method: 'POST'
+      });
+      console.log(res);
+
+    },
+    bindChange(e){
+      this.inputContent[e.currentTarget.id] = e.detail.value;
+      console.log(this.inputContent);
+    }
   }
 }
 

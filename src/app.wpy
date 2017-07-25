@@ -4,14 +4,14 @@
 @import "./plugin/wxParse/wxParse.wxss";
 
 
-// .container {
-//   height: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: space-between;
-//   box-sizing: border-box;
-// }
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
 // body{
 //   background-color: #eee;
 // }
@@ -29,11 +29,11 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/signInPage',
       'pages/teacherSetscorePage',
       'pages/teacherTaskListPage',
       'pages/taskDetailPage',
       'pages/taskListPage',
-      'pages/signInPage'
     ],
     window: {
       backgroundTextStyle: 'dark',
@@ -52,6 +52,7 @@ export default class extends wepy.app {
   constructor () {
     super()
     this.use('requestfix')
+    this.use('promisify')
   }
 
   onLaunch() {
