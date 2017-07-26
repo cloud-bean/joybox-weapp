@@ -4,19 +4,13 @@
  */
 import { ASYNC_FETCH_USER } from '../types/user'
 import { createAction } from 'redux-actions'
+import { signIn } from '../../api/user'
+import { getStore } from 'wepy-redux'
 
 export const asyncFetchUser = createAction(ASYNC_FETCH_USER, () => {
-  return new Promise(resolve => {
-    let mockUserObj = {
-      displayName: 'guokui',
-      profileImageURL: 'https://baidu.png',
-      option: {
-        slogan: 'Learning with joy, achieving with will.',
-        exp: 100,
-        goldToken: 20,
-        level: 1
-      }
-    }
-    resolve(mockUserObj)
-  })
+  let store = getStore()
+  const state = store.getState()
+  let email = state.root.email
+  let password = state.root.password
+  return signIn(email, password)
 })

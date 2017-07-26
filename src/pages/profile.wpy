@@ -2,7 +2,7 @@
   <div class="blue-bg">
     <div >
       <div class="headimg">
-        <img :src="user.profileImageURL" alt="" class="avatar"/>
+        <image src="{{ user.profileImageURL }}" alt="" class="avatar"></image>
         <p>
           <span class="name">{{user.displayName}}</span>
         <div class="item-subtitle"> {{user.option.slogan || 'Learning with joy, achieving with will.'}} </div>
@@ -39,20 +39,26 @@
 </template>
 
 <script>
-  import { connect } from 'wepy-redux'
-  import {ASYNC_FETCH_USER} from '../store/types/user'
+  import wepy from 'wepy'
+  import { getStore, connect } from 'wepy-redux'
   import {asyncFetchUser} from '../store/actions/user'
   @connect({
     user (state) {
       return state.user
     }
-  }, {
-    fetchUser:
   })
 
-  export default{
-    props: ['user']
+  export default class Profile extends wepy.page {
+    // ...
+    methods = {
+      // ...
+    }
+    // ...
+    onLoad() {
+      getStore().dispatch(asyncFetchUser())
+    }
   }
+
 </script>
 
 
@@ -72,10 +78,10 @@
     font-size: 0.5rem;
     /*padding-top: 5px;*/
   }
-  /*.headimg{
+  .headimg{
     width: 44px;
     height: 44px;
-  }*/
+  }
   .name{
     font-size: 1.2rem;
   }
