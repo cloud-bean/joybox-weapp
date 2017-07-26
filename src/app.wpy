@@ -30,10 +30,10 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/signInPage',
-      'pages/teacherSetscorePage',
+      'pages/profile',
       'pages/teacherTaskListPage',
       'pages/taskDetailPage',
-      'pages/taskListPage',
+      'pages/taskListPage'
     ],
     window: {
       backgroundTextStyle: 'dark',

@@ -46,9 +46,9 @@
 
 <script>
 import wepy from 'wepy'
-import starPanel from '../components/teacherSetscorePage/starPanel'
+import starPanel from '../components/teacherSetScore/starPanel'
 
-export default class TeacherSetscorePage extends wepy.page {
+export default class TeacherSetScorePage extends wepy.page {
   components = {
     starPanel
   }

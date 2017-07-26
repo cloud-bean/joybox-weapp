@@ -1,3 +1,4 @@
+export const ASYNC_FETCH_USER = 'ASYNC_FETCH_USER'
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const SET_USER_RECORDS = 'SET_USER_RECORDS';
 export const SET_TIP = 'SET_TIP';
