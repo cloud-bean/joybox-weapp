@@ -28,6 +28,7 @@
 .wrapper{
 }
 </style>
+
 <template>
   <view class="wrapper">
     <view class="score">
