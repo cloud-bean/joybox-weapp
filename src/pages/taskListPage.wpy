@@ -22,14 +22,12 @@
     <repeat for="{{tasks}}" key="index" index="index" item="item">
         <taskItem :taskData="item"></taskItem>
     </repeat>
-
-
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import userInfo from '../components/taskListPage/userInfo'
+import userInfo from '../components/userInfo'
 import navbar from '../components/taskListPage/navbar'
 import taskItem from '../components/taskListPage/taskItem'
 

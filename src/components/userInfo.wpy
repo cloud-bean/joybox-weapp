@@ -40,14 +40,14 @@ image{
 }
 </style>
 <template>
-  <view class="">
+  <view class="container">
     <view class="header">
       <view class="headimg">
-        <image mode="top" src="./head.jpg"></image>
+        <image mode="top" src="{{user.profileImageURL}}"></image>
       </view>
       <view class="message">
-        <view class="name">辛那克斯</view>
-        <view class="slogan">Learning with Joy</view>
+        <view class="name">{{ user.displayName }}</view>
+        <view class="slogan">{{ user.option.slogan }}</view>
       </view>
     </view>
     <view class="info">
@@ -60,23 +60,15 @@ image{
 </template>
 <script>
 import wepy from 'wepy'
-import banner from './banner'
+import banner from './taskListPage/banner'
+
 export default class userInfo extends wepy.component {
-  components={
+  components = {
     banner
   }
+
   props = {
-
-  }
-
-  data = {
-  }
-  events = {
-
-  }
-
-  methods = {
-
+    user: Object
   }
 }
 </script>

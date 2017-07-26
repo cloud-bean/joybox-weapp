@@ -49,7 +49,12 @@
       }
     }
 
-    onLoad () {
+    onReload() {
+      console.log('onReload list component')
+    }
+
+    onShow() {
+      console.log('onshow list component')
     }
   }
 </script>
