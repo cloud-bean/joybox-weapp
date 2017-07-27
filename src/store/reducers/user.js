@@ -20,7 +20,7 @@ const baseOption = {
 
 const baseUserState = {
   displayName: 'unknown',
-  profileImageURL: 'https://avatars3.githubusercontent.com/u/12526?v=4&s=460',
+  profileImageURL: '../../assets/images/avatar.png',
   option: baseOption
 }
 export default handleActions({

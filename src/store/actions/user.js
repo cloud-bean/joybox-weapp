@@ -14,3 +14,7 @@ export const asyncFetchUser = createAction(ASYNC_FETCH_USER, () => {
   let password = state.root.password
   return signIn(email, password)
 })
+
+export const wechatSignIn = function () {
+
+}

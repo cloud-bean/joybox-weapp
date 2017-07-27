@@ -54,11 +54,10 @@
         经验:{{taskData.exp}} 悦币:{{taskData.gold}}
       </view>
     </view>
-    <view class="indicator">
+    <view class="indicator" @tap="goToDetail">
       >
     </view>
   </view>
-
 </template>
 <script>
 import wepy from 'wepy'
@@ -71,7 +70,11 @@ export default class TaskItem extends wepy.component {
     'taskData'
   ]
   methods = {
-
+    goToDetail() {
+      wepy.navigateTo({
+        url: '/pages/taskDetailPage'
+      })
+    }
   }
 }
 </script>

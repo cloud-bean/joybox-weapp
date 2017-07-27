@@ -1,0 +1,72 @@
+<template>
+  <view class="container">
+    <view wx:if="{{ !user.isLogged }}">
+      <view class="input-form" >
+        <label class="text">账号</label>
+        <input id="email" class="input" placeholder="填写悦盒账号" bindblur="bindChange"/>
+      </view>
+      <view class="input-form">
+        <label class="text">密码</label>
+        <input id="password" class="input" placeholder="填写密码" bindblur="bindChange"/>
+      </view>
+      <button class="sign-button" @tap="signIn">登录</button>
+    </view>
+    <view wx:if="{{ user.isLogged }}">
+      <userInfo :user.sync="user"></userInfo>
+    </view>
+  </view>
+</template>
+
+<style lang="less" scoped>
+  .input-form {
+    width: 90%;
+    flex: auto;
+  }
+</style>
+
+<script>
+  import wepy from 'wepy'
+  import { asyncFetchUser } from '../store/actions/user'
+  import { setLogin } from '../store/actions/root'
+  import { getStore, connect } from 'wepy-redux'
+  import userInfo from './userInfo'
+  @connect({
+    user (state) {
+      return state.user
+    }
+  })
+
+  export default class loginForm extends wepy.component {
+    data = {
+      inputContent: {}
+    }
+    components = {
+      userInfo
+    }
+
+    methods = {
+      signIn () {
+        let store = getStore()
+        let data = {
+          email: this.inputContent['email'],
+          password: this.inputContent['password']
+        }
+
+        store.dispatch(setLogin(data))
+        store.dispatch(asyncFetchUser())
+      },
+
+      bindChange (e) {
+        this.inputContent[e.currentTarget.id] = e.detail.value
+      }
+    }
+
+    onReload() {
+      console.log('onReload loginForm component')
+    }
+
+    onShow() {
+      console.log('onshow loginForm component')
+    }
+  }
+</script>
