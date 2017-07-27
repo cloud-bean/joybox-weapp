@@ -14,26 +14,32 @@
 </style>
 <template>
   <view class="wrapper">
-    <view class="sub-title">用户基本信息</view>
-    <view class="user-info">
-      <userInfo :user.sync="user"></userInfo>
-    </view>
     <navbar></navbar>
-    <repeat for="{{tasks}}" key="index" index="index" item="item">
+    <view wx:if="tasks.length > 0">
+      <repeat  for="{{tasks}}" key="index" index="index" item="item">
         <taskItem :taskData="item"></taskItem>
-    </repeat>
+      </repeat>
+    </view>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import userInfo from '../components/userInfo'
 import navbar from '../components/taskListPage/navbar'
 import taskItem from '../components/taskListPage/taskItem'
+import {connect, getStore} from 'wepy-redux'
+import {fetchTasksAction} from '../store/actions/task'
+@connect({
+  task (state) {
+    return state.task
+  },
+  user (state) {
+    return state.user
+  }
+})
 
 export default class TaskListPage extends wepy.component {
   components = {
-    userInfo,
     navbar,
     taskItem
   }
@@ -42,47 +48,16 @@ export default class TaskListPage extends wepy.component {
   }
   data = {
     selected: false,
-    tasks: [
-      {
-        title: '英语听说训练',
-        createAt: '2017-5-19',
-        gold: 5,
-        exp: 100
-      },
-      {
-        title: '英语听说训练',
-        createAt: '2017-5-19',
-        gold: 5,
-        exp: 100
-      },
-      {
-        title: '英语听说训练',
-        createAt: '2017-5-19',
-        gold: 5,
-        exp: 100
-      }
-    ],
-    user: {
-      displayName: '五毛',
-      profileImageURL: '/assets/images/avatar.png',
-      option: {
-        goldToken: 200,
-        exp: 770,
-        slogan: 'do wanner do'
-      }
-    }
+    tasks: []
   }
   computed = {
-
   }
-  methods= {
-
+  methods = {
   }
-
   onShow() {
     console.log('onshow of task list page')
+    getStore().dispatch(fetchTasksAction()) // dispatch to fetch list
   }
-
   onReload() {
     console.log('onreload of task list page')
   }

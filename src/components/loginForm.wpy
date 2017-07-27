@@ -1,26 +1,35 @@
 <template>
-  <view class="container">
-    <view wx:if="{{ !user.isLogged }}">
-      <view class="input-form" >
-        <label class="text">账号</label>
-        <input id="email" class="input" placeholder="填写悦盒账号" bindblur="bindChange"/>
-      </view>
-      <view class="input-form">
-        <label class="text">密码</label>
-        <input id="password" class="input" placeholder="填写密码" bindblur="bindChange"/>
-      </view>
-      <button class="sign-button" @tap="signIn">登录</button>
+  <view wx:if="{{ !user.isLogged }}" class="login-form">
+    <view class="section">
+      <view>悦盒账号</view>
+      <input id="email" class="text-input" auto-focus bindblur="bindChange"/>
+      <view>悦盒密码</view>
+      <input id="password" class="text-input" bindblur="bindChange"/>
     </view>
-    <view wx:if="{{ user.isLogged }}">
-      <userInfo :user.sync="user"></userInfo>
-    </view>
+
+    <button type="primary" @tap="signIn">登录</button>
+  </view>
+  <view wx:else>
+    <userInfo :user.sync="user"></userInfo>
   </view>
 </template>
 
 <style lang="less" scoped>
-  .input-form {
+  .text-input {
+    background-color:#eee;
+    border:1px solid #ddd;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+
+  .login-form {
     width: 90%;
-    flex: auto;
+    margin: 10px auto;
+  }
+
+  .section {
+    padding-bottom: 20px;
   }
 </style>
 
