@@ -28,8 +28,8 @@
       cur: 0
     }
     methods = {
-      handleTap(e){
-        this.cur = 1 + Number(e.currentTarget.id);
+      handleTap(e) {
+        this.cur = 1 + Number(e.currentTarget.id)
       }
     }
   }

@@ -16,7 +16,7 @@
   <view class="wrapper">
     <view class="sub-title">用户基本信息</view>
     <view class="user-info">
-      <userInfo></userInfo>
+      <userInfo :user.sync="user"></userInfo>
     </view>
     <navbar></navbar>
     <repeat for="{{tasks}}" key="index" index="index" item="item">
@@ -31,7 +31,7 @@ import userInfo from '../components/userInfo'
 import navbar from '../components/taskListPage/navbar'
 import taskItem from '../components/taskListPage/taskItem'
 
-export default class TaskListPage extends wepy.page {
+export default class TaskListPage extends wepy.component {
   components = {
     userInfo,
     navbar,
@@ -61,13 +61,30 @@ export default class TaskListPage extends wepy.page {
         gold: 5,
         exp: 100
       }
-    ]
+    ],
+    user: {
+      displayName: '五毛',
+      profileImageURL: '/assets/images/avatar.png',
+      option: {
+        goldToken: 200,
+        exp: 770,
+        slogan: 'do wanner do'
+      }
+    }
   }
   computed = {
 
   }
   methods= {
 
+  }
+
+  onShow() {
+    console.log('onshow of task list page')
+  }
+
+  onReload() {
+    console.log('onreload of task list page')
   }
 }
 </script>

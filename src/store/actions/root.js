@@ -10,3 +10,13 @@ export const setLogin = function (data) {
     payload: data
   }
 }
+
+export const authLocal = function (userId, accessToken) {
+  return {
+    type: 'AUTH_CLIENT',
+    payload: {
+      userId,
+      accessToken
+    }
+  }
+}

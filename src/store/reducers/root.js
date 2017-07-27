@@ -1,9 +1,11 @@
 import { handleActions } from 'redux-actions'
-import { SET_LOGIN } from '../types/root'
+import { SET_LOGIN, AUTH_CLIENT } from '../types/root'
 
 const initState = {
   email: '',
   password: '',
+  userId: '',
+  accessToken: ''
 }
 
 export default handleActions({
@@ -14,6 +16,18 @@ export default handleActions({
         ...state,
         email: action.payload.email,
         password: action.payload.password
+      }
+    } else {
+      return state
+    }
+  },
+  [AUTH_CLIENT] (state, action) {
+    console.log('Auth Client', action.payload)
+    if (action.payload) {
+      return {
+        ...state,
+        userId: action.payload.userId,
+        accessToken: action.payload.accessToken
       }
     } else {
       return state

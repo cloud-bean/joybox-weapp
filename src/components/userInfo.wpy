@@ -43,7 +43,7 @@ image{
   <view class="container">
     <view class="header">
       <view class="headimg">
-        <image mode="top" src="{{user.profileImageURL}}"></image>
+        <image mode="top" src="{{user.profileImageURL || ''}}"></image>
       </view>
       <view class="message">
         <view class="name">{{ user.displayName }}</view>
