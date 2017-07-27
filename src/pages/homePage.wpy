@@ -28,7 +28,6 @@
     onShow() {
       console.log('onshow of task list page')
     }
-
     onReload() {
       console.log('onreload of task list page')
     }

@@ -1,10 +1,6 @@
-/**
- *
- * Created by hygkui on 2017/7/24
- */
 import { ASYNC_FETCH_USER } from '../types/user'
 import { createAction } from 'redux-actions'
-import { signIn } from '../../api/user'
+import { signIn } from '../../api'
 import { getStore } from 'wepy-redux'
 
 export const asyncFetchUser = createAction(ASYNC_FETCH_USER, () => {
