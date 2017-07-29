@@ -5,12 +5,12 @@ export default {
   openid: 'oBSpWs7cgDzFZvCpqL-ZbXQfxVU0',
   server: {
     // midServer: 'http://dev.joywill.cc',
-    midServer: 'http://joywill.cc',
-    
+    // midServer: 'http://joywill.cc',
+    midServer: 'http://localhost:3000',
     // midServer:'http://sab4h63cag.proxy.qqbrowser.cc',
     bigServer: 'http://120.25.227.156:7000/api/base',
     authServer: 'http://120.25.227.156:7000/app/auth/signin',
-    
+
     //bigServer:'http://192.168.0.153:7000/api/base',
     //midServer:'http://sab4h63cag.proxy.qqbrowser.cc',
   },

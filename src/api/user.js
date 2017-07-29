@@ -12,16 +12,32 @@ import config from '../config'
 //   }).then(res => res.data.data)
 // }
 
-const signUp = function (user) {
+const signUp = (user) => {
   return wepy.request({
-    url: config.server.bigServer+'/users',
+    url: config.server.bigServer + '/users',
     data: {
       ...user
     },
     method: 'POST'
   }).then(res => res.data.data)
 }
+const getUnionId = async function() {
+  try {
+    const codeInfo = await wepy.login()
+    const unionId = await wepy.request({
+      url: config.server.midServer + '/weapp/getUserInfo',
+      data: {
+        code: codeInfo.code
+      },
+      method: 'POST'
+    })
+    return unionId
+  } catch (e) {
+    console.log(e)
+  } 
+}
 
 export default {
-  signUp
+  signUp,
+  getUnionId
 }
