@@ -1,4 +1,4 @@
-import {fetch} from './fetchKF'
+import {fetchWithAccessToken} from './fetchKF'
 
 export const getAllTaskList = function (page, limit) {
   return fetch(`/tasks?page=${page}&limit=${limit}`, 'GET')
@@ -7,7 +7,7 @@ export const getAllTaskList = function (page, limit) {
 }
 
 export const getTaskList = (state, page, limit) => {
-  return fetch(`/tasks?filter=${state}`, 'GET')
+  return fetchWithAccessToken(`/tasks?filter=${state}`, 'GET')
     .then(res => {
       return {
         tasks: res.data.data.tasks,
@@ -18,7 +18,7 @@ export const getTaskList = (state, page, limit) => {
 }
 
 export const getTaskDoneQuantity = () => {
-  return fetch('/records/doneCount', 'GET')
+  return fetchWithAccessToken('/records/doneCount', 'GET')
     .then(res => {
       return {
         taskDoneQuantity: res.data.data.doneCount
@@ -28,7 +28,7 @@ export const getTaskDoneQuantity = () => {
 }
 
 export const getTaskComment = taskId => {
-  return fetch(`/tasks/${taskId}/commits?limit=30`, 'GET')
+  return fetchWithAccessToken(`/tasks/${taskId}/commits?limit=30`, 'GET')
     .then(res => res.data.data)
     .catch(console.log)
 }
@@ -44,13 +44,13 @@ export const submitOrder = (taskId, serverId, type) => {
     }
   }
 
-  return fetch('/orders', 'POST', data)
+  return fetchWithAccessToken('/orders', 'POST', data)
     .then(res => res.data.data)
     .catch(console.log)
 }
 
 export const leaveComment = (content, taskId) => {
-  return fetch(`/tasks/${taskId}/commits`, 'POST')
+  return fetchWithAccessToken(`/tasks/${taskId}/commits`, 'POST')
     .then(res => res.data.data)
     .catch(console.log)
 }
