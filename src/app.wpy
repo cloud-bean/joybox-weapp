@@ -29,6 +29,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/bindPage',
       'pages/index',
       'pages/taskDetailPage'
     ],
@@ -50,18 +51,44 @@ export default class extends wepy.app {
     super()
     this.use('requestfix')
     this.use('promisify')
+    //config intercept to include accessToken
+    this.intercept('request', {
+      config (p) {
+        console.log('p', p);
+        p.header = {...p.header, Authorization: 'hello world'};
+        return p;
+      },
+      success (p) {
+        console.log('request success');
+        return p;
+      },
+      fail (p) {
+        console.log('request error');
+        return p;
+      }
+    });
   }
 
-  getUserInfo(cb) {
-    const that = this
-    if (this.globalData.userInfo) {
-      return this.globalData.userInfo
-    }
-    wepy.getUserInfo({
-      success (res) {
-        that.globalData.userInfo = res.userInfo
-        cb && cb(res.userInfo)
-      }
+  async getUserInfo(cb) {
+    const codeInfo = await wepy.login()
+    // const userInfo = await wepy.getUserInfo()
+    // cb({res, code})
+    const user = await wepy.request({
+      url: 'http://localhost:3000/weapp/getUserInfo',
+      data: {
+        code: codeInfo.code
+        // user: userInfo.userInfo
+      },
+      method: 'POST'
+    })
+    cb(user)
+  }
+
+  onLaunch() {
+    // console.log('launch')
+    this.getUserInfo((res) => {
+      console.log('complete')
+      console.log(res)
     })
   }
 }

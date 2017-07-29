@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {fetch, fetchWithAccessToken} from './fetchKF'
 
 export const fetchUserInfo = function (userId) {
@@ -27,6 +28,21 @@ export const signUp = function (providerData, phone, displayName) {
   return fetch('/users', 'POST', userInfo)
     .then(res => res.data.data)
     .catch(console.log)
+}
+export const getUnionId = async function() {
+  try {
+    const codeInfo = await wepy.login()
+    const unionId = await wepy.request({
+      url: config.server.midServer + '/weapp/getUserInfo',
+      data: {
+        code: codeInfo.code
+      },
+      method: 'POST'
+    })
+    return unionId
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 export const getUserRecords = () => {

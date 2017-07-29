@@ -1,0 +1,60 @@
+<style lang="less" scoped>
+
+</style>
+<template>
+  <view class="">
+    <view class="head-title">
+      JoyBox
+    </view>
+
+    <view class="sub-title">
+如果您以前使用过JOYBOX系统，请到原系统中完成数据迁移工作，重新注册用户会导致您的历史数据丢失，请慎重。
+    </view>
+    <view wx:if="{{formVisable}}">
+      <label class="text">请填写手机</label>
+      <input id="phone" class="input" placeholder="手机" bindblur="bindChange"/>
+      <label class="text">请填写真实姓名</label>
+      <input id="displayName" class="input" placeholder="真实姓名" bindblur="bindChange"/>
+      <button open-type="getUserInfo" bindgetuserinfo="handleUserInfo">确认绑定</button>
+    </view>
+    <view wx:if="{{!formVisable}}">
+      <button  @tap="showForm">创建新用户</button>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import api from '../api/user'
+  export default class bindPage extends wepy.page {
+    // onShow() {
+    //   console.log('onshow of task list page')
+    // }
+
+    // onReload() {
+    //   console.log('onreload of task list page')
+    // }
+    data = {
+      inputContent: {},
+      formVisable: false
+    }
+
+    methods = {
+      async handleUserInfo(e){
+        const userInfo = e.detail.userInfo;
+        const displayName = this.inputContent['displayName'];
+        const phone = this.inputContent['phone'];
+        const userData = {displayName,providerData:{...userInfo, unionId:'12312312312312312312', phone}}
+        const res = await api.signUp(userData);
+        console.log(res);
+      },
+      bindChange (e) {
+        this.inputContent[e.currentTarget.id] = e.detail.value
+      },
+      showForm(){
+        this.formVisable = true
+      }
+    }
+  }
+
+</script>
