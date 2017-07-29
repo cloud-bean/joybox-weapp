@@ -51,6 +51,22 @@ export default class extends wepy.app {
     super()
     this.use('requestfix')
     this.use('promisify')
+    //config intercept to include accessToken
+    this.intercept('request', {
+      config (p) {
+        console.log('p', p);
+        p.header = {...p.header, Authorization: 'hello world'};
+        return p;
+      },
+      success (p) {
+        console.log('request success');
+        return p;
+      },
+      fail (p) {
+        console.log('request error');
+        return p;
+      }
+    });
   }
 
   async getUserInfo(cb) {
