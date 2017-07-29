@@ -25,33 +25,25 @@
 
 <script>
   import wepy from 'wepy'
-  import api from '../api/user'
+  import * as api from '../api/user'
   export default class bindPage extends wepy.page {
-    // onShow() {
-    //   console.log('onshow of task list page')
-    // }
-
-    // onReload() {
-    //   console.log('onreload of task list page')
-    // }
     data = {
       inputContent: {},
       formVisable: false
     }
-
     methods = {
-      async handleUserInfo(e){
-        const userInfo = e.detail.userInfo;
-        const displayName = this.inputContent['displayName'];
-        const phone = this.inputContent['phone'];
-        const userData = {displayName,providerData:{...userInfo, unionId:'12312312312312312312', phone}}
-        const res = await api.signUp(userData);
-        console.log(res);
+      async handleUserInfo(e) {
+        const userInfo = e.detail.userInfo
+        const displayName = this.inputContent['displayName']
+        const phone = this.inputContent['phone']
+        const userData = {displayName, providerData: {...userInfo, unionId: '12312312312312312312'}, phone}
+        const res = await api.signUp(userData)
+        console.log(res)
       },
       bindChange (e) {
         this.inputContent[e.currentTarget.id] = e.detail.value
       },
-      showForm(){
+      showForm() {
         this.formVisable = true
       }
     }

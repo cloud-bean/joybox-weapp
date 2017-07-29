@@ -1,5 +1,6 @@
-<<<<<<< HEAD
 import {fetch, fetchWithAccessToken} from './fetchKF'
+import wepy from 'wepy'
+import config from '../config'
 
 export const fetchUserInfo = function (userId) {
   return fetchWithAccessToken(`/users/${userId}`, 'GET')
@@ -13,7 +14,7 @@ export const updateUserInfo = function (userId, userInfo) {
     .catch(console.log)
 }
 
-export const signUp = function (providerData, phone, displayName) {
+export const signUp = function ({providerData, phone, displayName}) {
   let userInfo = {
     option: {
       goldToken: 0,
@@ -22,17 +23,19 @@ export const signUp = function (providerData, phone, displayName) {
       courses: [],
       phone
     },
+    roleType: 'student',
     displayName,
     providerData
   }
+  console.log(userInfo)
   return fetch('/users', 'POST', userInfo)
     .then(res => res.data.data)
     .catch(console.log)
 }
-export const getUnionId = async function() {
+export const login = async function() {
   try {
     const codeInfo = await wepy.login()
-    const unionId = await wepy.request({
+    const user = await wepy.request({
       url: config.server.midServer + '/weapp/getUserInfo',
       data: {
         code: codeInfo.code
