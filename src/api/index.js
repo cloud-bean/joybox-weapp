@@ -10,17 +10,9 @@ export const signIn = function (email, password) {
     },
     method: 'POST'
   }).then(res => res.data.data)
+    .catch(console.log)
 }
 
-export const fetchTasks = function (page, limit, accessToken) {
-  return wepy.request({
-    url: `${config.server.bigServer}/tasks?page=${page}&limit=${limit}`,
-    header: {
-      'Authorization': `Bearer ${accessToken}`
-    },
-    method: 'GET'
-  }).then(res => {
-    console.log('result of fetch tasks', res)
-    return res.data.data;
-  })
-}
+export * from './auth'
+export * from './task'
+export * from './user'
