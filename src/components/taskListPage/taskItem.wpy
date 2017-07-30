@@ -12,20 +12,22 @@
     justify-content: space-around;
     margin-left: 20rpx;
     .title{
-      font-size: 34rpx;
+      font-size: 32rpx;
       color: #222;
     }
     .sub-title{
       font-size: 28rpx;
       color: #888;
     }
+    .date{
+      font-size: 20rpx;
+    }
   }
   .type{
 
-    image{
+    .book{
       margin: auto 0;
-      width: 120rpx;
-      height: 120rpx;
+      font-size: 90rpx;
       background-color: #eeeeee;
     }
   }
@@ -41,17 +43,18 @@
 <template>
   <view class="task-item">
     <view class="type">
-      <image mode="top" src="./head.jpg"></image>
+      <!-- <image mode="top" src="./head.jpg"></image> -->
+      <text class="fa book fa-book"></text>
     </view>
     <view class="info">
       <view class="title">
-        {{taskData.title}}
+        {{taskData.name}}
+      </view>
+      <view class="date">
+        {{taskData.expireTime}}
       </view>
       <view class="sub-title">
-        {{taskData.createAt}}
-      </view>
-      <view class="sub-title">
-        经验:{{taskData.exp}} 悦币:{{taskData.gold}}
+        经验:{{taskData.exp}} 悦币:{{taskData.goldToken}}
       </view>
     </view>
     <view class="indicator">
@@ -66,9 +69,9 @@ export default class TaskItem extends wepy.component {
   data = {
 
   }
-  props=[
-    'taskData'
-  ]
+  props={
+    taskData: Object
+  }
   methods = {
 
   }

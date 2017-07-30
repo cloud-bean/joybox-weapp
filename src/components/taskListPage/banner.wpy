@@ -23,22 +23,20 @@
 </style>
 <template>
   <view class="banner">
-      <view class="text small-text">
-        悦币
-      </view>
-      <view class="num small-text">
-        100
-</view>
+    <view class="text small-text">
+      {{bannerData.text}}
+    </view>
+    <view class="num small-text">
+      {{bannerData.value}}
+    </view>
   </view>
 
 </template>
 <script>
 import wepy from 'wepy'
 
-export default class userInfo extends wepy.component {
-  props = {
-
-  }
+export default class banner extends wepy.component {
+  props = ['bannerData']
 
   data = {
   }

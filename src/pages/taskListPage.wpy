@@ -42,7 +42,7 @@ import { fetchTasksAction, setActiveTasksAction } from '../store/actions/task'
   }
 }, {
   fetchTasksAction,
-  setActiveTask: setActiveTasksAction,
+  setActiveTask: setActiveTasksAction
 })
 
 export default class TaskListPage extends wepy.page {
@@ -61,8 +61,8 @@ export default class TaskListPage extends wepy.page {
   computed = {
   }
   methods = {
-    handleTap(item, e){
-      this.methods.setActiveTask(item);
+    handleTap(item, e) {
+      this.methods.setActiveTask(item)
       wepy.navigateTo({
         url: '/pages/taskDetailPage'
       })

@@ -1,10 +1,10 @@
 <style lang="less" scoped>
 .header{
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  padding: 20rpx 20rpx;
+  padding: 10rpx 40rpx;
   border-bottom: 1px solid #e5e5e5;
 }
 .headimg{
@@ -20,8 +20,8 @@
 }
 .info{
   display: flex;
-  justify-content: space-between;
-  padding: 20rpx 40rpx ;
+  justify-content: space-around;
+  padding: 20rpx 10rpx ;
 }
 .name{
   font-size: 34rpx;
@@ -40,10 +40,10 @@ image{
 }
 </style>
 <template>
-  <view class="container">
+  <view class="">
     <view class="header">
       <view class="headimg">
-        <image mode="top" src="{{user.profileImageURL || ''}}"></image>
+        <image mode="scaleToFill" src="{{user.profileImageURL || ''}}"></image>
       </view>
       <view class="message">
         <view class="name">{{ user.displayName }}</view>
@@ -51,9 +51,9 @@ image{
       </view>
     </view>
     <view class="info">
-      <banner></banner>
-      <banner></banner>
-      <banner></banner>
+      <banner1 :bannerData="goldTokenData"></banner1>
+      <banner2 :bannerData="expData"></banner2>
+      <banner3 :bannerData="levelData"></banner3>
     </view>
   </view>
 
@@ -62,13 +62,43 @@ image{
 import wepy from 'wepy'
 import banner from './banner'
 
+export const level = (experience) => {
+  const levelExp = [50, 100, 200, 350, 550, 800, 1100, 1450, 1850, 2300, 2800, 3350, 3950, 4600, 5300, 6050, 6850, 7700, 8600, 9550]
+  const maxlevel = levelExp.length
+  for (const key in levelExp) {
+    if (experience < levelExp[key]) return Number(key) + 1
+  }
+  return maxlevel
+}
 export default class userInfo extends wepy.component {
   components = {
-    banner
+    banner1: banner,
+    banner2: banner,
+    banner3: banner
   }
 
   props = {
     user: Object
+  }
+  computed = {
+    goldTokenData() {
+      return {
+        text: '悦币',
+        value: this.user.option.goldToken
+      }
+    },
+    expData() {
+      return {
+        text: '经验',
+        value: this.user.option.exp
+      }
+    },
+    levelData() {
+      return {
+        text: '等级',
+        value: level(this.user.option.exp)
+      }
+    }
   }
 }
 </script>
