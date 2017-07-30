@@ -29,6 +29,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/initPage',
       'pages/bindPage',
       'pages/index',
       'pages/taskDetailPage'
@@ -69,27 +70,13 @@ export default class extends wepy.app {
     // });
   }
 
-  async getUserInfo(cb) {
-    const codeInfo = await wepy.login()
-    // const userInfo = await wepy.getUserInfo()
-    // cb({res, code})
-    const user = await wepy.request({
-      url: 'http://localhost:3000/weapp/getUserInfo',
-      data: {
-        code: codeInfo.code
-        // user: userInfo.userInfo
-      },
-      method: 'POST'
-    })
-    cb(user)
-  }
 
   onLaunch() {
     // console.log('launch')
-    this.getUserInfo((res) => {
-      console.log('complete')
-      console.log(res)
-    })
+    // this.getUserInfo((res) => {
+    //   console.log('complete')
+    //   console.log(res)
+    // })
   }
 }
 </script>

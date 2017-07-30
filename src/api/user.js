@@ -32,17 +32,18 @@ export const signUp = function ({providerData, phone, displayName}) {
     .then(res => res.data.data)
     .catch(console.log)
 }
+
 export const login = async function() {
   try {
     const codeInfo = await wepy.login()
-    const user = await wepy.request({
+    const res = await wepy.request({
       url: config.server.midServer + '/weapp/getUserInfo',
       data: {
         code: codeInfo.code
       },
       method: 'POST'
     })
-    return unionId
+    return res.data
   } catch (e) {
     console.log(e)
   }
