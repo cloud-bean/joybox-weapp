@@ -8,7 +8,7 @@ export default {
     // midServer: 'http://joywill.cc',
     midServer: 'http://localhost:3000',
     // midServer:'http://sab4h63cag.proxy.qqbrowser.cc',
-    bigServerAPI: 'http://120.25.227.156:7000/api/base',
+    bigServer: 'http://120.25.227.156:7000/api/base',
     authServer: 'http://120.25.227.156:7000/app/auth/signin',
 
     //bigServer:'http://192.168.0.153:7000/api/base',

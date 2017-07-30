@@ -5,7 +5,7 @@ import { getStore } from 'wepy-redux'
 exports.fetchWithAccessToken = (url, method, data) => {
   let accessToken = getStore().getState().root.accessToken
   let fetchOption = {
-    url: config.server.bigServerAPI + url,
+    url: config.server.bigServer + url,
     header: {
       'Authorization': `Bearer ${accessToken}`
     },
@@ -18,7 +18,7 @@ exports.fetchWithAccessToken = (url, method, data) => {
 
 exports.fetch = (url, method, data) => {
   let fetchOption = {
-    url: config.server.bigServerAPI + url,
+    url: config.server.bigServer + url,
     method,
     data
   }

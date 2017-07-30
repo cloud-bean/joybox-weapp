@@ -6,7 +6,7 @@ export const getAllTaskList = function (page, limit) {
     .catch(console.log)
 }
 
-export const getTaskList = (state, page, limit) => {
+export const getTaskList = state => {
   return fetchWithAccessToken(`/tasks?filter=${state}`, 'GET')
     .then(res => {
       return {
