@@ -27,7 +27,7 @@ const baseUserState = {
 }
 export default handleActions({
   [SET_USER_INFO] (state, action) {
-    console.log('enter ASYNC_FETCH_USER', action)
+    console.log('enter SET_USER_INFO', action)
     if (!action.payload) {
       return state
     } else {

@@ -8,12 +8,12 @@ export const setLogin = function (data) {
   }
 }
 
-export const authLocal = function ({userId, accessToken}) {
-  getStore().dispatch({
+export const authLocal = function ({user_id, access_token}) {
+  return {
     type: 'AUTH_CLIENT',
     payload: {
-      userId,
-      accessToken
+      userId: user_id,
+      accessToken: access_token
     }
-  })
+  }
 }

@@ -60,7 +60,7 @@ image{
 </template>
 <script>
 import wepy from 'wepy'
-import banner from './taskListPage/banner'
+import banner from './banner'
 
 export default class userInfo extends wepy.component {
   components = {

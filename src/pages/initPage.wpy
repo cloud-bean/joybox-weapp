@@ -11,6 +11,8 @@
   import wepy from 'wepy'
   import * as api from '../api/user'
   import {setUserInfo, authLocal} from '../store/actions'
+  import { getStore } from 'wepy-redux'
+  const store = getStore()
   export default class bindPage extends wepy.page {
     data = {
       inputContent: {},
@@ -21,12 +23,13 @@
         title: '加载中'
       })
       const loginInfo = await api.login()
+      console.log(loginInfo)
       if (loginInfo) {
-        authLocal(loginInfo)
-        setUserInfo(loginInfo.userInfo)
+        store.dispatch(authLocal(loginInfo))
+        store.dispatch(setUserInfo(loginInfo.userInfo))
         wepy.hideLoading()
         wepy.reLaunch({
-          url: 'index'
+          url: 'taskListPage'
         })
       } else {
         wepy.reLaunch({

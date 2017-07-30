@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions'
-import { SET_TASKS, RESET_TASKS, SET_TASK_DONE_COUNT } from '../types/task'
+import { SET_TASKS, RESET_TASKS, SET_TASK_DONE_COUNT, SET_ACTIVE_TASK} from '../types/task'
 
 const initTaskState = {
   tasks: [],
@@ -22,6 +22,13 @@ export default handleActions({
       }
     } else {
       return state
+    }
+  },
+  [SET_ACTIVE_TASK] (state, action) {
+    console.log('SET_ACTIVE_TASK', action.payload)
+    return {
+      ...state,
+      activeTask: action.payload
     }
   },
   [RESET_TASKS] (state) {

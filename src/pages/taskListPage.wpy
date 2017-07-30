@@ -14,10 +14,13 @@
 </style>
 <template>
   <view class="wrapper">
+    <userInfo :user="user"></userInfo>
     <navbar></navbar>
     <view wx:if="tasks.length > 0">
       <repeat  for="{{tasks}}" key="index" index="index" item="item">
-        <taskItem :taskData="item"></taskItem>
+        <view @tap="handleTap({{item}})">
+        <taskItem :taskData="item" ></taskItem>
+      </view>
       </repeat>
     </view>
   </view>
@@ -27,36 +30,48 @@
 import wepy from 'wepy'
 import navbar from '../components/taskListPage/navbar'
 import taskItem from '../components/taskListPage/taskItem'
-import {connect, getStore} from 'wepy-redux'
-import {fetchTasksAction} from '../store/actions/task'
+import userInfo from '../components/taskListPage/userInfo'
+import { connect } from 'wepy-redux'
+import { fetchTasksAction, setActiveTasksAction } from '../store/actions/task'
 @connect({
-  task (state) {
-    return state.task
+  tasks (state) {
+    return state.task.tasks
   },
   user (state) {
     return state.user
   }
+}, {
+  fetchTasksAction,
+  setActiveTask: setActiveTasksAction,
 })
 
-export default class TaskListPage extends wepy.component {
+export default class TaskListPage extends wepy.page {
   components = {
     navbar,
-    taskItem
+    taskItem,
+    userInfo
   }
   config = {
     backgroundColor: '#efeff4'
   }
   data = {
-    selected: false,
-    tasks: []
+    selected: false
+    // tasks:
   }
   computed = {
   }
   methods = {
+    handleTap(item, e){
+      this.methods.setActiveTask(item);
+      wepy.navigateTo({
+        url: '/pages/taskDetailPage'
+      })
+    }
   }
   onShow() {
-    console.log('onshow of task list page')
-    getStore().dispatch(fetchTasksAction()) // dispatch to fetch list
+    // console.log('onshow of task list page')
+    this.methods.fetchTasksAction()
+    // getStore().dispatch(fetchTasksAction()) // dispatch to fetch list
   }
   onReload() {
     console.log('onreload of task list page')

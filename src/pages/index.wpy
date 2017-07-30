@@ -83,7 +83,6 @@
       <TaskListPage></TaskListPage>
     </view>
     <view class="page page-list" hidden="{{tab != 2}}">
-      <LoginForm></LoginForm>
     </view>
     <view class="tabs">
       <view class="tab" @tap="switchTapTo(0)">
@@ -105,7 +104,7 @@
 
 <script>
   import wepy from 'wepy'
-  import LoginForm from '../components/loginForm'
+  // import LoginForm from '../components/loginForm'
   import TaskListPage from './taskListPage'
   import HomePage from './homePage'
 
@@ -122,7 +121,7 @@
 
     components = {
       HomePage,
-      LoginForm,
+      // LoginForm,
       TaskListPage
     }
 
