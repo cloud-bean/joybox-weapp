@@ -1,4 +1,5 @@
 import { SET_LOGIN } from '../types/root'
+import { getStore } from 'wepy-redux'
 
 export const setLogin = function (data) {
   return {
@@ -7,12 +8,12 @@ export const setLogin = function (data) {
   }
 }
 
-export const authLocal = function (userId, accessToken) {
-  return {
+export const authLocal = function ({userId, accessToken}) {
+  getStore().dispatch({
     type: 'AUTH_CLIENT',
     payload: {
       userId,
       accessToken
     }
-  }
+  })
 }

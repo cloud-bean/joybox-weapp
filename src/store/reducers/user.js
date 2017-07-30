@@ -4,7 +4,7 @@
  */
 
 import { handleActions } from 'redux-actions'
-import { ASYNC_FETCH_USER } from '../types/user'
+import { SET_USER_INFO } from '../types/user'
 
 function level (exp) {
   return Math.round(exp / 200)
@@ -21,10 +21,12 @@ const baseOption = {
 const baseUserState = {
   displayName: 'unknown',
   profileImageURL: '../../assets/images/avatar.png',
-  option: baseOption
+  option: baseOption,
+  provider: '',
+  providerData: {}
 }
 export default handleActions({
-  [ASYNC_FETCH_USER] (state, action) {
+  [SET_USER_INFO] (state, action) {
     console.log('enter ASYNC_FETCH_USER', action)
     if (!action.payload) {
       return state
@@ -41,7 +43,9 @@ export default handleActions({
         displayName: action.payload.displayName || baseUserState.displayName,
         profileImageURL: action.payload.profileImageURL || baseUserState.profileImageURL,
         option: updatedOption,
-        isLogged: true
+        isLogged: true,
+        provider: action.payload.provider,
+        providerData: action.payload.providerData
       }
     }
   }

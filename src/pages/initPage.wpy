@@ -10,6 +10,7 @@
 <script>
   import wepy from 'wepy'
   import * as api from '../api/user'
+  import {setUserInfo, authLocal} from '../store/actions'
   export default class bindPage extends wepy.page {
     data = {
       inputContent: {},
@@ -20,8 +21,10 @@
         title: '加载中'
       })
       const loginInfo = await api.login()
-      wepy.hideLoading()
-      if (loginInfo.code === 'success') {
+      if (loginInfo) {
+        authLocal(loginInfo)
+        setUserInfo(loginInfo.userInfo)
+        wepy.hideLoading()
         wepy.reLaunch({
           url: 'index'
         })

@@ -43,7 +43,12 @@ export const login = async function() {
       },
       method: 'POST'
     })
-    return res.data
+    if (res.data && res.data.code === 'success') {
+      return res.data.data
+    } else {
+      console.log('bad code of response data:', res)
+      return null
+    }
   } catch (e) {
     console.log(e)
   }

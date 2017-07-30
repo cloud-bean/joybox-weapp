@@ -1,4 +1,4 @@
-import { ASYNC_FETCH_USER } from '../types/user'
+import { ASYNC_FETCH_USER, SET_USER_INFO } from '../types/user'
 import { createAction } from 'redux-actions'
 import { signIn } from '../../api'
 import { getStore } from 'wepy-redux'
@@ -11,6 +11,8 @@ export const asyncFetchUser = createAction(ASYNC_FETCH_USER, () => {
   return signIn(email, password)
 })
 
-export const wechatSignIn = function () {
-
+export const setUserInfo = function (userInfo) {
+  getStore().dispatch({
+    type: SET_USER_INFO, payload: userInfo
+  })
 }
