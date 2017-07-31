@@ -40,14 +40,14 @@
 
 <template>
   <import src="../plugin/wxParse/wxParse.wxml"/>
-  <view class="mask">
-  </view>
+  <!-- <view class="mask">
+  </view> -->
   <view class="wxParse md-container">
     <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
   </view>
-  <view class="record-box">
+  <!-- <view class="record-box">
     <recordBox></recordBox>
-  </view>
+  </view> -->
   <view class="md-container">
     <completeList></completeList>
   </view>
@@ -63,7 +63,15 @@ import completeList from '../components/taskDetailPage/completeList'
 import msgItem from '../components/taskDetailPage/msgItem'
 import recordBox from '../components/taskDetailPage/recordBox'
 var WxParse = require('../plugin/wxParse/wxParse.js')
+import { connect } from 'wepy-redux'
 
+@connect({
+  activeTask (state) {
+    return state.task.activeTask
+  }
+}, {
+
+})
 export default class TaskDetailPage extends wepy.page {
   data = {
   }
@@ -73,10 +81,11 @@ export default class TaskDetailPage extends wepy.page {
     recordBox
   }
   onLoad() {
-    let text = '# 口语训练 \n' +
-      ' > 初一培优 发布于 2017-07-13 类型 口语 \n\n' +
-     '## 请将这5个句子翻译成英语 \n' +
-     ' * 我确信你能为你的朋友找到一些有用的书。 \n * 对我们来说学会如何花钱很重要  \n * 我们将邀请invite他给我们作一个关于健康饮食报告 \n * 这部电影如此无聊以致我一点都不想再看了。\n'
+    let text = this.activeTask.description
+    // let text = '# 口语训练 \n' +
+    //   ' > 初一培优 发布于 2017-07-13 类型 口语 \n\n' +
+    //  '## 请将这5个句子翻译成英语 \n' +
+    //  ' * 我确信你能为你的朋友找到一些有用的书。 \n * 对我们来说学会如何花钱很重要  \n * 我们将邀请invite他给我们作一个关于健康饮食报告 \n * 这部电影如此无聊以致我一点都不想再看了。\n'
     WxParse.wxParse('article', 'md', text, this, 5)
   }
   methods = {
