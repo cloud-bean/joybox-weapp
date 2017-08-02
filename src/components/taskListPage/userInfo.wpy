@@ -25,7 +25,8 @@
 }
 .name{
   font-size: 34rpx;
-  margin-bottom: 10rpx;
+  margin: 20rpx 10rpx;
+  text-align: center;
 }
 .slogan{
   font-size: 24rpx;

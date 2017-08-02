@@ -39,11 +39,11 @@ image{
 <template>
   <view class="msg-item">
     <view class="head">
-      <image mode="top" src="./head.jpg"></image>
+      <image mode="scaleToFill" src="{{msgData.user.profileImageURL || ''}}"></image>
     </view>
     <view class="info">
-      <view class="name">辛那克斯 2017-07-20 21：00</view>
-      <view class="msg">已拍照提交作业</view>
+      <view class="name">{{msgData.user.displayName}} <text class="time">@ {{data.created}}</text></view>
+      <view class="msg">{{msgData.content}}</view>
     </view>
   </view>
 
@@ -56,7 +56,7 @@ export default class msgItem extends wepy.component {
 
   }
   props = {
-
+    msgData: Object
   }
 
   data = {

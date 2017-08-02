@@ -32,7 +32,7 @@ import navbar from '../components/taskListPage/navbar'
 import taskItem from '../components/taskListPage/taskItem'
 import userInfo from '../components/taskListPage/userInfo'
 import { connect } from 'wepy-redux'
-import { fetchTasksAction, setActiveTasksAction } from '../store/actions/task'
+import { fetchTasksAction, setActiveTasksAction } from '../store/actions'
 @connect({
   tasks (state) {
     return state.task.tasks

@@ -36,25 +36,88 @@
   z-index: 999;
   top: 0;
 }
+.task-title{
+  padding: 1rem 1rem;
+  font-size: 1.5rem;
+  background-color: #26a2ff;
+  opacity: 0.8;
+  color: white;
+}
+.task-head{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem 1rem;
+  // height: 5rem;
+  background-color: #26a2ff;
+  font-size: 0.8rem;
+  color: white;
+}
+.msg-container{
+  margin-bottom: 100rpx;
+}
+.play-audio{
+  /*border: 1px solid #ccc;*/
+  margin-bottom: .5rem;
+  height: 2rem;
+}
+.play-audio audio{
+  height:100%;
+  width: 100%;
+}
+
+.play-video{
+  height:10rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  margin-bottom: .5rem;
+}
+.play-video video{
+  height:100%;
+  width: 100%;
+}
 </style>
 
 <template>
   <import src="../plugin/wxParse/wxParse.wxml"/>
+  <view class="task-title">{{activeTask.name}}</view>
+  <view class="task-head">
+    <!-- <view>发布 {{activeTask.created }}</view>
+    <view>过期 {{activeTask.expireTime }}</view> -->
+    <view>类型 {{activeTask.type}}</view>
+  </view>
+  <view class="wxParse md-container">
+    <template is="wxParse" data="{{wxParseData:question.nodes}}"/>
+  </view>
+  <view wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
+    <text>任务素材</text>
+    <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">
+      <video  src="{{activeTask.videoFile.URL}}" >  </video>
+    </view>
+    <view class="play-audio"  wx:if="{{activeTask.audioFile}}">
+      <audio src="{{activeTask.audioFile.URL}}" binderror="handleError"> </audio>
+    </view>
+  </view>
+  <view class="wxParse md-container" wx:if="{{activeTask.done}}">
+    <template is="wxParse" data="{{wxParseData:summry.nodes}}"/>
+  </view>
+
+
+  <view class="md-container">
+    <completeList :completeUsers="taskDoneUsers"></completeList>
+  </view>
+  <view class="msg-container">
+    <repeat  for="{{taskComments}}" key="index" index="index" item="item">
+      <msgItem :msgData="item"></msgItem>
+    </repeat>
+  </view>
+
+  <button class="submit" @tap="open">提交</button>
   <!-- <view class="mask">
   </view> -->
-  <view class="wxParse md-container">
-    <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
-  </view>
   <!-- <view class="record-box">
     <recordBox></recordBox>
   </view> -->
-  <view class="md-container">
-    <completeList></completeList>
-  </view>
-  <msgItem></msgItem>
-  <msgItem></msgItem>
-  <msgItem></msgItem>
-  <button class="submit" @tap="open">提交</button>
 </template>
 
 <script>
@@ -63,14 +126,22 @@ import completeList from '../components/taskDetailPage/completeList'
 import msgItem from '../components/taskDetailPage/msgItem'
 import recordBox from '../components/taskDetailPage/recordBox'
 var WxParse = require('../plugin/wxParse/wxParse.js')
+import { getTaskComments } from '../store/actions'
+
 import { connect } from 'wepy-redux'
 
 @connect({
   activeTask (state) {
     return state.task.activeTask
+  },
+  taskDoneUsers(state) {
+    return state.task.activeTask.taskDoneUsers
+  },
+  taskComments(state) {
+    return state.task.activeTaskComments
   }
 }, {
-
+  getTaskComments
 })
 export default class TaskDetailPage extends wepy.page {
   data = {
@@ -81,16 +152,27 @@ export default class TaskDetailPage extends wepy.page {
     recordBox
   }
   onLoad() {
-    let text = this.activeTask.description
+    const question = this.activeTask.description
+    const summry = this.activeTask.summry
+
     // let text = '# 口语训练 \n' +
     //   ' > 初一培优 发布于 2017-07-13 类型 口语 \n\n' +
     //  '## 请将这5个句子翻译成英语 \n' +
     //  ' * 我确信你能为你的朋友找到一些有用的书。 \n * 对我们来说学会如何花钱很重要  \n * 我们将邀请invite他给我们作一个关于健康饮食报告 \n * 这部电影如此无聊以致我一点都不想再看了。\n'
-    WxParse.wxParse('article', 'md', text, this, 5)
+    WxParse.wxParse('question', 'md', question, this, 5)
+    WxParse.wxParse('summry', 'md', summry, this, 5)
+
+    this.methods.getTaskComments(this.activeTask._id)
+  }
+  computed = {
+
   }
   methods = {
     handleSubmit() {
       console.log('handleSubmit')
+    },
+    handleError(e) {
+      console.log(e.detail);
     },
     open () {
       wepy.showActionSheet({

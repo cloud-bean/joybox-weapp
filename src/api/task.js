@@ -27,7 +27,7 @@ export const getTaskDoneQuantity = () => {
   .catch(console.log)
 }
 
-export const getTaskComment = taskId => {
+export const getTaskComments = taskId => {
   return fetchWithAccessToken(`/tasks/${taskId}/commits?limit=30`, 'GET')
     .then(res => res.data.data)
     .catch(console.log)

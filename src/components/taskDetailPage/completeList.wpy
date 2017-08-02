@@ -29,14 +29,14 @@ image{
 }
 </style>
 <template>
-  <view class="complete-list">
-    <view class="head-list">
-      <image mode="top" src="./head.jpg"></image>
-      <image mode="top" src="./head.jpg"></image>
-      <image mode="top" src="./head.jpg"></image>
+  <view class="complete-list" @tap="handleClick">
+    <view class="head-list" >
+      <repeat  for="{{completeUsers}}" key="index" index="index" item="user">
+        <image mode="scaleToFill" src="{{user.profileImageURL || ''}}"></image>
+      </repeat>
     </view>
     <view class="info">
-      3人完成作业
+      {{completeUsers.length}}人完成作业
     </view>
   </view>
 
@@ -49,6 +49,7 @@ export default class completeList extends wepy.component {
 
   }
   props = {
+    completeUsers: Array
 
   }
 
@@ -57,9 +58,10 @@ export default class completeList extends wepy.component {
   events = {
 
   }
-
   methods = {
-
+    handleClick() {
+      console.log(this)
+    }
   }
 }
 </script>
