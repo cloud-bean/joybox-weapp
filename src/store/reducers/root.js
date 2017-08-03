@@ -1,11 +1,15 @@
 import { handleActions } from 'redux-actions'
-import { SET_LOGIN, AUTH_CLIENT } from '../types/root'
+import { SET_LOGIN, AUTH_CLIENT, SET_WX_AUTH_IDS } from '../types/root'
 
 const initState = {
   email: '',
   password: '',
   userId: '',
-  accessToken: ''
+  accessToken: '',
+  wxCredits: {
+    unionid: '',
+    openid: ''
+  }
 }
 
 export default handleActions({
@@ -28,6 +32,16 @@ export default handleActions({
         ...state,
         userId: action.payload.userId,
         accessToken: action.payload.accessToken
+      }
+    } else {
+      return state
+    }
+  },
+  [SET_WX_AUTH_IDS] (state, action) {
+    if (action.payload) {
+      return {
+        ...state,
+        wxCredits: action.payload
       }
     } else {
       return state

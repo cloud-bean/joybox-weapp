@@ -1,5 +1,4 @@
-import { SET_LOGIN } from '../types/root'
-import { getStore } from 'wepy-redux'
+import { SET_LOGIN, AUTH_CLIENT, SET_WX_AUTH_IDS } from '../types/root'
 
 export const setLogin = function (data) {
   return {
@@ -10,10 +9,20 @@ export const setLogin = function (data) {
 
 export const authLocal = function ({user_id, access_token}) {
   return {
-    type: 'AUTH_CLIENT',
+    type: AUTH_CLIENT,
     payload: {
       userId: user_id,
       accessToken: access_token
+    }
+  }
+}
+
+export const setWxAuthIds = function ({unionid, openid}) {
+  return {
+    type: SET_WX_AUTH_IDS,
+    payload: {
+      unionid,
+      openid
     }
   }
 }

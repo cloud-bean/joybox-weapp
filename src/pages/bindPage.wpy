@@ -26,6 +26,13 @@
 <script>
   import wepy from 'wepy'
   import * as api from '../api/user'
+  import { connect } from 'wepy-redux'
+
+  @connect({
+    wxCredits (state) {
+      return state.root.wxCredits
+    }
+  })
   export default class bindPage extends wepy.page {
     data = {
       inputContent: {},
@@ -33,12 +40,13 @@
     }
     methods = {
       async handleUserInfo(e) {
+        console.log(this)
         const userInfo = e.detail.userInfo
         const displayName = this.inputContent['displayName']
         const phone = this.inputContent['phone']
-        const userData = {displayName, providerData: {...userInfo, unionId: '12312312312312312312'}, phone}
+        const userData = {displayName, providerData: {...userInfo, unionid: this.wxCredits.unionid, openid: this.wxCredits.openid}, phone}
         const res = await api.signUp(userData)
-        console.log(res)
+        console.log('userdata: ', userData, 'return data:', res)
       },
       bindChange (e) {
         this.inputContent[e.currentTarget.id] = e.detail.value

@@ -10,7 +10,7 @@
 <script>
   import wepy from 'wepy'
   import * as api from '../api/user'
-  import {setUserInfo, authLocal} from '../store/actions'
+  import {setUserInfo, authLocal, setWxAuthIds} from '../store/actions'
   import { getStore } from 'wepy-redux'
   const store = getStore()
   export default class bindPage extends wepy.page {
@@ -24,8 +24,9 @@
       })
       const loginInfo = await api.login()
       console.log(loginInfo)
-      if (loginInfo) {
-        store.dispatch(authLocal(loginInfo))
+      store.dispatch(setWxAuthIds(loginInfo))
+
+      if (loginInfo.userInfo) {
         store.dispatch(setUserInfo(loginInfo.userInfo))
         wepy.hideLoading()
         wepy.reLaunch({

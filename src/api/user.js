@@ -43,11 +43,13 @@ export const login = async function() {
       },
       method: 'POST'
     })
+    const unionid = res.data.unionid
+    const openid = res.data.openid
     if (res.data && res.data.code === 'success') {
-      return res.data.data
+      return {...res.data.data, unionid, openid}
     } else {
       console.log('bad code of response data:', res)
-      return null
+      return { unionid, openid }
     }
   } catch (e) {
     console.log(e)

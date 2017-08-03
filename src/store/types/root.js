@@ -5,3 +5,5 @@ export const SET_PROGRESS = 'SET_PROGRESS';
 
 export const FETCH_STH = 'FETCH_STH';
 export const GOT_STH = 'GOT_STH';
+
+export const SET_WX_AUTH_IDS = 'SET_WX_AUTH_IDS'
