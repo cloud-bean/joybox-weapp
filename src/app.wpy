@@ -12,6 +12,9 @@
   justify-content: space-between;
   box-sizing: border-box;
 }
+view{
+  overflow: visible;
+}
 // body{
 //   background-color: #eee;
 // }

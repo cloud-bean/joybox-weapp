@@ -4,16 +4,16 @@
   justify-content: flex-start;
   align-items: center;
   .head{
-
+    margin-right: 10rpx;
   }
   .info{
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
     color: #adadad;
     font-size: 28rpx;
     text-align: left;
-    height: 74rpx;
-    justify-content: space-around;
+    // height: 74rpx;
+    // justify-content: space-between;
     margin-left: 10rpx;
     .name{
       font-size: 24rpx;
@@ -22,15 +22,17 @@
     .msg{
       font-size: 26rpx;
       color: #353535;
+      margin-top: 10rpx;
+      overflow: scroll;
     }
   }
-  padding: 15rpx 40rpx;
+  padding: 15rpx 20rpx;
 }
 image{
-  margin: auto 0;
+  // margin: auto 0;
   width: 74rpx;
   height: 74rpx;
-  background-color: #eeeeee;
+  // background-color: #eeeeee;
   border-radius:10%;
   // margin-left: 10rpx;
   // margin-bottom: 10rpx;

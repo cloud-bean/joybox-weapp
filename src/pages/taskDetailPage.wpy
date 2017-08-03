@@ -167,6 +167,9 @@ export default class TaskDetailPage extends wepy.page {
   computed = {
 
   }
+  onShow(){
+    console.log(this.taskDoneUsers);
+  }
   methods = {
     handleSubmit() {
       console.log('handleSubmit')
