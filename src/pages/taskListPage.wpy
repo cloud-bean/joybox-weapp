@@ -57,7 +57,8 @@ export default class TaskListPage extends wepy.page {
     backgroundColor: '#efeff4'
   }
   data = {
-    selected: false,
+    selected: false
+
     // tasks:
   }
   computed = {
@@ -71,9 +72,11 @@ export default class TaskListPage extends wepy.page {
     }
 
   }
+  onReady() {
+    this.methods.fetchTasksAction()
+  }
   onShow() {
     // console.log('onshow of task list page')
-    this.methods.fetchTasksAction()
     // getStore().dispatch(fetchTasksAction()) // dispatch to fetch list
   }
   onReload() {
