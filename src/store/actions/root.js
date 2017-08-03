@@ -7,7 +7,7 @@ export const setLogin = function (data) {
   }
 }
 
-export const authLocal = function ({user_id, access_token}) {
+export const authClient = function ({user_id, access_token}) {
   return {
     type: AUTH_CLIENT,
     payload: {

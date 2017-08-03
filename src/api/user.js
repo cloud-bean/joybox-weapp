@@ -25,7 +25,8 @@ export const signUp = function ({providerData, phone, displayName}) {
     },
     roleType: 'student',
     displayName,
-    providerData
+    providerData,
+    provider: 'wechat'
   }
   console.log(userInfo)
   return fetch('/users', 'POST', userInfo)
