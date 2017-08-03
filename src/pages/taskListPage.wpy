@@ -15,9 +15,9 @@
 <template>
   <view class="wrapper">
     <userInfo :user="user"></userInfo>
-    <navbar></navbar>
+    <navbar :onChange="handleChange"></navbar>
     <view wx:if="tasks.length > 0">
-      <repeat  for="{{tasks}}" key="index" index="index" item="item">
+      <repeat  for="{{showTasks}}" key="index" index="index" item="item">
         <view @tap="handleTap({{item}})">
         <taskItem :taskData="item" ></taskItem>
       </view>
@@ -32,17 +32,19 @@ import navbar from '../components/taskListPage/navbar'
 import taskItem from '../components/taskListPage/taskItem'
 import userInfo from '../components/taskListPage/userInfo'
 import { connect } from 'wepy-redux'
-import { fetchTasksAction, setActiveTasksAction } from '../store/actions'
+import { fetchTasksAction, setActiveTasksAction, showTaskDone, showTaskUnDone } from '../store/actions'
 @connect({
-  tasks (state) {
-    return state.task.tasks
+  showTasks (state) {
+    return state.task.showTasks
   },
   user (state) {
     return state.user
   }
 }, {
   fetchTasksAction,
-  setActiveTask: setActiveTasksAction
+  setActiveTask: setActiveTasksAction,
+  showTaskDone,
+  showTaskUnDone
 })
 
 export default class TaskListPage extends wepy.page {
@@ -55,7 +57,7 @@ export default class TaskListPage extends wepy.page {
     backgroundColor: '#efeff4'
   }
   data = {
-    selected: false
+    selected: false,
     // tasks:
   }
   computed = {
@@ -67,6 +69,7 @@ export default class TaskListPage extends wepy.page {
         url: '/pages/taskDetailPage'
       })
     }
+
   }
   onShow() {
     // console.log('onshow of task list page')

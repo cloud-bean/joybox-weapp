@@ -172,7 +172,7 @@ export default class TaskDetailPage extends wepy.page {
       console.log('handleSubmit')
     },
     handleError(e) {
-      console.log(e.detail);
+      console.log(e.detail)
     },
     open () {
       wepy.showActionSheet({

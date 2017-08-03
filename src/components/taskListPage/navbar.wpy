@@ -32,20 +32,38 @@
 
 <script>
 import wepy from 'wepy'
+import { showTaskDone, showTaskUnDone } from '../../store/actions'
+import { connect } from 'wepy-redux'
 
+@connect({
+}, {
+  showTaskDone,
+  showTaskUnDone
+})
 export default class Navbar extends wepy.component {
+  props = {
+  }
   data = {
     contents: [
       '未完成',
       '近期完成'
     ],
     activeIndex: 0
-  };
+  }
   methods = {
     handleTapNav(e) {
+      console.log(this)
+      console.log(this.onChange)
       this.activeIndex = e.currentTarget.id
+      this.onChange(this.activeIndex)
     }
-
+  }
+  onChange(selected) {
+    if (selected === '0') {
+      this.methods.showTaskUnDone()
+    } else if (selected === '1') {
+      this.methods.showTaskDone()
+    }
   }
 }
 </script>
