@@ -23,12 +23,19 @@
         title: '加载中'
       })
       const loginInfo = await api.login()
-      console.log(loginInfo)
       store.dispatch(setWxAuthIds(loginInfo))
-
-      if (loginInfo.userInfo) {
-        store.dispatch(authClient(loginInfo))
-        store.dispatch(setUserInfo(loginInfo.userInfo))
+      const userInfo = loginInfo.userInfo
+      const appOpenid = loginInfo.openid
+      let newUserInfo = userInfo;
+      store.dispatch(authClient(loginInfo))
+      if (userInfo) {
+        if(userInfo.providerData.openid != appOpenid){
+          console.log('in update');
+          const providerData = userInfo.providerData;
+          newUserInfo = {...userInfo, providerData:{...providerData, openid: appOpenid}};
+          api.updateUserInfo(userInfo._id, newUserInfo);
+        }
+        store.dispatch(setUserInfo(newUserInfo))
         wepy.hideLoading()
         wepy.reLaunch({
           url: 'taskListPage'
