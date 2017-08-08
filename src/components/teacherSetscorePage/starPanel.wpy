@@ -1,4 +1,4 @@
-<style lang="less" scoped>
+<style scoped>
   .star-panel {
     display: flex;
     flex-direction: row;

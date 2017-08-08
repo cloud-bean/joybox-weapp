@@ -1,0 +1,344 @@
+
+<style scoped>
+.recorder{
+}
+.recorder-icon{
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 5rem;
+  width:6rem;
+  height:6rem;
+  border: 1px solid #555;
+  border-radius: 10px;
+  font-size: 3rem;
+  color: #555;
+  background-color: #eee;
+}
+.button-group{
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.recorder-icon i{
+    margin-top: 1.5rem;
+}
+.recorder-status{
+  text-align: center;
+  color: #fff;
+  padding: 0.5rem;
+  position: fixed;
+  top:0;
+  width: 100%;
+  font-size: 1rem;
+  background-color: #26a2ff;
+  padding: .3rem 0;
+}
+
+.recorder-time{
+  text-align: center;
+  color: #999;
+  padding: 0.5rem;
+}
+
+.button{
+    text-align: center;
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    /*padding-top: 1rem;*/
+    margin: 0 auto;
+    /*border-radius: 50%;*/
+    /*background-color: #ccc;*/
+}
+.button-record{
+    color: red;
+}
+.button-text{
+    font-size: 1rem;
+    color:#555;
+}
+.cancel{
+    padding: 0 2rem;
+    margin-top: 3rem;
+}
+.disabled{
+    color:#ddd;
+}
+.recorder-active{
+    color: red;
+}
+</style>
+<template>
+
+<view class="recorder">
+     <view class="recorder-status">
+        {{recordStatus}}
+    </view>
+    <view class="recorder-icon {{recordStatus=='录音中'?'recorder-active':''}}">
+        <text class="fa fa-microphone"></text>
+    </view>
+    <!-- <view class="recorder-time">
+        {{duration}}
+    </view> -->
+
+    <view class="button-group">
+      <view class="button button-play" @tap="playRecord">
+        <text class="fa fa-play-circle-o {{playDisabled?'disabled':''}}"></text>
+        <view class="button-text">播放</view>
+      </view>
+      <view class="button button-record {{recordDisabled?'disabled':''}}"  wx:if="{{recordStatus=='已停止'||recordStatus=='播放中'}}" @tap="startRecord">
+        <text class="fa fa-circle"></text>
+        <view class="button-text">录制</view>
+      </view>
+      <view class="button button-stop" wx:if="{{recordStatus=='录音中'}}" @tap="stopRecord">
+        <text class="fa fa-stop-circle-o"></text>
+        <view class="button-text">完成</view>
+      </view>
+      <view class="button button-play {{uploadDisabled?'disabled':''}}" @tap="submit">
+        <text class="fa fa-check-circle-o"></text>
+        <view class="button-text">上传</view>
+      </view>
+    </view>
+     <view class="cancel" @tap="cancel">
+        <button type="default" size="large" plain>取消返回</button>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class RecordPage extends wepy.page {
+
+  data = {
+    recordStatus:'已停止',
+    tempFilePath:'',
+    // duration:'00:00',
+    // timer:{},
+    playDisabled:true,
+    recordDisabled:false,
+    uploadDisabled:true
+  }
+  methods = {
+    async startRecord(){
+      if(!this.recordDisabled){
+        this.recordStatus='录音中';
+        const data = await wepy.startRecord();
+        this.tempFilePath = data.tempFilePath;
+        if(this.tempFilePath){
+          wepy.showToast({
+            title: '成功录音',
+            icon: 'success',
+            duration: 1000
+          })
+        }
+      }
+    },
+    async stopRecord(){
+      const that = this;
+      this.recordStatus='已停止';
+      this.setButtonDisabled(false,false,false);
+      await wepy.stopRecord();
+
+    },
+    async playRecord(){
+      if(!this.playDisabled){
+        const that = this;
+        wepy.showLoading({
+          title: '播放中',
+          mask: true
+        })
+        wx.playVoice({
+          filePath:that.tempFilePath,
+          success(){
+            wepy.showToast({
+              title: '播放完成',
+              icon: 'success',
+              duration: 1000
+            })
+          },
+          complete(){
+            wepy.hideLoading()
+          }
+        });
+
+
+      }
+
+    },
+  };
+
+  setButtonDisabled(play,record,upload){
+    this.playDisabled=play;
+    this.recordDisabled=record;
+    this.uploadDisabled=upload;
+  }
+
+  initState(){
+    console.log( 'init');
+    this.recordStatus = '已停止';
+    // this.duration = '00:00';
+    this.playDisabled = true;
+    this.recordDisabled = false;
+    this.uploadDisabled = true
+  }
+  // async uploadVoice(localId){
+  //   return new Promise((resolve, reject) =>{
+  //     wx.uploadVoice({
+  //       localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+  //       isShowProgressTips: 1, // 默认为1，显示进度提示
+  //       success: function (res) {
+  //         const serverId = res.serverId; // 返回音频的服务器端ID
+  //         resolve(serverId);
+  //       },
+  //       fail(){
+  //         reject();
+  //       }
+  //     });
+  //   });
+  // },
+  // startCount(){
+  //   const that = this;
+  //   let n = 0;
+  //   this.timer = setInterval(function () {
+  //     n++;
+  //     var m=parseInt(n/60);
+  //     var s=parseInt(n%60);
+  //     that.duration=that.toDub(m)+":"+that.toDub(s);
+  //   },1000/60);
+  // }
+  // clearCount(){
+  //   this.duration='00:00';
+  // }
+  // stopCount(){
+  //   clearInterval(this.timer);
+  // }
+  // toDub(n){
+  //   return n<10?"0"+n:""+n;
+  // }
+
+  // onShow(){
+  //    this.configRecord();
+  // }
+  // methods = {
+  //     configRecord(){
+  //       const that = this;
+  //       wx.onVoiceRecordEnd({
+  //         // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+  //        complete: function (res) {
+  //           that.recordStatus='已停止';
+  //           that.stopCount();
+  //           that.localId = res.localId;
+  //           that.setButtonDisabled(false,false,false);
+  //        }
+  //       });
+  //       wx.onVoicePlayEnd({
+  //            success: function (res) {
+  //               that.recordStatus='已停止';
+  //               that.stopCount();
+  //               that.localId = res.localId; // 返回音频的本地ID
+  //               that.setButtonDisabled(false,false,false);
+  //           }
+  //       });
+  //     },
+  //     startRecord(){
+  //       if(!this.recordDisabled){
+  //           this.recordStatus='录音中';
+  //           this.clearCount()
+  //           this.startCount();
+  //           wx.startRecord();
+  //       }
+  //     },
+  //     stopRecord(){
+  //       const that = this;
+  //       this.recordStatus='已停止';
+  //       this.stopCount();
+  //       this.setButtonDisabled(false,false,false);
+  //       wx.stopRecord({
+  //           success: function (res) {
+  //                   that.localId = res.localId;
+  //
+  //               }
+  //           });
+  //     },
+  //     playRecord(){
+  //         if(!this.playDisabled){
+  //               this.setButtonDisabled(true,true,true);
+  //               const that = this;
+  //               this.recordStatus='播放中';
+  //               this.clearCount()
+  //               this.startCount();
+  //               wx.playVoice({
+  //                   localId:that.localId,
+  //               });
+  //         }
+  //
+  //     },
+  //     cancel(){
+  //         this.$router.push('/taskDetail');
+  //     },
+  //     startCount(){
+  //       const that = this;
+  //       let n = 0;
+  //       this.timer = setInterval(function () {
+  //               n++;
+  //               var m=parseInt(n/60);
+  //               var s=parseInt(n%60);
+  //               that.duration=that.toDub(m)+":"+that.toDub(s);
+  //           },1000/60);
+  //     },
+  //     clearCount(){
+  //       this.duration='00:00';
+  //     },
+  //     stopCount(){
+  //       clearInterval(this.timer);
+  //     },
+  //     toDub(n){
+  //       return n<10?"0"+n:""+n;
+  //     },
+  //     setButtonDisabled(play,record,upload){
+  //         console.log('set');
+  //         this.playDisabled=play;
+  //         this.recordDisabled=record;
+  //         this.uploadDisabled=upload;
+  //     },
+  //     async uploadVoice(localId){
+  //       return new Promise((resolve, reject) =>{
+  //            wx.uploadVoice({
+  //               localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+  //               isShowProgressTips: 1, // 默认为1，显示进度提示
+  //               success: function (res) {
+  //                   const serverId = res.serverId; // 返回音频的服务器端ID
+  //                   resolve(serverId);
+  //                },
+  //                fail(){
+  //                    reject();
+  //                }
+  //               });
+  //       });
+  //     },
+  //     async submit(){
+  //         if(!this.uploadDisabled){
+  //             try{
+  //               const serverId = await this.uploadVoice(this.localId);
+  //               await this.submitOrder({taskId:this.task._id, serverId, type:1})
+  //               await this.leaveComment({content:'我提交了语音答案', taskId:this.task._id})
+  //               Toast({
+  //                   message: '提交成功',
+  //                   position: 'middle',
+  //                   duration: 3000
+  //               });
+  //           }catch(err){
+  //               console.log(err);
+  //           }finally{
+  //               this.$router.push('/taskDetail');
+  //           }
+  //         }
+  //     }
+  //
+  // }
+}
+</script>

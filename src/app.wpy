@@ -32,6 +32,7 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/recordPage',
       'pages/initPage',
       'pages/bindPage',
       'pages/taskListPage',

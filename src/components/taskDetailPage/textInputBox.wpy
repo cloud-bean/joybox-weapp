@@ -1,0 +1,39 @@
+<template lang="html">
+  <view class="input-area">
+    讨论区
+  <input placeholder="这个只有在按钮点击的时候才聚焦"/>
+  <button type="primary" size="large">留言</button>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class textInputBox extends wepy.component {
+
+
+}
+</script>
+
+<style lang="css" scoped>
+.leave-message-button{
+  width: 5rem;
+  float: right;
+}
+.message-input{
+  width: 100%;
+  height: 5rem;
+  font-size: 0.6rem;
+  padding: 0.5rem;
+
+}
+.input-area{
+  padding: 0.5rem;
+  background-color: #eef;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 15rem;
+}
+
+</style>
