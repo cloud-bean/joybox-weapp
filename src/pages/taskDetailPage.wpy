@@ -111,10 +111,8 @@
       <msgItem :msgData="item"></msgItem>
     </repeat>
   </view>
-  <button class="" @tap="open">提交</button>
-  <button class="" @tap="chooseImage">上传图片</button>
-  <button class="" @tap="chooseVideo">上传视频</button>
-  <button class="" @tap="recordVoice">录音上传</button>
+  <button class="" @tap="submitOrder('image')">上传图片</button>
+  <button class="" @tap="submitOrder('video')">上传视频</button>
   <!-- <view class="mask">
   </view> -->
   <!-- <view class="record-box">
@@ -130,7 +128,6 @@ import msgItem from '../components/taskDetailPage/msgItem'
 import recordBox from '../components/taskDetailPage/recordBox'
 var WxParse = require('../plugin/wxParse/wxParse.js')
 import { getTaskComments } from '../store/actions'
-
 import { connect } from 'wepy-redux'
 @connect({
   activeTask (state) {
@@ -151,7 +148,7 @@ export default class TaskDetailPage extends wepy.page {
   components = {
     completeList,
     msgItem,
-    recordBox,
+    recordBox
   }
   onLoad() {
     const question = this.activeTask.description
@@ -189,62 +186,18 @@ export default class TaskDetailPage extends wepy.page {
         }
       })
     },
-    chooseImage () {
-      wx.chooseImage({
-        success: function (res) {
-          var tempFilePaths = res.tempFilePaths
-          let uploadTask = wx.uploadFile({
-            url: 'http://120.25.227.156:7000/api/base/tool/files', //仅为示例，非真实的接口地址
-            filePath: tempFilePaths[0],
-            name: 'file',
-            formData: {
-              'fileType': 'image'
-            },
-            success: function (res) {
-              var data = res.data
-              console.log(data)
-              //do something
-            }
-          })
-          uploadTask.onProgressUpdate((res) => {
-            console.log('上传进度', res.progress)
-            console.log('已经上传的数据长度', res.totalBytesSent)
-            console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
-          })
-        }
-      })
-    },
-    chooseVideo () {
-      wx.chooseVideo({
-        success: function (res) {
-          var tempFilePath = res.tempFilePath
-          let uploadTask = wx.uploadFile({
-            url: 'http://120.25.227.156:7000/api/base/tool/files', //仅为示例，非真实的接口地址
-            filePath: tempFilePath,
-            name: 'file',
-            formData: {
-              'user': 'test'
-            },
-            success: function (res) {
-              var data = res.data
-              console.log(data)
-              //do something
-            }
-          })
-          uploadTask.onProgressUpdate((res) => {
-            console.log('上传进度', res.progress)
-            console.log('已经上传的数据长度', res.totalBytesSent)
-            console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
-          })
-        }
+    submitOrder (type) {
+      console.log('submit order type: ', type)
+      wepy.navigateTo({
+        url: `/pages/submitOrderPage?type=${type}&taskId=${this.activeTask._id}`
       })
     },
     recordVoice () {
-      wx.startRecord({
+      wepy.startRecord({
         success: function(res) {
           var tempFilePath = res.tempFilePath
-          let uploadTask = wx.uploadFile({
-            url: 'http://120.25.227.156:7000/api/base/tool/files', //仅为示例，非真实的接口地址
+          let uploadTask = wepy.uploadFile({
+            url: 'http://120.25.227.156:7000/api/base/tool/files',
             filePath: tempFilePath,
             name: 'file',
             formData: {
@@ -253,7 +206,6 @@ export default class TaskDetailPage extends wepy.page {
             success: function (res) {
               var data = res.data
               console.log(data)
-              //do something
             }
           })
           uploadTask.onProgressUpdate((res) => {
@@ -263,13 +215,12 @@ export default class TaskDetailPage extends wepy.page {
           })
         },
         fail: function(res) {
-          //录音失败
           console.log('录音失败')
         }
       })
       setTimeout(function() {
-        //结束录音
-        wx.stopRecord()
+        wepy.stopRecord()
+        console.log('录音因超时停止')
       }, 10000)
     }
   }

@@ -1,0 +1,151 @@
+<style lang="less" scoped>
+.image-preview {
+  width: 200px;
+  height: 200px;
+  background-color: greenyellow;
+}
+  .hidden-inputs {
+    padding: 5px;
+    border: 1px solid cadetblue;
+  }
+  .video-preview {
+    width: 200px;
+    height: 200px;
+    background-color: blanchedalmond;
+  }
+</style>
+
+<template>
+  <view class="container">
+    <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
+      <view class="hidden-inputs">
+        <input name="taskId" value="{{taskId}}"/>
+        <input name="serverId" value="{{uploadFileURL}}"/>
+        <input name="type" value="{{fileTypeIndex}}"/>
+      </view>
+
+      <view wx:if="{{fileTypeIndex === 0 }}">
+        upload {{ type }} with a form
+        <image src="{{uploadFileURL}}" class="image-preview"></image>
+        <button class="" @tap="chooseImage">上传图片</button>
+      </view>
+      <view wx:if="{{fileTypeIndex === 2 }}">
+        upload {{ type }}, 支持最长录制60秒视频
+        <video src="{{uploadFileURL}}" class="video-preview" controls></video>
+        <button class="" @tap="chooseVideo">上传视频</button>
+      </view>
+
+      <view class="btn-area">
+        <button formType="submit">Submit</button>
+        <button formType="reset">Reset</button>
+      </view>
+    </form>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { submitOrder } from '../store/actions'
+  import {connect} from 'wepy-redux'
+  @connect({
+    orderStatus (state) {
+      return state.order.status
+    }
+  }, {
+    submitOrder
+  })
+  export default class SubmitOrderPage extends wepy.page {
+    data = {
+      fileTypeIndex: -1,
+      type: 'unknown',
+      taskId: '',
+      uploadFileURL: ''
+    }
+
+    methods = {
+      formSubmit (e) {
+        console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
+        this.methods.submitOrder(e.detail.value) // dispatch submit order action
+        wx.navigateTo({
+          url: '/pages/initPage'
+        })
+      },
+      formReset () {
+        console.log('form发生了reset事件')
+        wepy.navigateBack()
+      },
+      chooseImage () {
+        var that = this
+        wx.chooseImage({
+          count: 1, // 默认9
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+          success: function (res) {
+            let tempFilePaths = res.tempFilePaths
+            let uploadTask = wx.uploadFile({
+              url: 'http://120.25.227.156:7000/api/base/tool/files',
+              filePath: tempFilePaths[0],
+              name: 'file',
+              formData: {
+                'fileType': 'image'
+              },
+              success: function (res) {
+                let data = res.data
+                console.log(data)
+                that.uploadFileURL = JSON.parse(data).data.URL
+                that.$apply()
+              }
+            })
+            uploadTask.onProgressUpdate((res) => {
+              console.log('上传进度', res.progress)
+              console.log('已经上传的数据长度', res.totalBytesSent)
+              console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
+            })
+          }
+        })
+      },
+      chooseVideo () {
+        let that = this
+        wx.chooseVideo({
+          maxDuration: 60,
+          sourceType: ['album', 'camera'],
+          camera: 'back',
+          success: function (res) {
+            let tempFilePath = res.tempFilePath
+            let uploadTask = wx.uploadFile({
+              url: 'http://120.25.227.156:7000/api/base/tool/files',
+              filePath: tempFilePath,
+              name: 'file',
+              formData: {
+                'user': 'test'
+              },
+              success: function (res) {
+                let data = res.data
+                console.log(data)
+                that.uploadFileURL = JSON.parse(data).data.URL
+                that.$apply()
+              }
+            })
+            uploadTask.onProgressUpdate((res) => {
+              console.log('上传进度', res.progress)
+              console.log('已经上传的数据长度', res.totalBytesSent)
+              console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
+            })
+          }
+        })
+      }
+    }
+
+    onLoad (option) {
+      console.log(option) // 0: image; 1: audio; 2: video
+      if (option.type) {
+        let index = ['image', 'audio', 'video'].indexOf(option.type)
+        if (index !== -1) {
+          this.fileTypeIndex = index
+          this.type = option.type
+          this.taskId = option.taskId
+        }
+      }
+    }
+  }
+</script>

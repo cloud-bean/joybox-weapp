@@ -33,21 +33,6 @@ export const getTaskComments = taskId => {
     .catch(console.log)
 }
 
-export const submitOrder = (taskId, serverId, type) => {
-  let data = {
-    task: taskId,
-    file: {
-      filename: serverId,
-      URL: serverId,
-      type,
-      created: Date.now()
-    }
-  }
-
-  return fetchWithAccessToken('/orders', 'POST', data)
-    .then(res => res.data.data)
-    .catch(console.log)
-}
 
 export const leaveComment = (content, taskId) => {
   return fetchWithAccessToken(`/tasks/${taskId}/commits`, 'POST')

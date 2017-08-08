@@ -36,7 +36,8 @@ export default class extends wepy.app {
       'pages/bindPage',
       'pages/taskListPage',
       // 'pages/index',
-      'pages/taskDetailPage'
+      'pages/taskDetailPage',
+      'pages/submitOrderPage'
     ],
     window: {
       backgroundTextStyle: 'dark',

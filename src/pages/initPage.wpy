@@ -29,12 +29,6 @@
       let newUserInfo = userInfo;
       store.dispatch(authClient(loginInfo))
       if (userInfo) {
-        if(userInfo.providerData.openid != appOpenid){
-          console.log('in update');
-          const providerData = userInfo.providerData;
-          newUserInfo = {...userInfo, providerData:{...providerData, openid: appOpenid}};
-          api.updateUserInfo(userInfo._id, newUserInfo);
-        }
         store.dispatch(setUserInfo(newUserInfo))
         wepy.hideLoading()
         wepy.reLaunch({
