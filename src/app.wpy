@@ -1,6 +1,6 @@
 <style lang="less">
 // @import "./plugin/fontAwesome/stylesheet.css";
-@import "./plugin/fontAwesome/font-awesome.css";
+@import "./plugin/fontAwesome/font-awesome.wxss";
 @import "./plugin/wxParse/wxParse.wxss";
 
 
