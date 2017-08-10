@@ -24,12 +24,12 @@
   padding: 20rpx 10rpx ;
 }
 .name{
-  font-size: 34rpx;
+  // font-size: 34rpx;
   margin: 20rpx 10rpx;
   text-align: center;
 }
 .slogan{
-  font-size: 24rpx;
+  // font-size: 24rpx;
   color: #888888;
 }
 image{
