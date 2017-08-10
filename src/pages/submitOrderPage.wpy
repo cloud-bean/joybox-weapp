@@ -1,43 +1,76 @@
 <style lang="less" scoped>
-.image-preview {
-  width: 200px;
-  height: 200px;
-  background-color: greenyellow;
-}
+  .tip-text {
+    color: dimgray;
+    margin:5px auto;
+    display:block;
+  }
+  .image-preview {
+    width:100%;
+    margin:10px auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    box-sizing:border-box;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
   .hidden-inputs {
     padding: 5px;
     border: 1px solid cadetblue;
+    display: none;
   }
   .video-preview {
-    width: 200px;
-    height: 200px;
-    background-color: blanchedalmond;
+    width:100%;
+    margin:10px auto;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    box-sizing:border-box;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+  .preview {
+    width: 100%;
+  }
+
+  .center-with-margin{
+    width: 98%;
+    margin: 10px auto;
+  }
+
+  .btn-area{
+    margin-top: 20px;
+  }
+  .btn-form{
+    margin:5px auto;
   }
 </style>
 
 <template>
-  <view class="container">
-    <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
+  <view class="container center-with-margin">
+    <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true" class="preview">
       <view class="hidden-inputs">
         <input name="taskId" value="{{taskId}}"/>
         <input name="serverId" value="{{uploadFileURL}}"/>
         <input name="type" value="{{fileTypeIndex}}"/>
       </view>
 
-      <view wx:if="{{fileTypeIndex === 0 }}">
-        upload {{ type }} with a form
-        <image src="{{uploadFileURL}}" class="image-preview"></image>
-        <button class="" @tap="chooseImage">上传图片</button>
-      </view>
-      <view wx:if="{{fileTypeIndex === 2 }}">
-        upload {{ type }}, 支持最长录制60秒视频
-        <video src="{{uploadFileURL}}" class="video-preview" controls></video>
-        <button class="" @tap="chooseVideo">上传视频</button>
+      <view class="preview">
+        <text class="tip-text">{{uploadText}}</text>
+        <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info />
+        <image wx:if="{{fileTypeIndex === 0 && uploadFileURL}}" src="{{uploadFileURL}}" class="image-preview"></image>
+        <video wx:if="{{fileTypeIndex === 2 && uploadFileURL}}" src="{{uploadFileURL}}" class="video-preview" controls></video>
+        <button type="default" wx:if="{{fileTypeIndex === 0}}" @tap="chooseImage">上传</button>
+        <button type="default" wx:if="{{fileTypeIndex === 2}}" @tap="chooseVideo">上传</button>
       </view>
 
       <view class="btn-area">
-        <button formType="submit">Submit</button>
-        <button formType="reset">Reset</button>
+        <button class="btn-form" type="primary" formType="submit" wx:if="{{uploadFileURL !== '' && progress === 100}}">好了</button>
+        <button class="btn-form" type="warn" formType="reset">弃了</button>
       </view>
     </form>
   </view>
@@ -59,19 +92,26 @@
       fileTypeIndex: -1,
       type: 'unknown',
       taskId: '',
-      uploadFileURL: ''
+      uploadFileURL: '',
+      progress: 0,
+      uploadText: ''
     }
 
     methods = {
       formSubmit (e) {
         console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
         this.methods.submitOrder(e.detail.value) // dispatch submit order action
+        this.uploadFileURL = ''
+        this.progress = 0
+        this.uploadText = ''
         wx.navigateTo({
           url: '/pages/initPage'
         })
       },
       formReset () {
         console.log('form发生了reset事件')
+        this.uploadFileURL = ''
+        this.progress = 0
         wepy.navigateBack()
       },
       chooseImage () {
@@ -91,15 +131,17 @@
               },
               success: function (res) {
                 let data = res.data
-                console.log(data)
+                that.progress = 100
                 that.uploadFileURL = JSON.parse(data).data.URL
                 that.$apply()
               }
             })
             uploadTask.onProgressUpdate((res) => {
-              console.log('上传进度', res.progress)
-              console.log('已经上传的数据长度', res.totalBytesSent)
-              console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
+              console.log(`提交上传中 ${res.progress}%`)
+              if (res.progress < 95) {
+                that.progress = res.progress
+                that.$apply()
+              }
             })
           }
         })
@@ -121,15 +163,17 @@
               },
               success: function (res) {
                 let data = res.data
-                console.log(data)
+                that.progress = 100
                 that.uploadFileURL = JSON.parse(data).data.URL
                 that.$apply()
               }
             })
             uploadTask.onProgressUpdate((res) => {
-              console.log('上传进度', res.progress)
-              console.log('已经上传的数据长度', res.totalBytesSent)
-              console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
+              console.log(`提交上传中 ${res.progress}%`)
+              if (res.progress < 92) {
+                that.progress = res.progress
+                that.$apply()
+              }
             })
           }
         })
@@ -142,6 +186,11 @@
         let index = ['image', 'audio', 'video'].indexOf(option.type)
         if (index !== -1) {
           this.fileTypeIndex = index
+          if (index === 2) {
+            this.uploadText = '提交视频, 支持最长录制60秒视频'
+          } else if (index === 0) {
+            this.uploadText = '提交图片，支持最大10MB图片'
+          }
           this.type = option.type
           this.taskId = option.taskId
         }

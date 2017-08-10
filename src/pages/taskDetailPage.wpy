@@ -111,8 +111,8 @@
       <msgItem :msgData="item"></msgItem>
     </repeat>
   </view>
-  <button class="" @tap="submitOrder('image')">上传图片</button>
-  <button class="" @tap="submitOrder('video')">上传视频</button>
+  <button class="submit" @tap="open">上传作业</button>
+  <!--<button class="" @tap="submitOrder('video')">上传视频</button>-->
   <!-- <view class="mask">
   </view> -->
   <!-- <view class="record-box">
@@ -176,10 +176,21 @@ export default class TaskDetailPage extends wepy.page {
       console.log(e.detail)
     },
     open () {
-      wepy.showActionSheet({
-        itemList: ['拍照提交', '录音提交', '文字提交'],
+      console.log('open it')
+      let that = this
+      wx.showActionSheet({
+        itemList: ['拍照', '视频'],
         success: function(res) {
           console.log(res.tapIndex)
+          if (res.tapIndex !== undefined) {
+            let type = 'image'
+            if(res.tapIndex === 1){
+              type = 'video'
+            }
+            wx.navigateTo({
+              url: `/pages/submitOrderPage?type=${type}&taskId=${that.activeTask._id}`
+            })
+          }
         },
         fail: function(res) {
           console.log(res.errMsg)
@@ -188,7 +199,7 @@ export default class TaskDetailPage extends wepy.page {
     },
     submitOrder (type) {
       console.log('submit order type: ', type)
-      wepy.navigateTo({
+      wx.navigateTo({
         url: `/pages/submitOrderPage?type=${type}&taskId=${this.activeTask._id}`
       })
     },
