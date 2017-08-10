@@ -89,8 +89,7 @@
   })
   export default class SubmitOrderPage extends wepy.page {
     data = {
-      fileTypeIndex: -1,
-      type: 'unknown',
+      fileTypeIndex: 0,
       taskId: '',
       uploadFileURL: '',
       progress: 0,
@@ -181,20 +180,11 @@
     }
 
     onLoad (option) {
-      console.log(option) // 0: image; 1: audio; 2: video
-      if (option.type) {
-        let index = ['image', 'audio', 'video'].indexOf(option.type)
-        if (index !== -1) {
-          this.fileTypeIndex = index
-          if (index === 2) {
-            this.uploadText = '提交视频, 支持最长录制60秒视频'
-          } else if (index === 0) {
-            this.uploadText = '提交图片，支持最大10MB图片'
-          }
-          this.type = option.type
-          this.taskId = option.taskId
-        }
-      }
+      console.log('option data:', option) // 0: image; 1: audio; 2: video
+      let typeIndex = parseInt(option.type, 10)
+      this.fileTypeIndex = typeIndex
+      this.taskId = option.taskId
+      this.uploadText = ['提交图片，支持最大10MB图片', '提交录音，开发中，敬请期待~', '提交视频, 支持最长录制60秒视频'][typeIndex]
     }
   }
 </script>

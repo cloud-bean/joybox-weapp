@@ -102,7 +102,6 @@
     <template is="wxParse" data="{{wxParseData:summry.nodes}}"/>
   </view>
 
-
   <view class="md-container">
     <completeList :completeUsers="taskDoneUsers"></completeList>
   </view>
@@ -112,13 +111,6 @@
     </repeat>
   </view>
   <button class="submit" @tap="open">上传作业</button>
-  <!--<button class="" @tap="submitOrder('video')">上传视频</button>-->
-  <!-- <view class="mask">
-  </view> -->
-  <!-- <view class="record-box">
-    <recordBox></recordBox>
-  </view> -->
-
 </template>
 
 <script>
@@ -176,31 +168,20 @@ export default class TaskDetailPage extends wepy.page {
       console.log(e.detail)
     },
     open () {
-      console.log('open it')
       let that = this
       wx.showActionSheet({
-        itemList: ['拍照', '视频'],
+        itemList: ['拍照', '录音（暂不支持）', '视频'],
         success: function(res) {
           console.log(res.tapIndex)
           if (res.tapIndex !== undefined) {
-            let type = 'image'
-            if(res.tapIndex === 1){
-              type = 'video'
-            }
             wx.navigateTo({
-              url: `/pages/submitOrderPage?type=${type}&taskId=${that.activeTask._id}`
+              url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
             })
           }
         },
         fail: function(res) {
           console.log(res.errMsg)
         }
-      })
-    },
-    submitOrder (type) {
-      console.log('submit order type: ', type)
-      wx.navigateTo({
-        url: `/pages/submitOrderPage?type=${type}&taskId=${this.activeTask._id}`
       })
     },
     recordVoice () {
