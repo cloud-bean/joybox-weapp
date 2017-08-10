@@ -13,9 +13,18 @@
     padding: 10rpx;
     width: 95%;
   }
+  input{
+    border: 1rpx solid #ccc;
+    padding: 10rpx;
+    width: 95%;
+    margin: 5rpx auto;
+  }
   button{
     margin-top: 20rpx;
 
+  }
+  .title{
+    margin: 0 auto;
   }
 }
 .entity{
@@ -27,25 +36,33 @@
 }
 .wrapper{
 }
+.hidden-input{
+  display:none;
+}
 </style>
 
 <template>
   <view class="wrapper">
     <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
-    {{activeOrder.task.name}}
     <view class="score">
       <!-- <starPanel></starPanel> -->
-      <input name="orderId" value="{{activeOrder._id}}"/>
-      <input type="number" name="score" value="" placeholder="请输入评分"></input>
+      <view hidden="true">
+        <input name="orderId" value="{{activeOrder._id}}"/>
+      </view>
     </view>
     <view class="message">
-      <textarea name="comments" placeholder="请输入作业评语" auto-focus></textarea>
+      <text class="title">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
+      <input type="number" name="score" value="" placeholder="请输入评分" auto-focus></input>
+      <textarea name="comments" placeholder="请输入作业评语" ></textarea>
       <button size="small" type="primary" formType="submit">提交评价</button>
     </view>
   </form>
     <view class="entity">
       <view wx:if="{{activeOrder.files[0].type === 0 }}">
-        <image src="{{fileURL}}" class="image-preview"></image>
+        <image src="{{fileURL}}" mode="widthFix"></image>
+      </view>
+      <view wx:if="{{activeOrder.files[0].type === 1 }}">
+        <audio src="{{fileURL}}" controls></audio>
       </view>
       <view wx:if="{{activeOrder.files[0].type === 2 }}">
         <video src="{{fileURL}}" class="video-preview" controls></video>
@@ -86,11 +103,13 @@ export default class TeacherSetScorePage extends wepy.page {
       })
     },
   }
-  async onLoad(){
+  async onShow(){
     const that = this
     console.log(that.activeOrder.files[0].URL);
     try{
+      wepy.showLoading({title:'素材下载中'})
       const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
+      wepy.hideLoading()
       this.fileURL = tempFilePath
     } catch (e) {
       console.log(e)

@@ -33,7 +33,7 @@
         wepy.hideLoading()
         if(userInfo.roleType == 'teacher'){
           wepy.reLaunch({
-            url: 'teacherTaskListPage'
+            url: 'teacherOrderListPage'
           })
         } else {
           wepy.reLaunch({

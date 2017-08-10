@@ -1,31 +1,36 @@
 <style lang="less" scoped>
 .submit-item{
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: row;
-  padding: 20rpx 20rpx;
+  padding: 40rpx 20rpx;
   border-bottom: 1px solid #e5e5e5;
     .title{
-
-      font-size: 28rpx;
       color: #c7c7cc;
+      margin-left: 20rpx;
+      flex-grow: 3
+
+    }
+
+    .name{
+      color: #222;
+      margin-left: 20rpx;
+      flex-grow: 1
+
     }
     .sub-title{
-      font-size: 28rpx;
       color: #888;
-    }
-    .name{
-      font-size: 28rpx;
-      color: #222;
-      font-size: 30rpx;
+      margin-left: 20rpx;
+      flex-grow: 1
+
     }
 }
 </style>
 <template>
   <view class="submit-item">
     <!-- <view class="sub-title">
-      [{{orderData.}}]
+      [{{createdDate}}]
     </view> -->
     <view class="title">
       {{orderData.task.name}}
@@ -46,9 +51,12 @@ export default class submitItem extends wepy.component {
     orderData:Object
   }
   data = {
-
+    createdDate:''
   }
   methods = {
+
+  }
+  computed = {
 
   }
 }

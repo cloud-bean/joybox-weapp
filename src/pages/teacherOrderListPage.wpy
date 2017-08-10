@@ -15,7 +15,7 @@
 
 <script>
 import wepy from 'wepy'
-import orderItem from '../components/teacherTaskListPage/orderItem'
+import orderItem from '../components/teacherOrderListPage/orderItem'
 import { connect } from 'wepy-redux'
 import { getOrders, setActiveOrderAction } from '../store/actions'
 
@@ -28,7 +28,7 @@ import { getOrders, setActiveOrderAction } from '../store/actions'
   setActiveOrderAction
 })
 
-export default class TeacherTaskListPage extends wepy.page {
+export default class TeacherOrderListPage extends wepy.page {
   components = {
     orderItem
   }

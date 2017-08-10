@@ -35,7 +35,7 @@ export default class extends wepy.app {
       'pages/initPage',
       'pages/bindPage',
       'pages/taskListPage',
-      'pages/teacherTaskListPage',
+      'pages/teacherOrderListPage',
       'pages/teacherSetScorePage',
       'pages/taskDetailPage',
       'pages/submitOrderPage'
