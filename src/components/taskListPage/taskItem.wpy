@@ -12,27 +12,27 @@
     justify-content: space-around;
     margin-left: 20rpx;
     .title{
-      font-size: 32rpx;
+      // font-size: 32rpx;
       color: #222;
     }
     .sub-title{
-      font-size: 28rpx;
+      // font-size: 28rpx;
       color: #888;
     }
     .date{
-      font-size: 20rpx;
+      // font-size: 20rpx;
     }
   }
   .type{
 
     .book{
       margin: auto 0;
-      font-size: 90rpx;
+      // font-size: 90rpx;
       background-color: #eeeeee;
     }
   }
   .indicator{
-    font-size: 28rpx;
+    // font-size: 28rpx;
     color: #c7c7cc;
     margin-left: 260rpx;
     font-size: 30rpx;
@@ -50,9 +50,9 @@
       <view class="title">
         {{taskData.name}}
       </view>
-      <view class="date">
+      <!-- <view class="date">
         {{taskData.expireTime}}
-      </view>
+      </view> -->
       <view class="sub-title">
         经验:{{taskData.exp}} 悦币:{{taskData.goldToken}}
       </view>

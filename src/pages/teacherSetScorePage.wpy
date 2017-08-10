@@ -99,11 +99,11 @@ export default class TeacherSetScorePage extends wepy.page {
       const res = await api.setScore(score, comments, orderId) // dispatch submit order action
       console.log(res);
       wx.navigateTo({
-        url: '/pages/initPage'
+        url: '/pages/teacherOrderListPage'
       })
     },
   }
-  async onShow(){
+  async onLoad(){
     const that = this
     console.log(that.activeOrder.files[0].URL);
     try{

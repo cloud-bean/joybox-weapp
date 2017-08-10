@@ -6,7 +6,7 @@
 
 }
 .navbar-item {
-  font-size: 28rpx;
+  // font-size: 28rpx;
   padding: 28rpx 0;
   width: 100%;
   .item{
@@ -52,8 +52,8 @@ export default class Navbar extends wepy.component {
   }
   methods = {
     handleTapNav(e) {
-      console.log(this)
-      console.log(this.onChange)
+      // console.log(this)
+      // console.log(this.onChange)
       this.activeIndex = e.currentTarget.id
       this.onChange(this.activeIndex)
     }

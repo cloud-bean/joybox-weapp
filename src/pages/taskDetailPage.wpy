@@ -95,7 +95,7 @@
       <video  src="{{activeTask.videoFile.URL}}" >  </video>
     </view>
     <view class="play-audio"  wx:if="{{activeTask.audioFile}}">
-      <audio src="{{activeTask.audioFile.URL}}" binderror="handleError"> </audio>
+      <audio src="{{activeTask.audioFile.URL}}" binderror="handleError" control> </audio>
     </view>
   </view>
   <view class="wxParse md-container" wx:if="{{activeTask.done}}">
@@ -136,6 +136,8 @@ import { connect } from 'wepy-redux'
 })
 export default class TaskDetailPage extends wepy.page {
   data = {
+    tempAudioFile:'',
+    tempVideoFile:''
   }
   components = {
     completeList,
@@ -157,8 +159,24 @@ export default class TaskDetailPage extends wepy.page {
   }
   computed = {
   }
-  onShow() {
+  async onShow() {
     console.log(this.taskDoneUsers)
+    const that = this
+    console.log(that.activeTask.audioFile.URL);
+    try{
+      wepy.showLoading({title:'素材下载中'})
+      if(that.activeTask.audioFile){
+        const {tempFilePath} = await wepy.downloadFile({url: that.activeTask.audioFile.URL})
+        this.tempAudioFile = tempFilePath;
+      }
+      if(that.activeTask.videoFile){
+        const {tempFilePath} = await wepy.downloadFile({url: that.activeTask.videoFile.URL})
+        this.tempAudioFile = tempFilePath;
+      }
+      wepy.hideLoading()
+    } catch (e) {
+      console.log(e)
+    }
   }
   methods = {
     handleSubmit() {
