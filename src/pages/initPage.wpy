@@ -31,9 +31,16 @@
       if (userInfo) {
         store.dispatch(setUserInfo(newUserInfo))
         wepy.hideLoading()
-        wepy.reLaunch({
-          url: 'taskListPage'
-        })
+        if(userInfo.roleType == 'teacher'){
+          wepy.reLaunch({
+            url: 'teacherTaskListPage'
+          })
+        } else {
+          wepy.reLaunch({
+            url: 'taskListPage'
+          })
+        }
+
       } else {
         wepy.reLaunch({
           url: 'bindPage'

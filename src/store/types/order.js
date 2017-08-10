@@ -1,1 +1,3 @@
 export const SUBMIT_ORDER = 'SUBMIT_ORDER'
+export const GET_ORDERS = 'GET_ORDERS'
+export const SET_ACTIVE_ORDER = 'SET_ACTIVE_ORDER'

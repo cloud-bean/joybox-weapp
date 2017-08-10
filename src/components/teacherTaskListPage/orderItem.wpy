@@ -24,14 +24,14 @@
 </style>
 <template>
   <view class="submit-item">
-    <view class="sub-title">
-      [初一培优]
-    </view>
+    <!-- <view class="sub-title">
+      [{{orderData.}}]
+    </view> -->
     <view class="title">
-      英语口语训练
+      {{orderData.task.name}}
     </view>
     <view class="name">
-      辛那克斯
+      {{orderData.student.displayName}}
     </view>
     <view class="sub-title">
       >
@@ -42,6 +42,9 @@
 import wepy from 'wepy'
 
 export default class submitItem extends wepy.component {
+  props = {
+    orderData:Object
+  }
   data = {
 
   }

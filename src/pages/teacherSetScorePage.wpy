@@ -31,26 +31,90 @@
 
 <template>
   <view class="wrapper">
+    <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
+    {{activeOrder.task.name}}
     <view class="score">
-      <starPanel></starPanel>
+      <!-- <starPanel></starPanel> -->
+      <input name="orderId" value="{{activeOrder._id}}"/>
+      <input type="number" name="score" value="" placeholder="请输入评分"></input>
     </view>
     <view class="message">
-      <textarea placeholder="请输入作业评语" auto-focus></textarea>
-      <button size="small" type="primary">提交评价</button>
+      <textarea name="comments" placeholder="请输入作业评语" auto-focus></textarea>
+      <button size="small" type="primary" formType="submit">提交评价</button>
     </view>
+  </form>
     <view class="entity">
-      <image mode= "aspectFit" src="./head.jpg"></image>
+      <view wx:if="{{activeOrder.files[0].type === 0 }}">
+        <image src="{{fileURL}}" class="image-preview"></image>
+      </view>
+      <view wx:if="{{activeOrder.files[0].type === 2 }}">
+        <video src="{{fileURL}}" class="video-preview" controls></video>
+      </view>
+      <!-- <image mode= "aspectFit" src="./head.jpg"></image> -->
     </view>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import starPanel from '../components/teacherSetScorePage/starPanel'
+// import starPanel from '../components/teacherSetScorePage/starPanel'
+import { connect } from 'wepy-redux'
+import * as api from '../api'
 
+@connect({
+  activeOrder (state) {
+    return state.order.activeOrder
+  }
+},{
+
+})
 export default class TeacherSetScorePage extends wepy.page {
+  data = {
+    fileURL:''
+  }
   components = {
-    starPanel
+    // starPanel
+  }
+  methods = {
+    async formSubmit (e) {
+      console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
+      const {score, comments, orderId} = e.detail.value;
+      const res = await api.setScore(score, comments, orderId) // dispatch submit order action
+      console.log(res);
+      wx.navigateTo({
+        url: '/pages/initPage'
+      })
+    },
+  }
+  async onLoad(){
+    const that = this
+    console.log(that.activeOrder.files[0].URL);
+    try{
+      const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
+      this.fileURL = tempFilePath
+    } catch (e) {
+      console.log(e)
+    }
+  //   let downloadTask = wx.downloadFile({
+  //     url: that.activeOrder.files[0].URL,
+  //     success: function (res) {
+  //       that.fileURL = res.tempFilePath
+  //       console.log(that.fileURL);
+  //     },
+  //     fail: function (res){
+  //       console.log(res);
+  //     },
+  //     complete(){
+  //       console.log('complete');
+  //     }
+  //   })
+  //   downloadTask.onProgressUpdate((res) => {
+  //   console.log('下载进度', res.progress)
+  //   console.log('已经下载的数据长度', res.totalBytesWritten)
+  //   console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
+  // })
+
+
   }
 }
 </script>

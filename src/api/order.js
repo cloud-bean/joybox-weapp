@@ -14,3 +14,18 @@ export const submitOrder = (taskId, serverId, type) => {
     .then(res => res.data)
     .catch(console.log)
 }
+
+export const getOrders = () =>
+fetchWithAccessToken('/orders?limit=200', 'GET') // 默认20，不够用
+.then(res => res.data)
+.catch(console.log)
+
+export const setScore = (score, comments, orderId) => {
+  const data = {
+    score,
+    comments
+  }
+  return fetchWithAccessToken(`/orders/${orderId}/record`, 'POST', data)
+  .then(res => res.data)
+  .catch(console.log)
+}

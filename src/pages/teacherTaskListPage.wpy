@@ -3,22 +3,45 @@
 </style>
 <template>
   <view class="">
-<submitItem></submitItem>
-<submitItem></submitItem>
-
-<submitItem></submitItem>
-<submitItem></submitItem>
-<submitItem></submitItem>
-
+    <view wx:if="tasks.length > 0">
+      <repeat  for="{{orderList}}" key="index" index="index" item="item">
+        <view @tap="handleTap({{item}})">
+          <orderItem :orderData="item"></orderItem>
+        </view>
+      </repeat>
+    </view>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
-import submitItem from '../components/teacherTaskListPage/submitItem'
+import orderItem from '../components/teacherTaskListPage/orderItem'
+import { connect } from 'wepy-redux'
+import { getOrders, setActiveOrderAction } from '../store/actions'
+
+@connect({
+  orderList (state) {
+    return state.order.orders
+  }
+}, {
+  getOrders,
+  setActiveOrderAction
+})
+
 export default class TeacherTaskListPage extends wepy.page {
   components = {
-    submitItem
+    orderItem
+  }
+  onLoad(){
+    this.methods.getOrders();
+  }
+  methods = {
+    handleTap(item, e){
+      this.methods.setActiveOrderAction(item)
+      wepy.navigateTo({
+        url: '/pages/teacherSetScorePage'
+      })
+    }
   }
 }
 </script>
