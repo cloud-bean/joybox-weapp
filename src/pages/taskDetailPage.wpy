@@ -103,11 +103,11 @@
   </view>
 
   <view class="md-container">
-    <completeList :completeUsers="taskDoneUsers"></completeList>
+    <completeList :completeUsers.sync="taskDoneUsers"></completeList>
   </view>
   <view class="msg-container">
     <repeat  for="{{taskComments}}" key="index" index="index" item="item">
-      <msgItem :msgData="item"></msgItem>
+      <msgItem :msgData.sync="item"></msgItem>
     </repeat>
   </view>
   <button class="submit" @tap="open">上传作业</button>

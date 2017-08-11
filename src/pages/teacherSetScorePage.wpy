@@ -107,10 +107,13 @@ export default class TeacherSetScorePage extends wepy.page {
     const that = this
     console.log(that.activeOrder.files[0].URL);
     try{
-      wepy.showLoading({title:'素材下载中'})
+      wepy.showLoading({
+        title:'素材下载中',
+        mask: true
+      })
       const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
-      wepy.hideLoading()
       this.fileURL = tempFilePath
+      wepy.hideLoading()
     } catch (e) {
       console.log(e)
     }

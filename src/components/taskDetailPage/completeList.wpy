@@ -50,7 +50,6 @@ export default class completeList extends wepy.component {
   }
   props = {
     completeUsers: Array
-
   }
 
   data = {
@@ -63,7 +62,7 @@ export default class completeList extends wepy.component {
       console.log(this)
     }
   }
-  onShow() {
+  onLoad() {
     console.log('on show ', this.completeUsers)
   }
 }
