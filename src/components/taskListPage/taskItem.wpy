@@ -12,12 +12,12 @@
     justify-content: space-around;
     margin-left: 20rpx;
     .title{
-      // font-size: 32rpx;
+      font-size: 14pt;
       color: #222;
     }
     .sub-title{
-      // font-size: 28rpx;
-      color: #888;
+      font-size: 13pt;
+      color: #576b95;
     }
     .date{
       // font-size: 20rpx;

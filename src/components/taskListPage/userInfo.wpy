@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 10rpx 40rpx;
+  padding: 20rpx 40rpx;
   border-bottom: 1px solid #e5e5e5;
 }
 .headimg{
@@ -13,23 +13,26 @@
   justify-content:center;
 }
 .message{
-  flex-grow: 6
+  flex-grow: 6;
   // display: flex;
   // flex-direction: column;
-  // justify-content: space-between;
+  // justify-content: space-between;]
+  text-align: center;
+
 }
 .info{
   display: flex;
   justify-content: space-around;
   padding: 20rpx 10rpx ;
+  text-align: center;
+
 }
 .name{
-  // font-size: 34rpx;
-  margin: 20rpx 10rpx;
-  text-align: center;
+  font-size: 14pt;
+  margin: 10rpx 10rpx;
 }
 .slogan{
-  // font-size: 24rpx;
+  font-size: 13pt;
   color: #888888;
 }
 image{

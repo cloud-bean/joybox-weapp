@@ -33,7 +33,6 @@ export const getTaskComments = taskId => {
     .catch(console.log)
 }
 
-
 export const leaveComment = (content, taskId) => {
   return fetchWithAccessToken(`/tasks/${taskId}/commits`, 'POST')
     .then(res => res.data.data)

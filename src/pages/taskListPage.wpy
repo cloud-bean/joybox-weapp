@@ -1,20 +1,14 @@
 <style lang="less" scoped>
-.wrapper{
-
-}
 .user-info{
-  // margin-top: 20rpx;
-}
-.sub-title{
-  padding: 15rpx;
-  color: #888;
-  background-color: #efeff4;
-  font-size: 28rpx;
+  padding: 10rpx 0;
 }
 </style>
 <template>
   <view class="wrapper">
+    <view class="user-info">
     <userInfo :user="user"></userInfo>
+  </view>
+
     <navbar :onChange="handleChange"></navbar>
     <view wx:if="tasks.length > 0">
       <repeat  for="{{showTasks}}" key="index" index="index" item="item">

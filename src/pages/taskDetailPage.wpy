@@ -38,7 +38,7 @@
 }
 .task-title{
   padding: 1rem 1rem;
-  font-size: 1.5rem;
+  font-size: 17pt;
   background-color: #26a2ff;
   opacity: 0.8;
   color: white;
@@ -50,7 +50,7 @@
   padding: 1rem 1rem;
   // height: 5rem;
   background-color: #26a2ff;
-  font-size: 0.8rem;
+  font-size: 14pt;
   color: white;
 }
 .msg-container{
@@ -147,14 +147,8 @@ export default class TaskDetailPage extends wepy.page {
   onLoad() {
     const question = this.activeTask.description
     const summry = this.activeTask.summry
-
-    // let text = '# 口语训练 \n' +
-    //   ' > 初一培优 发布于 2017-07-13 类型 口语 \n\n' +
-    //  '## 请将这5个句子翻译成英语 \n' +
-    //  ' * 我确信你能为你的朋友找到一些有用的书。 \n * 对我们来说学会如何花钱很重要  \n * 我们将邀请invite他给我们作一个关于健康饮食报告 \n * 这部电影如此无聊以致我一点都不想再看了。\n'
     WxParse.wxParse('question', 'md', question, this, 5)
     WxParse.wxParse('summry', 'md', summry, this, 5)
-
     this.methods.getTaskComments(this.activeTask._id)
   }
   computed = {

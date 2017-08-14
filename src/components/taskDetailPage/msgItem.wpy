@@ -3,6 +3,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-size: 11pt;
   .head{
     margin-right: 10rpx;
   }
@@ -10,28 +11,25 @@
     // display: flex;
     // flex-direction: column;
     color: #adadad;
-    font-size: 28rpx;
     text-align: left;
     // height: 74rpx;
     // justify-content: space-between;
     margin-left: 10rpx;
     .name{
-      font-size: 24rpx;
-      color: #949494;
+      color: #576b95;
     }
     .msg{
-      font-size: 26rpx;
-      color: #353535;
+      color: #888;
       margin-top: 10rpx;
       overflow: scroll;
     }
   }
-  padding: 15rpx 20rpx;
+  padding: 8rpx 20rpx;
 }
 image{
   // margin: auto 0;
-  width: 74rpx;
-  height: 74rpx;
+  width: 90rpx;
+  height: 90rpx;
   // background-color: #eeeeee;
   border-radius:10%;
   // margin-left: 10rpx;
@@ -44,7 +42,7 @@ image{
       <image mode="scaleToFill" src="{{msgData.user.profileImageURL || ''}}"></image>
     </view>
     <view class="info">
-      <view class="name">{{msgData.user.displayName}} <text class="time">@ {{data.created}}</text></view>
+      <view class="name">{{msgData.user.displayName}} <text class="time">{{data.created}}</text></view>
       <view class="msg">{{msgData.content}}</view>
     </view>
   </view>
