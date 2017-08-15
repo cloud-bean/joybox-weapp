@@ -59,13 +59,13 @@
   </form>
     <view class="entity">
       <view wx:if="{{activeOrder.files[0].type === 0 }}">
-        <image src="{{fileURL}}" mode="widthFix"></image>
+        <image src="{{activeOrder.files[0].URL}}" mode="widthFix"></image>
       </view>
       <view wx:if="{{activeOrder.files[0].type === 1 }}">
-        <audio src="{{fileURL}}" controls></audio>
+        <audio src="{{activeOrder.files[0].URL}}" controls></audio>
       </view>
       <view wx:if="{{activeOrder.files[0].type === 2 }}">
-        <video src="{{fileURL}}" class="video-preview" controls></video>
+        <video src="{{activeOrder.files[0].URL}}" class="video-preview" controls></video>
       </view>
       <!-- <image mode= "aspectFit" src="./head.jpg"></image> -->
     </view>
@@ -106,17 +106,17 @@ export default class TeacherSetScorePage extends wepy.page {
   async onLoad(){
     const that = this
     console.log(that.activeOrder.files[0].URL);
-    try{
-      wepy.showLoading({
-        title:'素材下载中',
-        mask: true
-      })
-      const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
-      this.fileURL = tempFilePath
-      wepy.hideLoading()
-    } catch (e) {
-      console.log(e)
-    }
+    // try{
+    //   wepy.showLoading({
+    //     title:'素材下载中',
+    //     mask: true
+    //   })
+    //   const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
+    //   this.fileURL = tempFilePath
+    //   wepy.hideLoading()
+    // } catch (e) {
+    //   console.log(e)
+    // }
   //   let downloadTask = wx.downloadFile({
   //     url: that.activeOrder.files[0].URL,
   //     success: function (res) {
