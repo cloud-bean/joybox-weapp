@@ -11,6 +11,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "moment": "^2.18.1",
     "momentjs": "^2.0.0",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",

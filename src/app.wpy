@@ -46,7 +46,7 @@ export default class extends wepy.app {
       navigationBarTitleText: '悦盒Lite',
       navigationBarTextStyle: '#eee',
       backgroundColor: '#eeeeee',
-      enablePullDownRefresh: true
+      enablePullDownRefresh: false
     }
   }
 

@@ -27,9 +27,15 @@ import taskItem from '../components/taskListPage/taskItem'
 import userInfo from '../components/taskListPage/userInfo'
 import { connect } from 'wepy-redux'
 import { fetchTasksAction, setActiveTasksAction, showTaskDone, showTaskUnDone } from '../store/actions'
+var moment = require('moment')
+
 @connect({
   showTasks (state) {
-    return state.task.showTasks
+    return state.task.showTasks.map((item)=>{
+      item.expireTime = moment(item.expireTime).format('YYYY/MM/DD HH:mm')
+      item.created = moment(item.created).format('YYYY/MM/DD HH:mm')
+      return item
+    })
   },
   user (state) {
     return state.user
@@ -70,6 +76,7 @@ export default class TaskListPage extends wepy.page {
     this.methods.fetchTasksAction()
   }
   onShow() {
+
     // console.log('onshow of task list page')
     // getStore().dispatch(fetchTasksAction()) // dispatch to fetch list
   }
