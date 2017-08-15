@@ -31,10 +31,10 @@
 }
 .mask{
   width: 100%;
-  height: 1500rpx;
+  height: 100%;
   /* Bg: */
-  opacity: 0.5;
-  background: #000000;
+  // opacity: 0.5;
+  background: rgba(0,0,0,.5);
   position: absolute;
   z-index: 999;
   top: 0;
@@ -79,6 +79,7 @@
 </style>
 
 <template>
+
   <import src="../plugin/wxParse/wxParse.wxml"/>
   <view class="task-title">{{activeTask.name}}</view>
   <view class="task-head">
@@ -186,10 +187,14 @@ export default class TaskDetailPage extends wepy.page {
     open () {
       let that = this
       wx.showActionSheet({
-        itemList: ['拍照', '录音（暂不支持）', '视频'],
+        itemList: ['拍照', '录音', '视频'],
         success: function(res) {
           console.log(res.tapIndex)
-          if (res.tapIndex !== undefined) {
+          if (res.tapIndex == 1){
+            wx.navigateTo({
+              url: `/pages/recordPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
+            })
+          }else if (res.tapIndex !== undefined) {
             wx.navigateTo({
               url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
             })
@@ -199,37 +204,6 @@ export default class TaskDetailPage extends wepy.page {
           console.log(res.errMsg)
         }
       })
-    },
-    recordVoice () {
-      wepy.startRecord({
-        success: function(res) {
-          var tempFilePath = res.tempFilePath
-          let uploadTask = wepy.uploadFile({
-            url: 'http://120.25.227.156:7000/api/base/tool/files',
-            filePath: tempFilePath,
-            name: 'file',
-            formData: {
-              'fileType': 'audio'
-            },
-            success: function (res) {
-              var data = res.data
-              console.log(data)
-            }
-          })
-          uploadTask.onProgressUpdate((res) => {
-            console.log('上传进度', res.progress)
-            console.log('已经上传的数据长度', res.totalBytesSent)
-            console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
-          })
-        },
-        fail: function(res) {
-          console.log('录音失败')
-        }
-      })
-      setTimeout(function() {
-        wepy.stopRecord()
-        console.log('录音因超时停止')
-      }, 10000)
     }
   }
 }

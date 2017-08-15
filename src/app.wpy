@@ -33,6 +33,7 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/initPage',
+      'pages/recordPage',
       'pages/bindPage',
       'pages/taskListPage',
       'pages/teacherOrderListPage',

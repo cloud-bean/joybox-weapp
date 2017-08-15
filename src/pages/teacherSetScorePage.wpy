@@ -33,6 +33,7 @@
   image{
     margin: 0 auto;
   }
+  padding: 0 20rpx;
 }
 .wrapper{
 }
@@ -44,25 +45,26 @@
 <template>
   <view class="wrapper">
     <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
-    <view class="score">
-      <!-- <starPanel></starPanel> -->
-      <view hidden="true">
-        <input name="orderId" value="{{activeOrder._id}}"/>
+      <view class="score">
+        <!-- <starPanel></starPanel> -->
+        <view hidden="true">
+          <input name="orderId" value="{{activeOrder._id}}"/>
+        </view>
       </view>
-    </view>
-    <view class="message">
-      <text class="title">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
-      <input type="number" name="score" value="" placeholder="请输入评分" auto-focus></input>
-      <textarea name="comments" placeholder="请输入作业评语" ></textarea>
-      <button size="small" type="primary" formType="submit">提交评价</button>
-    </view>
-  </form>
+      <view class="message">
+        <text class="title">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
+        <input type="number" name="score" value="" placeholder="请输入评分" ></input>
+        <textarea name="comments" placeholder="请输入作业评语" ></textarea>
+        <button size="small" type="primary" formType="submit">提交评价</button>
+      </view>
+    </form>
     <view class="entity">
       <view wx:if="{{activeOrder.files[0].type === 0 }}">
         <image src="{{activeOrder.files[0].URL}}" mode="widthFix"></image>
       </view>
       <view wx:if="{{activeOrder.files[0].type === 1 }}">
-        <audio src="{{activeOrder.files[0].URL}}" controls></audio>
+        <button size="small" type="default" @tap="handlePlayVoice">播放语音</button>
+        <!-- <audio src="{{activeOrder.files[0].URL}}" controls></audio> -->
       </view>
       <view wx:if="{{activeOrder.files[0].type === 2 }}">
         <video src="{{activeOrder.files[0].URL}}" class="video-preview" controls></video>
@@ -102,6 +104,39 @@ export default class TeacherSetScorePage extends wepy.page {
         url: '/pages/teacherOrderListPage'
       })
     },
+    async handlePlayVoice(){
+      const that = this;
+      if(!that.fileURL){
+        try{
+          wepy.showLoading({
+            title:'素材下载中',
+            mask: true
+          })
+          const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
+          wepy.hideLoading()
+          that.fileURL = tempFilePath
+        } catch (e) {
+          console.log(e)
+        }
+      }
+      wepy.showLoading({
+        title: '播放中',
+        mask: true
+      })
+      wx.playVoice({
+        filePath:that.fileURL,
+        success(){
+          wepy.showToast({
+            title: '播放完成',
+            icon: 'success',
+            duration: 1000
+          })
+        },
+        complete(){
+          wepy.hideLoading()
+        }
+      });
+    }
   }
   async onLoad(){
     const that = this
@@ -117,24 +152,24 @@ export default class TeacherSetScorePage extends wepy.page {
     // } catch (e) {
     //   console.log(e)
     // }
-  //   let downloadTask = wx.downloadFile({
-  //     url: that.activeOrder.files[0].URL,
-  //     success: function (res) {
-  //       that.fileURL = res.tempFilePath
-  //       console.log(that.fileURL);
-  //     },
-  //     fail: function (res){
-  //       console.log(res);
-  //     },
-  //     complete(){
-  //       console.log('complete');
-  //     }
-  //   })
-  //   downloadTask.onProgressUpdate((res) => {
-  //   console.log('下载进度', res.progress)
-  //   console.log('已经下载的数据长度', res.totalBytesWritten)
-  //   console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
-  // })
+    //   let downloadTask = wx.downloadFile({
+    //     url: that.activeOrder.files[0].URL,
+    //     success: function (res) {
+    //       that.fileURL = res.tempFilePath
+    //       console.log(that.fileURL);
+    //     },
+    //     fail: function (res){
+    //       console.log(res);
+    //     },
+    //     complete(){
+    //       console.log('complete');
+    //     }
+    //   })
+    //   downloadTask.onProgressUpdate((res) => {
+    //   console.log('下载进度', res.progress)
+    //   console.log('已经下载的数据长度', res.totalBytesWritten)
+    //   console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
+    // })
 
 
   }
