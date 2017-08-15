@@ -4,6 +4,7 @@
   justify-content: flex-start;
   align-items: center;
   font-size: 11pt;
+  background-color: rgba(87,107,149,0.1);
   .head{
     margin-right: 10rpx;
   }
@@ -24,7 +25,9 @@
       overflow: scroll;
     }
   }
-  padding: 8rpx 20rpx;
+  margin: 14rpx 20rpx;
+  padding: 10rpx;
+  border-radius: 10rpx;
 }
 image{
   // margin: auto 0;

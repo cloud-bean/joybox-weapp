@@ -26,6 +26,9 @@
 .md-container{
   padding: 10rpx 20rpx;
 }
+.summary{
+  color: #576b95;
+}
 .mask{
   width: 100%;
   height: 1500rpx;
@@ -58,24 +61,21 @@
 }
 .play-audio{
   /*border: 1px solid #ccc;*/
-  margin-bottom: .5rem;
-  height: 2rem;
+  display:flex;
+  justify-content: space-around;
 }
 .play-audio audio{
-  height:100%;
-  width: 100%;
+
+  margin: 0 auto;
 }
 
 .play-video{
-  height:10rem;
-  width: 100%;
-  border: 1px solid #ccc;
-  margin-bottom: .5rem;
+  margin:0 auto;
 }
-.play-video video{
-  height:100%;
-  width: 100%;
-}
+// .play-video video{
+//   height:100%;
+//   width: 100%;
+// }
 </style>
 
 <template>
@@ -87,20 +87,23 @@
     <view>类型 {{activeTask.type}}</view>
   </view>
   <view class="wxParse md-container">
+
     <template is="wxParse" data="{{wxParseData:question.nodes}}"/>
-  </view>
-  <view wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
-    <text>任务素材</text>
-    <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">
-      <video  src="{{activeTask.videoFile.URL}}" >  </video>
+    <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
+      <view class="wxParse-h1">任务素材</view>
+      <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">
+        <video  src="{{activeTask.videoFile.URL}}" controls>  </video>
+      </view>
+      <view class="play-audio"  wx:if="{{activeTask.audioFile}}">
+        <audio src="{{activeTask.audioFile.URL}}" binderror="handleError" controls> </audio>
+      </view>
     </view>
-    <view class="play-audio"  wx:if="{{activeTask.audioFile}}">
-      <audio src="{{activeTask.audioFile.URL}}" binderror="handleError" control> </audio>
-    </view>
   </view>
-  <view class="wxParse md-container" wx:if="{{activeTask.done}}">
-    <template is="wxParse" data="{{wxParseData:summry.nodes}}"/>
+
+  <view class="wxParse md-container summary" wx:if="{{activeTask.isDone}}">
+    <template is="wxParse" data="{{wxParseData:summary.nodes}}"/>
   </view>
+
 
   <view class="md-container">
     <completeList :completeUsers.sync="taskDoneUsers"></completeList>
@@ -110,7 +113,8 @@
       <msgItem :msgData.sync="item"></msgItem>
     </repeat>
   </view>
-  <button class="submit" @tap="open">上传作业</button>
+
+  <button wx:if="{{!activeTask.isDone}}" class="submit" @tap="open">上传作业</button>
 </template>
 
 <script>
@@ -146,9 +150,9 @@ export default class TaskDetailPage extends wepy.page {
   }
   onLoad() {
     const question = this.activeTask.description
-    const summry = this.activeTask.summry
+    const summary = this.activeTask.summary
     WxParse.wxParse('question', 'md', question, this, 5)
-    WxParse.wxParse('summry', 'md', summry, this, 5)
+    WxParse.wxParse('summary', 'md', summary, this, 5)
     this.methods.getTaskComments(this.activeTask._id)
   }
   computed = {
