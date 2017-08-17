@@ -217,9 +217,7 @@ export default class RecordPage extends wepy.page {
 
     },
     cancel(){
-      wx.navigateTo({
-        url: '/pages/taskDetailPage'
-      })
+      wepy.navigateBack()
     }
   };
 
