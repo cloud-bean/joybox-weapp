@@ -1,45 +1,49 @@
 <style lang="less">
-.score{
-  width: 60%;
-  margin: 0 auto;
-  margin-top: 20rpx;
-}
-.message{
-  margin-top: 20rpx;
-  padding: 20rpx;
-  textarea{
+  .score {
+    width: 60%;
     margin: 0 auto;
-    border: 1rpx solid #ccc;
-    padding: 10rpx;
-    width: 95%;
+    margin-top: 20 rpx;
   }
-  input{
-    border: 1rpx solid #ccc;
-    padding: 10rpx;
-    width: 95%;
-    margin: 5rpx auto;
-  }
-  button{
-    margin-top: 20rpx;
 
+  .message {
+    margin-top: 20 rpx;
+    padding: 20 rpx;
+    textarea {
+      margin: 0 auto;
+      border: 1 rpx solid #ccc;
+      padding: 10 rpx;
+      width: 95%;
+    }
+    input {
+      border: 1 rpx solid #ccc;
+      padding: 10 rpx;
+      width: 95%;
+      margin: 5 rpx auto;
+    }
+    button {
+      margin-top: 20 rpx;
+
+    }
+    .title {
+      margin: 0 auto;
+    }
   }
-  .title{
-    margin: 0 auto;
+
+  .entity {
+    margin-top: 20 rpx;
+    text-align: center;
+    image {
+      margin: 0 auto;
+    }
+    padding: 0 20 rpx;
   }
-}
-.entity{
-  margin-top: 20rpx;
-  text-align: center;
-  image{
-    margin: 0 auto;
+
+  .wrapper {
   }
-  padding: 0 20rpx;
-}
-.wrapper{
-}
-.hidden-input{
-  display:none;
-}
+
+  .hidden-input {
+    display: none;
+  }
 </style>
 
 <template>
@@ -53,8 +57,8 @@
       </view>
       <view class="message">
         <text class="title">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
-        <input type="number" name="score" value="" placeholder="请输入评分" ></input>
-        <textarea name="comments" placeholder="请输入作业评语" ></textarea>
+        <input type="number" name="score" value="" placeholder="请输入评分"></input>
+        <textarea name="comments" placeholder="请输入作业评语"></textarea>
         <button size="small" type="primary" formType="submit">提交评价</button>
       </view>
     </form>
@@ -75,103 +79,100 @@
 </template>
 
 <script>
-import wepy from 'wepy'
-// import starPanel from '../components/teacherSetScorePage/starPanel'
-import { connect } from 'wepy-redux'
-import * as api from '../api'
+  import wepy from 'wepy'
+  // import starPanel from '../components/teacherSetScorePage/starPanel'
+  import { connect } from 'wepy-redux'
+  import * as api from '../api'
 
-@connect({
-  activeOrder (state) {
-    return state.order.activeOrder
-  }
-},{
-
-})
-export default class TeacherSetScorePage extends wepy.page {
-  data = {
-    fileURL:''
-  }
-  components = {
-    // starPanel
-  }
-  methods = {
-    async formSubmit (e) {
-      console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
-      const {score, comments, orderId} = e.detail.value;
-      const res = await api.setScore(score, comments, orderId) // dispatch submit order action
-      console.log(res);
-      wx.navigateTo({
-        url: '/pages/teacherOrderListPage'
-      })
-    },
-    async handlePlayVoice(){
-      const that = this;
-      if(!that.fileURL){
-        try{
-          wepy.showLoading({
-            title:'素材下载中',
-            mask: true
-          })
-          const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
-          wepy.hideLoading()
-          that.fileURL = tempFilePath
-        } catch (e) {
-          console.log(e)
+  @connect({
+    activeOrder (state) {
+      return state.order.activeOrder
+    }
+  }, {})
+  export default class TeacherSetScorePage extends wepy.page {
+    data = {
+      fileURL: ''
+    }
+    components = {
+      // starPanel
+    }
+    methods = {
+      async formSubmit (e) {
+        console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
+        const {score, comments, orderId} = e.detail.value
+        const res = await api.setScore(score, comments, orderId) // dispatch submit order action
+        console.log(res)
+        wx.navigateTo({
+          url: '/pages/teacherOrderListPage'
+        })
+      },
+      async handlePlayVoice () {
+        const that = this
+        if (!that.fileURL) {
+          try {
+            wepy.showLoading({
+              title: '素材下载中',
+              mask: true
+            })
+            const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
+            wepy.hideLoading()
+            that.fileURL = tempFilePath
+          } catch (e) {
+            console.log(e)
+          }
         }
+        wepy.showLoading({
+          title: '播放中',
+          mask: true
+        })
+        wx.playVoice({
+          filePath: that.fileURL,
+          success () {
+            wepy.showToast({
+              title: '播放完成',
+              icon: 'success',
+              duration: 1000
+            })
+          },
+          complete () {
+            wepy.hideLoading()
+          }
+        })
       }
-      wepy.showLoading({
-        title: '播放中',
-        mask: true
-      })
-      wx.playVoice({
-        filePath:that.fileURL,
-        success(){
-          wepy.showToast({
-            title: '播放完成',
-            icon: 'success',
-            duration: 1000
-          })
-        },
-        complete(){
-          wepy.hideLoading()
-        }
-      });
+    }
+
+    async onLoad () {
+      const that = this
+      console.log(that.activeOrder.files[0].URL)
+      // try{
+      //   wepy.showLoading({
+      //     title:'素材下载中',
+      //     mask: true
+      //   })
+      //   const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
+      //   this.fileURL = tempFilePath
+      //   wepy.hideLoading()
+      // } catch (e) {
+      //   console.log(e)
+      // }
+      //   let downloadTask = wx.downloadFile({
+      //     url: that.activeOrder.files[0].URL,
+      //     success: function (res) {
+      //       that.fileURL = res.tempFilePath
+      //       console.log(that.fileURL);
+      //     },
+      //     fail: function (res){
+      //       console.log(res);
+      //     },
+      //     complete(){
+      //       console.log('complete');
+      //     }
+      //   })
+      //   downloadTask.onProgressUpdate((res) => {
+      //   console.log('下载进度', res.progress)
+      //   console.log('已经下载的数据长度', res.totalBytesWritten)
+      //   console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
+      // })
     }
   }
-  async onLoad(){
-    const that = this
-    console.log(that.activeOrder.files[0].URL);
-    // try{
-    //   wepy.showLoading({
-    //     title:'素材下载中',
-    //     mask: true
-    //   })
-    //   const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
-    //   this.fileURL = tempFilePath
-    //   wepy.hideLoading()
-    // } catch (e) {
-    //   console.log(e)
-    // }
-    //   let downloadTask = wx.downloadFile({
-    //     url: that.activeOrder.files[0].URL,
-    //     success: function (res) {
-    //       that.fileURL = res.tempFilePath
-    //       console.log(that.fileURL);
-    //     },
-    //     fail: function (res){
-    //       console.log(res);
-    //     },
-    //     complete(){
-    //       console.log('complete');
-    //     }
-    //   })
-    //   downloadTask.onProgressUpdate((res) => {
-    //   console.log('下载进度', res.progress)
-    //   console.log('已经下载的数据长度', res.totalBytesWritten)
-    //   console.log('预期需要下载的数据总长度', res.totalBytesExpectedToWrite)
-    // })
-
-
-  }
-}
 </script>

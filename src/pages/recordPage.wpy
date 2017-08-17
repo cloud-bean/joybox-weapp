@@ -117,8 +117,8 @@ import {connect} from 'wepy-redux'
 }, {
   submitOrder
 })
-export default class RecordPage extends wepy.page {
 
+export default class RecordPage extends wepy.page {
   data = {
     recordStatus: '已停止',
     tempFilePath: '',
@@ -133,12 +133,12 @@ export default class RecordPage extends wepy.page {
     uploadDisabled: true
   }
   methods = {
-    async startRecord(){
-      if(!this.recordDisabled){
-        this.recordStatus='录音中';
-        const data = await wepy.startRecord();
-        this.tempFilePath = data.tempFilePath;
-        if(this.tempFilePath){
+    async startRecord() {
+      if (!this.recordDisabled) {
+        this.recordStatus = '录音中'
+        const data = await wepy.startRecord()
+        this.tempFilePath = data.tempFilePath
+        if (this.tempFilePath) {
           wepy.showToast({
             title: '成功录音',
             icon: 'success',
@@ -147,45 +147,40 @@ export default class RecordPage extends wepy.page {
         }
       }
       this.$apply()
-
     },
-    async stopRecord(){
-      const that = this;
-      this.recordStatus='已停止';
-      this.setButtonDisabled(false,false,false);
-      await wepy.stopRecord();
+    async stopRecord() {
+      this.recordStatus = '已停止'
+      this.setButtonDisabled(false, false, false)
+      await wepy.stopRecord()
       this.$apply()
-
     },
-    async playRecord(){
-      if(!this.playDisabled){
-        const that = this;
+    async playRecord() {
+      if (!this.playDisabled) {
+        const that = this
         wepy.showLoading({
           title: '播放中',
           mask: true
         })
         wx.playVoice({
-          filePath:that.tempFilePath,
-          success(){
+          filePath: that.tempFilePath,
+          success() {
             wepy.showToast({
               title: '播放完成',
               icon: 'success',
               duration: 1000
             })
           },
-          complete(){
+          complete() {
             wepy.hideLoading()
           }
-        });
-
-
+        })
       }
       this.$apply()
     },
-    async uploadVoice(){
+    async uploadVoice() {
       const that = this
-      if(that.tempFilePath){
-        let uploadTask = wx.uploadFile({
+      if (that.tempFilePath) {
+        wx.uploadFile({
           url: 'http://120.25.227.156:7000/api/base/tool/files',
           filePath: that.tempFilePath,
           name: 'file',
@@ -210,23 +205,19 @@ export default class RecordPage extends wepy.page {
             wx.navigateTo({
               url: '/pages/taskListPage'
             })
-
           }
         })
       }
-
     },
-    cancel(){
-      wepy.navigateBack()
+    cancel() {
+      wx.navigateBack()
     }
-  };
-
-  setButtonDisabled(play,record,upload){
-    this.playDisabled=play;
-    this.recordDisabled=record;
-    this.uploadDisabled=upload;
+  }
+  setButtonDisabled(play, record, upload) {
+    this.playDisabled = play
+    this.recordDisabled = record
+    this.uploadDisabled = upload
     this.$apply()
-
   }
 
   // initState(){
@@ -240,13 +231,11 @@ export default class RecordPage extends wepy.page {
   //
   // }
 
-onLoad(option){
-  let typeIndex = parseInt(option.type, 10)
-  this.fileTypeIndex = typeIndex
-  this.taskId = option.taskId
-}
-
-
+  onLoad(option) {
+    let typeIndex = parseInt(option.type, 10)
+    this.fileTypeIndex = typeIndex
+    this.taskId = option.taskId
+  }
   // startCount(){
   //   const that = this;
   //   let n = 0;

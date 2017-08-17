@@ -48,10 +48,10 @@ import wepy from 'wepy'
 
 export default class submitItem extends wepy.component {
   props = {
-    orderData:Object
+    orderData: Object
   }
   data = {
-    createdDate:''
+    createdDate: ''
   }
   methods = {
 

@@ -31,7 +31,7 @@ var moment = require('moment')
 
 @connect({
   showTasks (state) {
-    return state.task.showTasks.map((item)=>{
+    return state.task.showTasks.map((item) => {
       item.expireTime = moment(item.expireTime).format('YYYY/MM/DD HH:mm')
       item.created = moment(item.created).format('YYYY/MM/DD HH:mm')
       return item

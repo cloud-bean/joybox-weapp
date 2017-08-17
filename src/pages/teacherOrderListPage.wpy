@@ -32,11 +32,11 @@ export default class TeacherOrderListPage extends wepy.page {
   components = {
     orderItem
   }
-  onLoad(){
-    this.methods.getOrders();
+  onLoad() {
+    this.methods.getOrders()
   }
   methods = {
-    handleTap(item, e){
+    handleTap(item, e) {
       this.methods.setActiveOrderAction(item)
       wepy.navigateTo({
         url: '/pages/teacherSetScorePage'

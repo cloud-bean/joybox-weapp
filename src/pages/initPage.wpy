@@ -24,13 +24,13 @@
       const loginInfo = await api.login()
       store.dispatch(setWxAuthIds(loginInfo))
       const userInfo = loginInfo.userInfo
-      const appOpenid = loginInfo.openid
-      let newUserInfo = userInfo;
+      // const appOpenid = loginInfo.openid
+      let newUserInfo = userInfo
       store.dispatch(authClient(loginInfo))
       if (userInfo) {
         store.dispatch(setUserInfo(newUserInfo))
         wepy.hideLoading()
-        if(userInfo.roleType == 'teacher'){
+        if (userInfo.roleType === 'teacher') {
           wepy.reLaunch({
             url: 'teacherOrderListPage'
           })
@@ -39,7 +39,6 @@
             url: 'taskListPage'
           })
         }
-
       } else {
         wepy.reLaunch({
           url: 'bindPage'

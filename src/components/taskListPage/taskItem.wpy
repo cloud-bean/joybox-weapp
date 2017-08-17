@@ -68,7 +68,7 @@ import wepy from 'wepy'
 
 export default class TaskItem extends wepy.component {
   data = {
-    expireTime:''
+    expireTime: ''
   }
   props={
     taskData: Object

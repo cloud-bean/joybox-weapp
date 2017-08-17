@@ -141,8 +141,8 @@ import { connect } from 'wepy-redux'
 })
 export default class TaskDetailPage extends wepy.page {
   data = {
-    tempAudioFile:'',
-    tempVideoFile:''
+    tempAudioFile: '',
+    tempVideoFile: ''
   }
   components = {
     completeList,
@@ -161,7 +161,7 @@ export default class TaskDetailPage extends wepy.page {
   async onShow() {
     console.log(this.taskDoneUsers)
     const that = this
-    console.log(that.activeTask.audioFile.URL);
+    console.log(that.activeTask.audioFile.URL)
     // try{
     //   wepy.showLoading({title:'素材下载中'})
     //   if(that.activeTask.audioFile){
@@ -190,11 +190,11 @@ export default class TaskDetailPage extends wepy.page {
         itemList: ['拍照', '录音', '视频'],
         success: function(res) {
           console.log(res.tapIndex)
-          if (res.tapIndex == 1){
+          if (res.tapIndex === 1) {
             wx.navigateTo({
               url: `/pages/recordPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
             })
-          }else if (res.tapIndex !== undefined) {
+          } else if (res.tapIndex !== undefined) {
             wx.navigateTo({
               url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
             })
