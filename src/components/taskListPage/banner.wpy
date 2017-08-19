@@ -11,7 +11,7 @@
   border-radius: 10rpx 0 0 10rpx;
   color: white;
   padding: 10rpx 20rpx;
-  background: #09BB07;
+  background: #26a2ff;
 }
 .num{
   background: #D8D8D8;

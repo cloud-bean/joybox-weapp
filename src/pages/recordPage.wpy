@@ -102,7 +102,6 @@
         <view class="button-text">上传</view>
       </view>
     </view>
-    <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info />
      <view class="cancel" @tap="cancel">
         <button type="default" size="large" plain>取消返回</button>
     </view>
@@ -181,7 +180,7 @@ export default class RecordPage extends wepy.page {
       const that = this
       if (that.tempFilePath) {
         wx.uploadFile({
-          url: 'http://120.25.227.156:7000/api/base/tool/files',
+          url: config.server.uploadServer,
           filePath: that.tempFilePath,
           name: 'file',
           formData: {

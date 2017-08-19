@@ -10,6 +10,7 @@ export default {
     // midServer:'http://sab4h63cag.proxy.qqbrowser.cc',
     bigServer: 'http://120.25.227.156:7000/api/base',
     authServer: 'http://120.25.227.156:7000/app/auth/signin',
+    uploadServer: 'http://120.25.227.156:7000/api/base/tool/files'
 
     //bigServer:'http://192.168.0.153:7000/api/base',
     //midServer:'http://sab4h63cag.proxy.qqbrowser.cc',

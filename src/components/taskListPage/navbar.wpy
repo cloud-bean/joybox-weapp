@@ -15,8 +15,8 @@
 }
 
 .active{
-  color: #09BB07;
-  border-bottom: 2px solid #09BB07;
+  color: #26a2ff;
+  border-bottom: 2px solid #26a2ff;
 }
 </style>
 <template>

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 20rpx 40rpx;
+  padding: 20rpx 20rpx;
   border-bottom: 1px solid #e5e5e5;
   .info{
     height: 120rpx;
@@ -12,11 +12,11 @@
     justify-content: space-around;
     margin-left: 20rpx;
     .title{
-      font-size: 14pt;
+      font-size: 12pt;
       color: #222;
     }
     .sub-title{
-      font-size: 13pt;
+      font-size: 11pt;
       color: #576b95;
     }
     .date{
@@ -35,7 +35,7 @@
   .indicator{
     // font-size: 28rpx;
     color: #c7c7cc;
-    margin-left: 260rpx;
+    margin-left: 240rpx;
     font-size: 30rpx;
   }
 

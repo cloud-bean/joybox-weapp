@@ -14,18 +14,19 @@ export const updateUserInfo = function (userId, userInfo) {
     .catch(console.log)
 }
 
-export const signUp = function ({providerData, phone, displayName}) {
+export const signUp = function ({providerData, phone, slogan, displayName, profileImageURL}) {
   let userInfo = {
     option: {
       goldToken: 0,
       exp: 0,
-      slogan: '',
       courses: [],
-      phone
+      phone,
+      slogan
     },
     roleType: 'student',
     displayName,
     providerData,
+    profileImageURL,
     provider: 'wechat'
   }
   console.log(userInfo)

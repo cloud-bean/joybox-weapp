@@ -1,0 +1,56 @@
+<style lang="less" scoped>
+.wrapper{
+  margin-top: 40rpx;
+  padding: 40rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+
+}
+.text{
+  font-size: 18pt;
+  margin-top: 40rpx;
+}
+.button-area{
+  margin-top: 40rpx;
+  width: 100%;
+
+}
+button{
+  margin-top: 20rpx;
+  width: 100%;
+}
+</style>
+<template>
+  <view class="wrapper">
+    <view class="logo">
+      <icon type="success" size="150"/>
+      <view class="text">操作完成</view>
+    </view>
+    <view class="button-area">
+      <button type="primary" @tap="goInit">转入首页</button>
+      <!-- <button type="warn">退出程序</button> -->
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+  export default class successPage extends wepy.page {
+    methods = {
+      goInit(){
+        wepy.redirectTo({
+          url: 'initPage'
+        })
+      }
+      // goInit(){
+      //   wepy.redirectTo({
+      //     url: 'pages/initPage'
+      //   })
+      // }
+    }
+  }
+
+</script>

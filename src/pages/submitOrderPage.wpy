@@ -54,23 +54,23 @@
   <view class="container center-with-margin">
     <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true" class="preview">
       <view class="hidden-inputs">
-        <input name="taskId" value="{{taskId}}"/>
-        <input name="serverId" value="{{uploadFileURL}}"/>
-        <input name="type" value="{{fileTypeIndex}}"/>
+        <input name="taskId" value="{{taskId}}"></input>
+        <input name="serverId" value="{{uploadFileURL}}"></input>
+        <input name="type" value="{{fileTypeIndex}}"></input>
       </view>
 
       <view class="preview">
         <text class="tip-text">{{uploadText}}</text>
-        <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info />
+        <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info ></progress>
         <image wx:if="{{fileTypeIndex === 0 && uploadFileURL}}" src="{{uploadFileURL}}" class="image-preview"></image>
         <video wx:if="{{fileTypeIndex === 2 && uploadFileURL}}" src="{{uploadFileURL}}" class="video-preview" controls></video>
-        <button type="default" wx:if="{{fileTypeIndex === 0}}" @tap="chooseImage">上传</button>
-        <button type="default" wx:if="{{fileTypeIndex === 2}}" @tap="chooseVideo">上传</button>
+        <button type="default" wx:if="{{fileTypeIndex === 0}}" @tap="chooseImage">拍照或从相册中选择</button>
+        <button type="default" wx:if="{{fileTypeIndex === 2}}" @tap="chooseVideo">拍摄或从相册中选择</button>
       </view>
 
       <view class="btn-area">
-        <button class="btn-form" type="primary" formType="submit" wx:if="{{uploadFileURL !== '' && progress === 100}}">好了</button>
-        <button class="btn-form" type="warn" formType="reset">弃了</button>
+        <button class="btn-form" type="primary" formType="submit" wx:if="{{uploadFileURL !== '' && progress === 100}}">提交</button>
+        <button class="btn-form" type="warn" formType="reset">取消</button>
       </view>
     </form>
   </view>
@@ -78,6 +78,7 @@
 
 <script>
   import wepy from 'wepy'
+  import config from '../config'
   import { submitOrder } from '../store/actions'
   import {connect} from 'wepy-redux'
   @connect({
@@ -104,7 +105,7 @@
         this.progress = 0
         this.uploadText = ''
         wx.navigateTo({
-          url: '/pages/initPage'
+          url: '/pages/successPage'
         })
       },
       formReset () {
@@ -122,7 +123,7 @@
           success: function (res) {
             let tempFilePaths = res.tempFilePaths
             let uploadTask = wx.uploadFile({
-              url: 'http://120.25.227.156:7000/api/base/tool/files',
+              url: config.server.uploadServer,
               filePath: tempFilePaths[0],
               name: 'file',
               formData: {
@@ -154,7 +155,7 @@
           success: function (res) {
             let tempFilePath = res.tempFilePath
             let uploadTask = wx.uploadFile({
-              url: 'http://120.25.227.156:7000/api/base/tool/files',
+              url: config.server.uploadServer,
               filePath: tempFilePath,
               name: 'file',
               formData: {

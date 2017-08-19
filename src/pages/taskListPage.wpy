@@ -28,12 +28,13 @@ import userInfo from '../components/taskListPage/userInfo'
 import { connect } from 'wepy-redux'
 import { fetchTasksAction, setActiveTasksAction, showTaskDone, showTaskUnDone } from '../store/actions'
 var moment = require('moment')
-
 @connect({
   showTasks (state) {
     return state.task.showTasks.map((item) => {
-      item.expireTime = moment(item.expireTime).format('YYYY/MM/DD HH:mm')
-      item.created = moment(item.created).format('YYYY/MM/DD HH:mm')
+      // new Date(item.expireTime)
+      item.expireTime = moment(new Date(item.expireTime)).toNow()
+      // moment(item.expireTime, moment.ISO_8601).isValid()
+      // item.created = moment(item.created).format('YYYY/MM/DD HH:mm')
       return item
     })
   },

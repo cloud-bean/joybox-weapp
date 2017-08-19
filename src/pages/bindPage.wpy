@@ -1,21 +1,52 @@
 <style lang="less" scoped>
+.wrapper{
+  padding: 20rpx 40rpx;
+
+}
+.title{
+  text-align: center;
+  color: #26a2ff;
+  font-size: 18pt;
+  padding: 20rpx;
+}
+.content{
+  font-size: 13pt;
+  color: #888;
+  margin-bottom:20rpx;
+
+}
+.text{
+  font-size: 11pt;
+  color: #353535;
+
+}
+input{
+  border: 1px solid #b2b2b2;
+  padding: 20rpx;
+  font-size: 12pt;
+  margin-bottom: 20rpx;
+}
+button{
+  margin-top:20rpx;
+}
 
 </style>
 <template>
-  <view class="">
-    <view class="head-title">
-      JoyBox
+  <view class="wrapper">
+    <view class="title">
+      悦盒 JoyBox
     </view>
-
-    <view class="sub-title">
+    <view class="content">
 如果您以前使用过JOYBOX系统，请到原系统中完成数据迁移工作，重新注册用户会导致您的历史数据丢失，请慎重。
     </view>
     <view wx:if="{{formVisable}}">
-      <label class="text">请填写手机</label>
-      <input id="phone" class="input" placeholder="手机" bindblur="bindChange"/>
+      <label class="text">填写您的手机号码</label>
+      <input id="phone" class="input" placeholder="1380000000" bindblur="bindChange"/>
       <label class="text">请填写真实姓名</label>
-      <input id="displayName" class="input" placeholder="真实姓名" bindblur="bindChange"/>
-      <button open-type="getUserInfo" bindgetuserinfo="handleUserInfo">确认绑定</button>
+      <input id="displayName" class="input" placeholder="张欢昕" bindblur="bindChange"/>
+      <label class="text">请填写学习宣言</label>
+      <input id="slogan" class="input" placeholder="Learning with Joy" bindblur="bindChange"/>
+      <button type="primary" open-type="getUserInfo" bindgetuserinfo="handleUserInfo">确认</button>
     </view>
     <view wx:if="{{!formVisable}}">
       <button  @tap="showForm">创建新用户</button>
@@ -44,8 +75,17 @@
         const userInfo = e.detail.userInfo
         const displayName = this.inputContent['displayName']
         const phone = this.inputContent['phone']
-        const userData = {displayName, providerData: {...userInfo, unionid: this.wxCredits.unionid, openid: this.wxCredits.openid}, phone}
+        const slogan = this.inputContent['slogan']
+        const userData = {displayName, providerData: {...userInfo, unionid: this.wxCredits.unionid, openid: this.wxCredits.openid}, phone, slogan, profileImageURL: userInfo.avatarUrl}
         const res = await api.signUp(userData)
+        wepy.showToast({
+          title: '注册成功',
+          icon: 'success',
+          duration: 1000
+        })
+        wx.reLaunch({
+          url: '/pages/initPage'
+        })
         console.log('userdata: ', userData, 'return data:', res)
       },
       bindChange (e) {
