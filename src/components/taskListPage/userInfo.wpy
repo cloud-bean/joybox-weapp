@@ -32,7 +32,7 @@
   margin: 10rpx 10rpx;
 }
 .slogan{
-  font-size: 13pt;
+  font-size: 11pt;
   color: #888888;
 }
 image{
@@ -51,7 +51,7 @@ image{
       </view>
       <view class="message">
         <view class="name">{{ user.displayName }}</view>
-        <view class="slogan">{{ user.option.slogan }}</view>
+        <view class="slogan">已加入悦盒{{ user.created }}</view>
       </view>
     </view>
     <view class="info">

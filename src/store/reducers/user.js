@@ -45,7 +45,8 @@ export default handleActions({
         option: updatedOption,
         isLogged: true,
         provider: action.payload.provider,
-        providerData: action.payload.providerData
+        providerData: action.payload.providerData,
+        created: action.payload.created
       }
     }
   }

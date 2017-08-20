@@ -52,7 +52,7 @@
         {{taskData.name}}
       </view>
       <view class="date">
-        超期 {{taskData.expireTime}}
+         {{taskData.expireTime}} 超期
       </view>
       <view class="sub-title">
         经验 {{taskData.exp}}   悦币 {{taskData.goldToken}}
@@ -68,6 +68,10 @@ import wepy from 'wepy'
 
 export default class TaskItem extends wepy.component {
   data = {
+    // get expireTime(){
+    //   const a = new Date(this.taskData.expireTime)
+    //   return moment(a).toNow()
+    // },
     expireTime: ''
   }
   props={
@@ -76,9 +80,5 @@ export default class TaskItem extends wepy.component {
   methods = {
 
   }
-  // onShow(){
-  //   console.log('show');
-  //   this.expireTime = moment(taskData.expireTime).format('MM-DD')
-  // }
 }
 </script>

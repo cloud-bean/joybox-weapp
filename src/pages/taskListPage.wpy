@@ -11,7 +11,7 @@
 
     <navbar :onChange="handleChange"></navbar>
     <view wx:if="tasks.length > 0">
-      <repeat  for="{{showTasks}}" key="index" index="index" item="item">
+      <repeat  for="{{myTasks}}" key="index" index="index" item="item">
         <view @tap="handleTap({{item}})">
         <taskItem :taskData="item" ></taskItem>
       </view>
@@ -28,18 +28,22 @@ import userInfo from '../components/taskListPage/userInfo'
 import { connect } from 'wepy-redux'
 import { fetchTasksAction, setActiveTasksAction, showTaskDone, showTaskUnDone } from '../store/actions'
 var moment = require('moment')
+moment.locale('zh-cn')
 @connect({
-  showTasks (state) {
+  myTasks (state) {
     return state.task.showTasks.map((item) => {
-      // new Date(item.expireTime)
-      item.expireTime = moment(new Date(item.expireTime)).toNow()
-      // moment(item.expireTime, moment.ISO_8601).isValid()
-      // item.created = moment(item.created).format('YYYY/MM/DD HH:mm')
-      return item
+      const newItem = {...item}
+      const a = new Date(item.expireTime)
+      const b = new Date(item.created)
+      newItem.expireTime = moment(a).fromNow()
+      newItem.created = moment(b).format('YYYY/MM/DD HH:mm')
+      return newItem
     })
   },
   user (state) {
-    return state.user
+    const newUser = {...state.user}
+    newUser.created = moment(new Date(state.user.created)).toNow(true)
+    return newUser
   }
 }, {
   fetchTasksAction,

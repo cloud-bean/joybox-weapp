@@ -83,8 +83,8 @@
   <import src="../plugin/wxParse/wxParse.wxml"/>
   <view class="task-title">{{activeTask.name}}</view>
   <view class="task-head">
-    <view>发布 {{activeTask.created }}</view>
-    <view>超期 {{activeTask.expireTime }}</view>
+    <view>发布于 {{activeTask.created }}</view>
+    <view> {{activeTask.expireTime }}超期</view>
     <view>类型 {{activeTask.type}}</view>
   </view>
   <view class="wxParse md-container">
@@ -159,9 +159,6 @@ export default class TaskDetailPage extends wepy.page {
   computed = {
   }
   async onShow() {
-    console.log(this.taskDoneUsers)
-    const that = this
-    console.log(that.activeTask.audioFile.URL)
     // try{
     //   wepy.showLoading({title:'素材下载中'})
     //   if(that.activeTask.audioFile){

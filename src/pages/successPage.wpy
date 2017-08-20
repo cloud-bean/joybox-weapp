@@ -38,19 +38,19 @@ button{
 
 <script>
 import wepy from 'wepy'
-  export default class successPage extends wepy.page {
-    methods = {
-      goInit(){
-        wepy.redirectTo({
-          url: 'initPage'
-        })
-      }
-      // goInit(){
-      //   wepy.redirectTo({
-      //     url: 'pages/initPage'
-      //   })
-      // }
+export default class successPage extends wepy.page {
+  methods = {
+    goInit() {
+      wepy.redirectTo({
+        url: 'initPage'
+      })
     }
+    // goInit(){
+    //   wepy.redirectTo({
+    //     url: 'pages/initPage'
+    //   })
+    // }
   }
+}
 
 </script>
