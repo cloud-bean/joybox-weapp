@@ -33,14 +33,14 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/initPage',
-      'pages/recordPage',
       'pages/bindPage',
+      'pages/recordPage',
       'pages/taskListPage',
       'pages/teacherOrderListPage',
       'pages/teacherSetScorePage',
       'pages/taskDetailPage',
       'pages/submitOrderPage',
-      'pages/successPage',
+      'pages/successPage'
     ],
     window: {
       backgroundTextStyle: 'dark',

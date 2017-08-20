@@ -90,10 +90,18 @@ button{
       async formSubmit (e) {
         console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
         const {score, comments, orderId} = e.detail.value
+        if(!score || !comments){
+          wepy.showModal({
+            title: '提示',
+            content: '请认真填写分数和评语',
+            showCancel: false
+          })
+          return
+        }
         const res = await api.setScore(score, comments, orderId) // dispatch submit order action
         console.log(res)
         wx.navigateTo({
-          url: '/pages/teacherOrderListPage'
+          url: '/pages/successPage'
         })
       },
       async handlePlayVoice () {
