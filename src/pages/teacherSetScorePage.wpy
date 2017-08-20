@@ -1,54 +1,42 @@
-<style lang="less">
-  .score {
-    width: 60%;
-    margin: 0 auto;
-    margin-top: 20 rpx;
-  }
+<style lang="less" scoped>
 
-  .message {
-    margin-top: 20 rpx;
-    padding: 20 rpx;
-    textarea {
-      margin: 0 auto;
-      border: 1 rpx solid #ccc;
-      padding: 10 rpx;
-      width: 95%;
-    }
-    input {
-      border: 1 rpx solid #ccc;
-      padding: 10 rpx;
-      width: 95%;
-      margin: 5 rpx auto;
-    }
-    button {
-      margin-top: 20 rpx;
-
-    }
-    .title {
-      margin: 0 auto;
-    }
-  }
-
-  .entity {
-    margin-top: 20 rpx;
-    text-align: center;
-    image {
-      margin: 0 auto;
-    }
-    padding: 0 20 rpx;
-  }
 
   .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 40rpx;
   }
-
+.entity{
+  margin-top: 20rpx;
+  width: 100%;
+}
+input {
+  margin-top:20rpx;
+  border: 1px solid #ccc;
+  padding: 10rpx;
+  font-size: 13pt;
+}
+textarea{
+  margin-top:20rpx;
+  border: 1px solid #ccc;
+  padding: 10rpx;
+  font-size: 13pt;
+  width: auto;
+}
+button{
+  margin-top:20rpx;
+}
   .hidden-input {
     display: none;
   }
 </style>
 
 <template>
+
   <view class="wrapper">
     <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
+
       <view class="score">
         <!-- <starPanel></starPanel> -->
         <view hidden="true">
@@ -59,9 +47,10 @@
         <text class="title">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
         <input type="number" name="score" value="" placeholder="请输入评分"></input>
         <textarea name="comments" placeholder="请输入作业评语"></textarea>
-        <button size="small" type="primary" formType="submit">提交评价</button>
+        <button  type="primary" formType="submit">提交评价</button>
       </view>
     </form>
+
     <view class="entity">
       <view wx:if="{{activeOrder.files[0].type === 0 }}">
         <image src="{{activeOrder.files[0].URL}}" mode="widthFix"></image>
@@ -76,6 +65,7 @@
       <!-- <image mode= "aspectFit" src="./head.jpg"></image> -->
     </view>
   </view>
+
 </template>
 
 <script>

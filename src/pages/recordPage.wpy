@@ -110,6 +110,7 @@
 
 <script>
 import wepy from 'wepy'
+import config from '../config'
 import { submitOrder } from '../store/actions'
 import {connect} from 'wepy-redux'
 @connect({
@@ -195,14 +196,9 @@ export default class RecordPage extends wepy.page {
               serverId: that.uploadFileURL,
               type: that.fileTypeIndex
             })
-            wepy.showToast({
-              title: '提交成功',
-              icon: 'success',
-              duration: 1000
-            })
             that.$apply()
             wx.navigateTo({
-              url: '/pages/taskListPage'
+              url: '/pages/successPage'
             })
           }
         })
