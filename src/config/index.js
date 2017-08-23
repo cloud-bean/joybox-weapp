@@ -8,9 +8,9 @@ export default {
     midServer: 'https://joywill.cc',
     // midServer: 'http://localhost:3000',
     // midServer:'http://sab4h63cag.proxy.qqbrowser.cc',
-    bigServer: ' https://joywill.cc/api',
+    bigServer: 'https://joywill.cc/api',
     // authServer: 'http://120.25.227.156:7000/app/auth/signin',
-    uploadServer: ' https://joywill.cc/api/users/tool/files'
+    uploadServer: 'https://joywill.cc/api/tool/files'
 
     //bigServer:'http://192.168.0.153:7000/api/base',
     //midServer:'http://sab4h63cag.proxy.qqbrowser.cc',
