@@ -30,7 +30,7 @@ export const signUp = function ({providerData, phone, slogan, displayName, profi
     provider: 'wechat'
   }
   console.log(userInfo)
-  return fetch('/users', 'POST', userInfo)
+  return fetch('/auth/signup', 'POST', userInfo)
     .then(res => res.data.data)
     .catch(console.log)
 }
