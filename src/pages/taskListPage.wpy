@@ -59,12 +59,23 @@ export default class TaskListPage extends wepy.page {
     userInfo
   }
   config = {
-    backgroundColor: '#efeff4'
+    backgroundColor: '#efeff4',
+    enablePullDownRefresh: true
   }
   data = {
     selected: false
 
     // tasks:
+  }
+  onPullDownRefresh() {
+    console.log('refrash')
+    this.methods.fetchTasksAction()
+    wepy.showToast({
+      title: '任务列表已刷新',
+      icon: 'success',
+      duration: 1000
+    })
+    wx.stopPullDownRefresh()
   }
   computed = {
   }

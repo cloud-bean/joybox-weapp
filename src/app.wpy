@@ -44,11 +44,11 @@ export default class extends wepy.app {
     ],
     window: {
       backgroundTextStyle: 'dark',
-      navigationBarBackgroundColor: 'black',
       navigationBarTitleText: '悦盒Lite',
       navigationBarTextStyle: '#eee',
-      backgroundColor: '#eeeeee',
-      enablePullDownRefresh: false
+      backgroundColor: '#eee',
+      enablePullDownRefresh: false,
+      navigationBarBackgroundColor: '#000'
     }
   }
 
