@@ -1,0 +1,19 @@
+<template>
+  <view>
+    <web-view frameborder="0"
+              src="http://127.0.0.1:8080">
+    </web-view>
+  </view>
+  <!--<web-view src="https://joywill.cc/api/courses" ></web-view>-->
+
+
+</template>
+
+
+<script>
+  import wepy from 'wepy'
+
+  export default class WebViewPage extends wepy.page {
+  }
+
+</script>

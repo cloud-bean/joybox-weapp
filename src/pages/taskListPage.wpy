@@ -4,17 +4,20 @@
 }
 </style>
 <template>
+
   <view class="wrapper">
     <view class="user-info">
-    <userInfo :user="user"></userInfo>
-  </view>
+      <userInfo :user="user"></userInfo>
+    </view>
 
+    <!--<view @tap="goWebView">goWebView</view>-->
     <navbar :onChange="handleChange"></navbar>
+
     <view wx:if="tasks.length > 0">
-      <repeat  for="{{myTasks}}" key="index" index="index" item="item">
+      <repeat for="{{myTasks}}" key="index" index="index" item="item">
         <view @tap="handleTap({{item}})">
-        <taskItem :taskData="item" ></taskItem>
-      </view>
+          <taskItem :taskData="item"></taskItem>
+        </view>
       </repeat>
     </view>
   </view>
@@ -75,7 +78,7 @@ export default class TaskListPage extends wepy.page {
       icon: 'success',
       duration: 1000
     })
-    wx.stopPullDownRefresh()
+    wepy.stopPullDownRefresh()
   }
   computed = {
   }
@@ -84,6 +87,11 @@ export default class TaskListPage extends wepy.page {
       this.methods.setActiveTask(item)
       wepy.navigateTo({
         url: '/pages/taskDetailPage'
+      })
+    },
+    goWebView() {
+      wepy.navigateTo({
+        url: '/pages/webViewPage'
       })
     }
 

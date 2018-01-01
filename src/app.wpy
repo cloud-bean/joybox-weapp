@@ -40,7 +40,8 @@ export default class extends wepy.app {
       'pages/teacherSetScorePage',
       'pages/taskDetailPage',
       'pages/submitOrderPage',
-      'pages/successPage'
+      'pages/successPage',
+      'pages/webViewPage'
     ],
     window: {
       backgroundTextStyle: 'dark',
