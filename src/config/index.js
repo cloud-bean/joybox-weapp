@@ -1,5 +1,5 @@
 export default {
-  appid: 'wxb3762a929cf9e070',
+  appid: 'wx4fc3e84d688b30db',
   // appid: 'wxf8e294c011cd47e1',//dev
   // appsecret: '0a607b7dc2ff4fa027b8594a99f9e086',
   openid: 'oBSpWs7cgDzFZvCpqL-ZbXQfxVU0',
