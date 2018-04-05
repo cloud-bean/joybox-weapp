@@ -41,7 +41,8 @@ export default class extends wepy.app {
       'pages/taskDetailPage',
       'pages/submitOrderPage',
       'pages/successPage',
-      'pages/webViewPage'
+      'pages/cardListPage',
+      'pages/videoPage'
     ],
     window: {
       backgroundTextStyle: 'dark',

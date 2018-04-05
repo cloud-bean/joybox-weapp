@@ -1,7 +1,7 @@
 import {fetchWithAccessToken} from './fetchKF'
 
 export const getAllTaskList = function (page, limit) {
-  return fetchWithAccessToken(`/tasks?page=${page}&limit=${limit}`, 'GET')
+  return fetchWithAccessToken(`/allTasks?page=${page}&limit=${limit}`, 'GET')
     .then(res => res.data.data)
     .catch(console.log)
 }

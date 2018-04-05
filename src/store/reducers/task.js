@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions'
-import { SET_TASKS, RESET_TASKS, SET_TASK_DONE_COUNT, SET_ACTIVE_TASK, SET_ACTIVE_TASK_COMMENTS, SHOW_TASK_DONE, SHOW_TASK_UNDONE} from '../types/task'
+import { SET_TASKS, RESET_TASKS, SET_TASK_DONE_COUNT, SET_ACTIVE_TASK, SET_ACTIVE_TASK_COMMENTS, SHOW_TASK_DONE, SHOW_TASK_UNDONE } from '../types/task'
 
 const initTaskState = {
   tasks: [],
@@ -15,14 +15,14 @@ export default handleActions({
   [SET_TASKS] (state, action) {
     console.log('SET_TASK', action.payload)
     if (action.payload) {
-      const undoneTask = action.payload.tasks.filter((item) => {
+      const undoneTask = action.payload.filter((item) => {
         if (!item.isDone) return item
       })
       return {
         ...state,
-        tasks: action.payload.tasks,
+        tasks: action.payload,
         showTasks: undoneTask,
-        totalCount: action.payload.tasks.length,
+        totalCount: action.payload.length,
         fetching: false
       }
     } else {

@@ -13,6 +13,19 @@
   margin: 0 auto;
   // right:20rpx;
 }
+
+.video-play{
+  background-color: black;
+  color: white;
+  // padding: 20rpx;
+  width: 50%;
+  // border-radius: 10rpx;
+  bottom: -10rpx;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
 .record-box{
   position: absolute;
   top:300rpx;
@@ -87,6 +100,12 @@
     <view> {{activeTask.expireTime }}超期</view>
     <view>类型 {{activeTask.type}}</view>
   </view>
+
+  <!--<web-view src="https://v.qq.com/x/page/z0620mdy7bn.html"></web-view>-->
+  <!--<web-view src="https://v.qq.com/iframe/player.html?vid=z0620mdy7bn&tiny=0&auto=0"></web-view>-->
+
+  <button class="video-play" wx:if="{{ activeTask.txVideoFrame && activeTask.txVideoFrame.length > 100 }}" @tap="showVideo()">播放视频</button>
+
   <view class="wxParse md-container">
 
     <template is="wxParse" data="{{wxParseData:question.nodes}}"/>
@@ -201,6 +220,20 @@ export default class TaskDetailPage extends wepy.page {
           console.log(res.errMsg)
         }
       })
+    },
+    showVideo() {
+      const startTag = '<iframe frameborder="0" width="100%" src="https://v.qq.com/iframe/player.html?'
+      const endTag = '&tiny=0&auto=0" allowfullscreen></iframe>'
+      const vidStr = this.activeTask.txVideoFrame.slice(startTag.length, 0 - endTag.length)
+      const url = `/pages/videoPage?${vidStr}`
+
+      wx.navigateTo({
+        url
+      })
+    },
+    checkWeb() {
+      console.log('web-view', wx.canIUse('web-view'))
+      return wx.canIUse('web-view')
     }
   }
 }

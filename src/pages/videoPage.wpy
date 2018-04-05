@@ -1,0 +1,34 @@
+<template>
+  <web-view src="{{videoSrc}}"></web-view>
+  <view>
+    <p>微信版本低，无法在小程序中播放视频，请升级微信~</p>
+    <hr>
+    <br>
+    <p>小程序基础库版本:{{sysInfo.SDKVersion}}</p>
+    <br>
+
+    <p>设备和操作系统:{{sysInfo.model}} - {{sysInfo.system}} - {{sysInfo.version}}</p>
+    <br>
+
+    <p>屏幕：{{sysInfo.screenHeight}} * {{sysInfo.screenWidth}}</p>
+    <br>
+
+    <p>窗口：{{sysInfo.windowHeight}} * {{sysInfo.windowWidth}}</p>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+
+export default class VideoPage extends wepy.page {
+  data = {
+    videoSrc: '',
+    sysInfo: {}
+  }
+
+  onLoad(option) {
+    this.videoSrc = 'https://v.qq.com/iframe/player.html?vid=' + option.vid
+    this.sysInfo = wx.getSystemInfoSync()
+  }
+}
+</script>

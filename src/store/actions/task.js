@@ -2,8 +2,11 @@ import { SET_TASKS, SET_ACTIVE_TASK, SET_ACTIVE_TASK_COMMENTS, SHOW_TASK_DONE, S
 import { createAction } from 'redux-actions'
 import * as api from '../../api'
 
+const defaultPage = 1
+const defaultLimit = 15
+
 export const fetchTasksAction = createAction(SET_TASKS, async () => {
-  const tasks = await api.getAllTaskList()
+  const tasks = await api.getAllTaskList(defaultPage, defaultLimit)
   return tasks
 })
 export const showTaskDone = createAction(SHOW_TASK_DONE)
