@@ -1,0 +1,37 @@
+<template>
+  <view wx:if="cards.length > 0">
+    <repeat for="{{cards}}" key="index" index="index" item="item">
+      <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image"></image>
+    </repeat>
+  </view>
+</template>
+
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import { getCards } from '../store/actions'
+
+  @connect({
+    cards (state) {
+      return state.card.cards
+    }
+  }, {
+    getCards
+  })
+
+  export default class CardListPage extends wepy.page {
+    onReady() {
+      this.methods.getCards(1, 50)
+    }
+  }
+
+</script>
+
+<style scoped>
+  .card-image {
+    width: 64px;
+    height: 100px;
+    margin: 5px;
+  }
+</style>
