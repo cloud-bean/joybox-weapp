@@ -101,14 +101,14 @@
     <view>类型 {{activeTask.type}}</view>
   </view>
 
-  <!--<web-view src="https://v.qq.com/x/page/z0620mdy7bn.html"></web-view>-->
-  <!--<web-view src="https://v.qq.com/iframe/player.html?vid=z0620mdy7bn&tiny=0&auto=0"></web-view>-->
-
-  <button class="video-play" wx:if="{{ activeTask.txVideoFrame && activeTask.txVideoFrame.length > 100 }}" @tap="showVideo()">播放视频</button>
+  <!--视频播放组件，视频播放文件存在七牛上，已测试可用-->
+  <!--<video style="width: 100%;" src="http://oeif08fpp.bkt.clouddn.com/%E8%AE%A1%E7%AE%97%E8%83%9C%E5%88%A9%E7%95%8C%E9%9D%A2-modal%E5%92%8C%E9%9F%B3%E6%95%88.mp4"></video>-->
 
   <view class="wxParse md-container">
+    <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}"/>
 
-    <template is="wxParse" data="{{wxParseData:question.nodes}}"/>
+    <image src="{{activeTask.contentImage.URL}}"></image>
+
     <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
       <view class="wxParse-h1">任务素材</view>
       <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">
@@ -121,9 +121,8 @@
   </view>
 
   <view class="wxParse md-container summary" wx:if="{{activeTask.isDone}}">
-    <template is="wxParse" data="{{wxParseData:summary.nodes}}"/>
+    <template is="wxParse" wx:if="{{activeTask.summary}}" data="{{wxParseData:summary.nodes}}"/>
   </view>
-
 
   <view class="md-container">
     <completeList :completeUsers.sync="taskDoneUsers"></completeList>
@@ -161,12 +160,32 @@ import { connect } from 'wepy-redux'
 export default class TaskDetailPage extends wepy.page {
   data = {
     tempAudioFile: '',
-    tempVideoFile: ''
+    tempVideoFile: '',
+    defaultImgUrl: 'http://oeif08fpp.bkt.clouddn.com/default-task-title-image.jpeg'
   }
   components = {
     completeList,
     msgItem,
     recordBox
+  }
+  onShareAppMessage(res) {
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    console.log('this.activeTask', this.activeTask)
+    let imgUrl = this.defaultImgUrl
+    if (this.activeTask.contentImage && this.activeTask.contentImage.URL) {
+      imgUrl = this.activeTask.contentImage.URL
+    }
+    return {
+      title: this.activeTask.name,
+      path: '/',
+      imageUrl: imgUrl,
+      success(res) {
+        console.log(res)
+      }
+    }
   }
   onLoad() {
     const question = this.activeTask.description
