@@ -180,7 +180,7 @@ export default class TaskDetailPage extends wepy.page {
     }
     return {
       title: this.activeTask.name,
-      path: '/',
+      path: 'pages/initPage',
       imageUrl: imgUrl,
       success(res) {
         console.log(res)
