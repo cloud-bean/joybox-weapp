@@ -12,7 +12,20 @@
       <userInfo :user="user"></userInfo>
     </view>
 
-    <!--<view @tap="goWebView">goWebView</view>-->
+    <i-panel title="每日坚持">
+      <view slot="content">
+        <view wx:if="{{hasTasks}}">
+          <repeat for="{{myTasks}}" key="index" index="index" item="item">
+            <view @tap="handleTap({{item}})">
+              <taskItem :taskData="item"></taskItem>
+            </view>
+          </repeat>
+        </view>
+        <view wx:else>
+          暂无任务~
+        </view>
+      </view>
+    </i-card>
     <navbar :onChange="handleChange"></navbar>
 
     <!--测试生成分享图片，已测试可用-->
@@ -24,13 +37,7 @@
       <!--</view>-->
     <!--</view>-->
 
-    <view wx:if="tasks.length > 0">
-      <repeat for="{{myTasks}}" key="index" index="index" item="item">
-        <view @tap="handleTap({{item}})">
-          <taskItem :taskData="item"></taskItem>
-        </view>
-      </repeat>
-    </view>
+    
   </view>
 </template>
 
@@ -54,6 +61,9 @@ moment.locale('zh-cn')
       return newItem
     })
   },
+  hasTasks(state) {
+    return state.task.showTasks.length > 0
+  },
   user (state) {
     const newUser = {...state.user}
     newUser.created = moment(new Date(state.user.created)).toNow(true)
@@ -74,7 +84,12 @@ export default class TaskListPage extends wepy.page {
   }
   config = {
     backgroundColor: '#efeff4',
-    enablePullDownRefresh: true
+    enablePullDownRefresh: true,
+    usingComponents: {
+      'i-button': '/iview/button/index',
+      'i-card': '/iview/card/index',
+      "i-panel": "/iview/panel/index"
+    }
   }
   data = {
     selected: false,
@@ -120,8 +135,7 @@ export default class TaskListPage extends wepy.page {
     })
     wepy.stopPullDownRefresh()
   }
-  computed = {
-  }
+  computed = {}
   methods = {
     handleTap(item, e) {
       this.methods.setActiveTask(item)

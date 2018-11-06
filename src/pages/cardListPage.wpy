@@ -1,9 +1,79 @@
 <template>
-  <view wx:if="cards.length > 0">
-    <repeat for="{{cards}}" key="index" index="index" item="item">
-      <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image"></image>
-    </repeat>
+  <view >
+    <!--view wx:if="{{cards.length > 0}}">
+      <repeat for="{{cards}}" key="index" index="index" item="item">
+        <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image"></image>
+      </repeat>
+    </view>
+    <view wx:else>
+      暂无卡牌数据哦~
+    </view-->
+    <i-grid>
+      <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+       <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+      </i-grid>
+      <i-grid>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+        <i-grid-item>
+        <i-grid-icon>
+          <image src="{{cards[0].file.URL + '?imageView2/2/h/200/q/128|imageslim'}}" />
+        </i-grid-icon>
+        <i-grid-label>{{cards[0].name}}</i-grid-label>
+      </i-grid-item>
+    </i-grid>
   </view>
+  
 </template>
 
 
@@ -22,7 +92,16 @@
 
   export default class CardListPage extends wepy.page {
     onReady() {
-      this.methods.getCards(1, 50)
+      this.methods.getCards(1, 30)
+    }
+
+    config = {
+      usingComponents: {
+      'i-grid': '/iview/grid/index',
+      "i-grid-item": "/iview/grid-item/index",
+      "i-grid-icon": "/iview/grid-icon/index",
+      "i-grid-label": "/iview/grid-label/index"
+    }
     }
   }
 
@@ -34,4 +113,9 @@
     height: 100px;
     margin: 5px;
   }
+  .i-grid-icon {
+    width:60px;
+    height:95px;
+  }
+
 </style>
