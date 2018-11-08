@@ -1,0 +1,60 @@
+<style scoped>
+  .layout {
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+  }
+</style>
+
+<template>
+  <view class="layout">
+    <view wx:if="{{stories.length > 0}}">
+      <repeat for="{{stories}}" key="index" index="index" item="item">
+        <i-cell title="{{item.title}}" value="{{item.desc}}" is-link @tap="handleTapItem({{item}})"></i-cell>
+      </repeat>
+    </view>
+    <view wx:else>
+      近期上线~ 敬请期待~
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import {
+    connect
+  } from 'wepy-redux'
+  import {
+    setActiveStoryAction
+  } from '../store/actions'
+  @connect({}, {
+    setActiveStoryAction
+  })
+  export default class storyListPage extends wepy.page {
+    data = {
+      stories: [{
+          title: '第一次冒险',
+          desc: '千里之行 先起床'
+        },
+        {
+          title: '第2个关卡',
+          desc: '至少再过一次哈'
+        }
+      ]
+    }
+    config = {
+      usingComponents: {
+        'i-cell-group': '/iview/cell-group/index',
+        'i-cell': '/iview/cell/index'
+      }
+    }
+    methods = {
+      handleTapItem(item) {
+        console.log('tap item:', item)
+        this.methods.setActiveStoryAction(item)
+        wepy.navigateTo({
+          url: '/pages/storyDetailPage'
+        })
+      }
+    }
+  }
+</script>

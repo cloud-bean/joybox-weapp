@@ -1,280 +1,246 @@
 <style lang="less" scoped>
-.user-info{
-  padding: 10rpx 0;
-}
+  .user-info {
+    padding: 10rpx 0;
+  }
 </style>
 <template>
-
   <view class="wrapper">
-
-
-    <view class="user-info">
-      <userInfo :user="user"></userInfo>
-    </view>
-
-    <i-panel title="每日坚持">
-      <view slot="content">
-        <view wx:if="{{hasTasks}}">
-          <repeat for="{{myTasks}}" key="index" index="index" item="item">
-            <view @tap="handleTap({{item}})">
-              <taskItem :taskData="item"></taskItem>
-            </view>
-          </repeat>
-        </view>
-        <view wx:else>
-          暂无任务~
-        </view>
-      </view>
-    </i-card>
     <navbar :onChange="handleChange"></navbar>
-
-    <!--测试生成分享图片，已测试可用-->
-    <!--<view>-->
-      <!--<canvas style="width:100%;height:{{contentHeight}}px" canvas-id="myCanvas"></canvas>-->
-
-      <!--<view class="edit-footer">-->
-        <!--<button class="button-done" type="primary" bindtap="savePic">保存图片</button>-->
-      <!--</view>-->
-    <!--</view>-->
-
-    
+    <view wx:if="{{hasTasks}}">
+      <repeat for="{{myTasks}}" key="index" index="index" item="item">
+        <view @tap="handleTap({{item}})">
+          <taskItem :taskData="item"></taskItem>
+        </view>
+      </repeat>
+    </view>
+    <view wx:else>
+      暂无任务~
+    </view>
   </view>
 </template>
 
 <script>
-import wepy from 'wepy'
-import navbar from '../components/taskListPage/navbar'
-import taskItem from '../components/taskListPage/taskItem'
-import userInfo from '../components/taskListPage/userInfo'
-import { connect } from 'wepy-redux'
-import { fetchTasksAction, setActiveTasksAction, showTaskDone, showTaskUnDone } from '../store/actions'
-var moment = require('moment')
-moment.locale('zh-cn')
-@connect({
-  myTasks (state) {
-    return state.task.showTasks.map((item) => {
-      const newItem = {...item}
-      const a = new Date(item.expireTime)
-      const b = new Date(item.created)
-      newItem.expireTime = moment(a).fromNow()
-      newItem.created = moment(b).format('YYYY/MM/DD HH:mm')
-      return newItem
-    })
-  },
-  hasTasks(state) {
-    return state.task.showTasks.length > 0
-  },
-  user (state) {
-    const newUser = {...state.user}
-    newUser.created = moment(new Date(state.user.created)).toNow(true)
-    return newUser
-  }
-}, {
-  fetchTasksAction,
-  setActiveTask: setActiveTasksAction,
-  showTaskDone,
-  showTaskUnDone
-})
-
-export default class TaskListPage extends wepy.page {
-  components = {
-    navbar,
-    taskItem,
-    userInfo
-  }
-  config = {
-    backgroundColor: '#efeff4',
-    enablePullDownRefresh: true,
-    usingComponents: {
-      'i-button': '/iview/button/index',
-      'i-card': '/iview/card/index',
-      "i-panel": "/iview/panel/index"
+  import wepy from 'wepy'
+  import navbar from '../components/taskListPage/navbar'
+  import taskItem from '../components/taskListPage/taskItem'
+  import {
+    connect
+  } from 'wepy-redux'
+  import {
+    fetchTasksAction,
+    setActiveTasksAction,
+    showTaskDone,
+    showTaskUnDone
+  } from '../store/actions'
+  var moment = require('moment')
+  moment.locale('zh-cn')
+  @connect({
+    myTasks(state) {
+      return state.task.showTasks.map((item) => {
+        const newItem = { ...item
+        }
+        const a = new Date(item.expireTime)
+        const b = new Date(item.created)
+        newItem.expireTime = moment(a).fromNow()
+        newItem.created = moment(b).format('YYYY/MM/DD HH:mm')
+        return newItem
+      })
+    },
+    hasTasks(state) {
+      return state.task.showTasks.length > 0
     }
-  }
-  data = {
-    selected: false,
-    windowWidth: 0,
-    windowHeight: 0,
-    contentHeight: 0,
-    thinkList: [],
-    footer: '悦盒Joybox 让学习上瘾',
-    offset: 0,
-    lineHeight: 30,
-    content: '神探夏洛克的任务卡\n' +
-    '\n' +
-    '混乱字符：\n' +
-    '十月、National、October、\n' +
-    '一日、Day、1st、September\n' +
-    ' Teachers‘'
-  }
-
-  // 已测试，可用
-  // onShareAppMessage(res) {
-  //   if (res.from === 'button') {
-  //     // 来自页面内转发按钮
-  //     console.log(res.target)
-  //   }
-  //   return {
-  //     title: 'eeeeee',
-  //     // imageUrl: ''
-  //     path: '/',
-  //     imageUrl: 'https://avatars1.githubusercontent.com/u/20960902?s=88&v=4',
-  //     success(res) {
-  //       console.log(res)
-  //     }
-  //   }
-  // }
-
-  onPullDownRefresh() {
-    console.log('refrash')
-    this.methods.fetchTasksAction()
-    wepy.showToast({
-      title: '任务列表已刷新',
-      icon: 'success',
-      duration: 1000
-    })
-    wepy.stopPullDownRefresh()
-  }
-  computed = {}
-  methods = {
-    handleTap(item, e) {
-      this.methods.setActiveTask(item)
-      wepy.navigateTo({
-        url: '/pages/taskDetailPage'
+  }, {
+    fetchTasksAction,
+    setActiveTask: setActiveTasksAction,
+    showTaskDone,
+    showTaskUnDone
+  })
+  export default class TaskListPage extends wepy.page {
+    components = {
+      navbar,
+      taskItem
+    }
+    config = {
+      backgroundColor: '#efeff4',
+      enablePullDownRefresh: true,
+      usingComponents: {
+        'i-button': '/iview/button/index',
+        'i-card': '/iview/card/index',
+        'i-panel': '/iview/panel/index'
+      }
+    }
+    data = {
+      selected: false,
+      windowWidth: 0,
+      windowHeight: 0,
+      contentHeight: 0,
+      thinkList: [],
+      footer: '悦盒Joybox 让学习上瘾',
+      offset: 0,
+      lineHeight: 30,
+      content: '神探夏洛克的任务卡\n' +
+        '\n' +
+        '混乱字符：\n' +
+        '十月、National、October、\n' +
+        '一日、Day、1st、September\n' +
+        ' Teachers‘'
+    }
+    // 已测试，可用
+    // onShareAppMessage(res) {
+    //   if (res.from === 'button') {
+    //     // 来自页面内转发按钮
+    //     console.log(res.target)
+    //   }
+    //   return {
+    //     title: 'eeeeee',
+    //     // imageUrl: ''
+    //     path: '/',
+    //     imageUrl: 'https://avatars1.githubusercontent.com/u/20960902?s=88&v=4',
+    //     success(res) {
+    //       console.log(res)
+    //     }
+    //   }
+    // }
+    onPullDownRefresh() {
+      console.log('refrash')
+      this.methods.fetchTasksAction()
+      wepy.showToast({
+        title: '任务列表已刷新',
+        icon: 'success',
+        duration: 1000
       })
-    },
-    goWebView() {
-      wepy.navigateTo({
-        url: '/pages/webViewPage'
-      })
-    },
-
-    savePic () {
-      let that = this
-      wx.canvasToTempFilePath({
-        x: 0,
-        y: 50,
-        width: that.windowWidth,
-        height: that.contentHeight,
-        canvasId: 'myCanvas',
-        success: function (res) {
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success(res) {
-              wx.showModal({
-                content: '图片已保存到相册，赶紧晒一下吧~',
-                showCancel: false,
-                confirmText: '好哒',
-                confirmColor: '#72B9C3',
-                success: function (res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定')
-                    that.hidden = true
+      wepy.stopPullDownRefresh()
+    }
+    computed = {}
+    methods = {
+      handleTap(item, e) {
+        this.methods.setActiveTask(item)
+        wepy.navigateTo({
+          url: '/pages/taskDetailPage'
+        })
+      },
+      goWebView() {
+        wepy.navigateTo({
+          url: '/pages/webViewPage'
+        })
+      },
+      savePic() {
+        let that = this
+        wx.canvasToTempFilePath({
+          x: 0,
+          y: 50,
+          width: that.windowWidth,
+          height: that.contentHeight,
+          canvasId: 'myCanvas',
+          success: function(res) {
+            wx.saveImageToPhotosAlbum({
+              filePath: res.tempFilePath,
+              success(res) {
+                wx.showModal({
+                  content: '图片已保存到相册，赶紧晒一下吧~',
+                  showCancel: false,
+                  confirmText: '好哒',
+                  confirmColor: '#72B9C3',
+                  success: function(res) {
+                    if (res.confirm) {
+                      console.log('用户点击确定')
+                      that.hidden = true
+                    }
                   }
-                }
-              })
-            }
-          })
+                })
+              }
+            })
+          }
+        })
+      }
+    }
+    getData() {
+      let that = this
+      let i = 0
+      let lineNum = 1
+      let thinkStr = ''
+      let thinkList = []
+      for (let item of that.content) {
+        if (item === '\n') {
+          thinkList.push(thinkStr)
+          thinkList.push('a')
+          i = 0
+          thinkStr = ''
+          lineNum += 1
+        } else if (i === 24) {
+          thinkList.push(thinkStr)
+          i = 1
+          thinkStr = item
+          lineNum += 1
+        } else {
+          thinkStr += item
+          i += 1
+        }
+      }
+      thinkList.push(thinkStr)
+      // that.setData({
+      //   thinkList: thinkList
+      // })
+      that.thinkList = thinkList
+      that.createNewImg(lineNum)
+    }
+    drawSquare(ctx, height) {
+      ctx.rect(0, 50, this.windowWidth, height)
+      ctx.setFillStyle('#f5f6fd')
+      ctx.fill()
+    }
+    drawFont(ctx, content, height) {
+      ctx.setFontSize(16)
+      ctx.setFillStyle('#484a3d')
+      ctx.fillText(content, this.offset, height)
+    }
+    drawLine(ctx, height) {
+      ctx.beginPath()
+      ctx.moveTo(this.offset, height)
+      ctx.lineTo(this.windowWidth - this.offset, height)
+      ctx.stroke('#eee')
+      ctx.closePath()
+    }
+    createNewImg(lineNum) {
+      let that = this
+      let ctx = wx.createCanvasContext('myCanvas')
+      let contentHeight = lineNum * that.lineHeight + 180
+      that.drawSquare(ctx, contentHeight)
+      that.contentHeight = contentHeight
+      // that.setData({ canvas.contentHeight: contentHeight })
+      let height = 100
+      for (let item of that.thinkList) {
+        if (item !== 'a') {
+          that.drawFont(ctx, item, height)
+          height += that.lineHeight
+        }
+      }
+      that.drawLine(ctx, lineNum * that.lineHeight + 120)
+      that.drawFont(ctx, that.footer, lineNum * that.lineHeight + 156)
+      let p1 = that.windowWidth - that.offset - 50
+      let p2 = lineNum * that.lineHeight + 125
+      ctx.drawImage('../../assets/images/wx-logo.jpg', p1, p2, 50, 50)
+      ctx.draw()
+    }
+    onLoad() {
+      let that = this
+      wx.getSystemInfo({
+        success: function(res) {
+          that.windowWidth = res.windowWidth
+          that.windowHeight = res.windowHeight
+          that.offset = (res.windowWidth - 300) / 2
         }
       })
     }
-  }
-
-  getData () {
-    let that = this
-    let i = 0
-    let lineNum = 1
-    let thinkStr = ''
-    let thinkList = []
-    for (let item of that.content) {
-      if (item === '\n') {
-        thinkList.push(thinkStr)
-        thinkList.push('a')
-        i = 0
-        thinkStr = ''
-        lineNum += 1
-      } else if (i === 24) {
-        thinkList.push(thinkStr)
-        i = 1
-        thinkStr = item
-        lineNum += 1
-      } else {
-        thinkStr += item
-        i += 1
-      }
+    onReady() {
+      this.methods.fetchTasksAction()
     }
-    thinkList.push(thinkStr)
-    // that.setData({
-    //   thinkList: thinkList
-    // })
-    that.thinkList = thinkList
-    that.createNewImg(lineNum)
-  }
-
-  drawSquare(ctx, height) {
-    ctx.rect(0, 50, this.windowWidth, height)
-    ctx.setFillStyle('#f5f6fd')
-    ctx.fill()
-  }
-
-  drawFont (ctx, content, height) {
-    ctx.setFontSize(16)
-    ctx.setFillStyle('#484a3d')
-    ctx.fillText(content, this.offset, height)
-  }
-
-  drawLine (ctx, height) {
-    ctx.beginPath()
-    ctx.moveTo(this.offset, height)
-    ctx.lineTo(this.windowWidth - this.offset, height)
-    ctx.stroke('#eee')
-    ctx.closePath()
-  }
-
-  createNewImg (lineNum) {
-    let that = this
-    let ctx = wx.createCanvasContext('myCanvas')
-    let contentHeight = lineNum * that.lineHeight + 180
-    that.drawSquare(ctx, contentHeight)
-    that.contentHeight = contentHeight
-    // that.setData({ canvas.contentHeight: contentHeight })
-    let height = 100
-    for (let item of that.thinkList) {
-      if (item !== 'a') {
-        that.drawFont(ctx, item, height)
-        height += that.lineHeight
-      }
+    onShow() {
+      // 禁用生成分享图片功能，已测试可用
+      // this.getData()
     }
-    that.drawLine(ctx, lineNum * that.lineHeight + 120)
-    that.drawFont(ctx, that.footer, lineNum * that.lineHeight + 156)
-    let p1 = that.windowWidth - that.offset - 50
-    let p2 = lineNum * that.lineHeight + 125
-    ctx.drawImage('../../assets/images/wx-logo.jpg', p1, p2, 50, 50)
-    ctx.draw()
+    onReload() {
+      console.log('onreload of task list page')
+    }
   }
-
-  onLoad() {
-    let that = this
-    wx.getSystemInfo({
-      success: function (res) {
-        that.windowWidth = res.windowWidth
-        that.windowHeight = res.windowHeight
-        that.offset = (res.windowWidth - 300) / 2
-      }
-    })
-  }
-
-  onReady() {
-    this.methods.fetchTasksAction()
-  }
-
-  onShow() {
-    // 禁用生成分享图片功能，已测试可用
-    // this.getData()
-  }
-
-  onReload() {
-    console.log('onreload of task list page')
-  }
-}
 </script>

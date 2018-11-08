@@ -1,4 +1,4 @@
-import { SET_TASKS, SET_ACTIVE_TASK, SET_ACTIVE_TASK_COMMENTS, SHOW_TASK_DONE, SHOW_TASK_UNDONE } from '../types/task'
+import { SET_TASKS, SET_ACTIVE_TASK, SET_ACTIVE_STORY, SET_ACTIVE_TASK_COMMENTS, SHOW_TASK_DONE, SHOW_TASK_UNDONE } from '../types/task'
 import { createAction } from 'redux-actions'
 import * as api from '../../api'
 
@@ -14,6 +14,10 @@ export const showTaskUnDone = createAction(SHOW_TASK_UNDONE)
 export const setActiveTasksAction = createAction(SET_ACTIVE_TASK, (activeTask) => {
   // const tasks = await getAllTaskList()
   return activeTask
+})
+
+export const setActiveStoryAction = createAction(SET_ACTIVE_STORY, (activeStory) => {
+  return activeStory
 })
 
 export const getTaskComments = createAction(SET_ACTIVE_TASK_COMMENTS, async (taskId) => {

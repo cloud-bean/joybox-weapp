@@ -1,10 +1,8 @@
 <template>
-  <view  class="container">
+  <view class="container">
     <view wx:if="{{cards.length > 0}}">
       <repeat for="{{cards}}" key="index" index="index" item="item">
-        <image mode="scaleToFill" 
-        src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" 
-        class="card-image"/>
+        <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
       </repeat>
     </view>
     <view wx:else>
@@ -16,28 +14,29 @@
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
-  import { getCards } from '../store/actions'
-
+  import {
+    connect
+  } from 'wepy-redux'
+  import {
+    getCards
+  } from '../store/actions'
   @connect({
-    cards (state) {
+    cards(state) {
       return state.card.cards
     }
   }, {
     getCards
   })
-
   export default class CardListPage extends wepy.page {
     onReady() {
       this.methods.getCards(1, 30)
     }
   }
-
 </script>
 
 <style scoped>
   .container {
-    text-align:center;
+    text-align: center;
     background-color: #f8f8f9;
   }
   .card-image {
@@ -45,5 +44,4 @@
     height: 100px;
     margin: 5px;
   }
-
 </style>

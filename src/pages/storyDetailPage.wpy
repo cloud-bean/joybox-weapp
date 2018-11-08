@@ -1,0 +1,25 @@
+<style scoped>
+  .layout {
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+  }
+</style>
+
+<template>
+  <div class="layout">
+    {{activeStory.title}}
+  </div>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import {
+    connect
+  } from 'wepy-redux'
+  @connect({
+    activeStory(state) {
+      return state.task.activeStory
+    }
+  })
+  export default class storyDetailPage extends wepy.page {}
+</script>

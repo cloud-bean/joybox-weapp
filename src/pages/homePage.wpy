@@ -1,10 +1,8 @@
 <style scoped>
 .layout{
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
 }
 .layout-content{
-    min-height: 150px;
+    min-height: 160px;
     margin: 15px;
     overflow: hidden;
     background: #fff;
@@ -24,10 +22,10 @@
         <view class="layout-content" @tap="goTaskListPage">
             <p style="font-size: 28pt; color: #f5f7f9">今日挑战</p>
         </view>
-         <view class="layout-content">
+         <view class="layout-content" @tap="goStoryListPage">
             <p style="font-size: 28pt; color: #f5f7f9">冒险</p>
         </view>
-         <view class="layout-content">
+         <view class="layout-content" @tap="goTeamListPage">
             <p style="font-size: 28pt; color: #f5f7f9">团队</p>
         </view>
     </view>
@@ -39,6 +37,16 @@ export default class homePage extends wepy.page {
     goTaskListPage() {
       wepy.navigateTo({
         url: '/pages/taskListPage'
+      })
+    },
+    goStoryListPage() {
+      wepy.navigateTo({
+        url: '/pages/storyListPage'
+      })
+    },
+    goTeamListPage() {
+      wepy.navigateTo({
+        url: '/pages/teamListPage'
       })
     }
   }

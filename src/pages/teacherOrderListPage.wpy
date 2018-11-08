@@ -5,13 +5,12 @@
   <view class="">
     <p>{{user.displayName}}老师，您辛苦啦~</p>
     <view wx:if="tasks.length > 0">
-      <repeat  for="{{orderList}}" key="index" index="index" item="item">
+      <repeat for="{{orderList}}" key="index" index="index" item="item">
         <view @tap="handleTap({{item}})">
           <orderItem :orderData="item"></orderItem>
         </view>
       </repeat>
     </view>
-
     <view wx:if="tasks.length == 0">
       <p>暂时没有要批改的作业，休息一下吧~</p>
     </view>
@@ -19,37 +18,40 @@
 </template>
 
 <script>
-import wepy from 'wepy'
-import orderItem from '../components/teacherOrderListPage/orderItem'
-import { connect } from 'wepy-redux'
-import { getOrders, setActiveOrderAction } from '../store/actions'
-
-@connect({
-  orderList (state) {
-    return state.order.orders
-  },
-  user (state) {
-    return state.user
-  }
-}, {
-  getOrders,
-  setActiveOrderAction
-})
-
-export default class TeacherOrderListPage extends wepy.page {
-  components = {
-    orderItem
-  }
-  onLoad() {
-    this.methods.getOrders()
-  }
-  methods = {
-    handleTap(item, e) {
-      this.methods.setActiveOrderAction(item)
-      wepy.navigateTo({
-        url: '/pages/teacherSetScorePage'
-      })
+  import wepy from 'wepy'
+  import orderItem from '../components/teacherOrderListPage/orderItem'
+  import {
+    connect
+  } from 'wepy-redux'
+  import {
+    getOrders,
+    setActiveOrderAction
+  } from '../store/actions'
+  @connect({
+    orderList(state) {
+      return state.order.orders
+    },
+    user(state) {
+      return state.user
+    }
+  }, {
+    getOrders,
+    setActiveOrderAction
+  })
+  export default class TeacherOrderListPage extends wepy.page {
+    components = {
+      orderItem
+    }
+    onLoad() {
+      this.methods.getOrders()
+    }
+    methods = {
+      handleTap(item, e) {
+        this.methods.setActiveOrderAction(item)
+        wepy.navigateTo({
+          url: '/pages/teacherSetScorePage'
+        })
+      }
     }
   }
-}
 </script>
