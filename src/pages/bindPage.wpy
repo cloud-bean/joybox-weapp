@@ -41,15 +41,15 @@ button{
     </view>
     <view wx:if="{{formVisable}}">
       <label class="text">填写您的手机号码</label>
-      <input id="phone" class="input" placeholder="1380000000" bindblur="bindChange"/>
+      <input id="phone" class="input" placeholder="" bindblur="bindChange"/>
       <label class="text">请填写真实姓名</label>
-      <input id="displayName" class="input" placeholder="张欢昕" bindblur="bindChange"/>
+      <input id="displayName" class="input" placeholder="" bindblur="bindChange"/>
       <label class="text">请填写学习宣言</label>
-      <input id="slogan" class="input" placeholder="Learning with Joy" bindblur="bindChange"/>
+      <input id="slogan" class="input" placeholder="" bindblur="bindChange"/>
       <button type="primary" open-type="getUserInfo" bindgetuserinfo="handleUserInfo">确认</button>
     </view>
     <view wx:if="{{!formVisable}}">
-      <button  @tap="showForm">创建新用户</button>
+      <button  @tap="showForm">注册</button>
     </view>
   </view>
 </template>
@@ -58,7 +58,7 @@ button{
   import wepy from 'wepy'
   import * as api from '../api/user'
   import { connect } from 'wepy-redux'
-
+  // import * as aldApp from '../utils/sdk/ald-stat.js'
   @connect({
     wxCredits (state) {
       return state.root.wxCredits
@@ -101,7 +101,18 @@ button{
       },
       showForm() {
         this.formVisable = true
+        // console.log(aldApp)
+        // aldApp.sendEvent('点击了注册按钮，显示表单')
       }
+    }
+    onLoad(options) {
+      console.log(options)  // 判断传递机进来的参数。
+      // 暂定分 school 校区
+      //       partner 第三方
+      //       saleId  销售id
+      //       teacherId 老师id
+      //       其他 Id
+      //       学生Id   方便学生获得奖励
     }
   }
 

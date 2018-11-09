@@ -12,6 +12,11 @@
       <userInfo :user="user"></userInfo>
     </view>
 
+    <view>
+      <repeat for="{{ myCourses }}" key="index" index="index" item="item">
+        <view>{{ item.name }}</view>
+      </repeat>
+    </view>
     <!--<view @tap="goWebView">goWebView</view>-->
     <navbar :onChange="handleChange"></navbar>
 
@@ -40,7 +45,7 @@ import navbar from '../components/taskListPage/navbar'
 import taskItem from '../components/taskListPage/taskItem'
 import userInfo from '../components/taskListPage/userInfo'
 import { connect } from 'wepy-redux'
-import { fetchTasksAction, setActiveTasksAction, showTaskDone, showTaskUnDone } from '../store/actions'
+import { fetchTasksAction, setActiveTasksAction, showTaskDone, showTaskUnDone, fetchCoursesAction } from '../store/actions'
 var moment = require('moment')
 moment.locale('zh-cn')
 @connect({
@@ -58,12 +63,16 @@ moment.locale('zh-cn')
     const newUser = {...state.user}
     newUser.created = moment(new Date(state.user.created)).toNow(true)
     return newUser
+  },
+  myCourses (state) {
+    return state.course.courses
   }
 }, {
   fetchTasksAction,
   setActiveTask: setActiveTasksAction,
   showTaskDone,
-  showTaskUnDone
+  showTaskUnDone,
+  fetchCoursesAction
 })
 
 export default class TaskListPage extends wepy.page {
@@ -251,6 +260,7 @@ export default class TaskListPage extends wepy.page {
   }
 
   onReady() {
+    this.methods.fetchCoursesAction('story')
     this.methods.fetchTasksAction()
   }
 
