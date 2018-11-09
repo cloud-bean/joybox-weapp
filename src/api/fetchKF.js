@@ -16,6 +16,20 @@ exports.fetchWithAccessToken = (url, method, data) => {
   return wepy.request(fetchOption)
 }
 
+exports.fetchWithAccessTokenV2 = (url, method, data) => {
+  let accessToken = getStore().getState().root.accessToken
+  let fetchOption = {
+    url: config.server.bigServerV2 + url,
+    header: {
+      'Authorization': `Bearer ${accessToken}`
+    },
+    method,
+    data
+  }
+  console.log('fetchKF.fetchWithAccessToken with option:', fetchOption)
+  return wepy.request(fetchOption)
+}
+
 exports.fetch = (url, method, data) => {
   let fetchOption = {
     url: config.server.bigServer + url,

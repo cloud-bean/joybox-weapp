@@ -2,8 +2,9 @@ export default {
   appid: 'wxb3762a929cf9e070',
   // appid: 'wxf8e294c011cd47e1',//dev
   server: {
-    midServer: 'https://joywill.cc', // for wechat auth server end point
-    bigServer: 'https://joywill.cc/api', // for kf-admin api end point
+    midServer: 'https://joywill.cc', // for wechat auth server end point, tinyServer
+    bigServer: 'https://joywill.cc/api', // for kf-admin api end point, api v1  /api/base
+    bigServerV2: 'https://joywill.cc/v2', // for kf-admin api end point, api v2  /api/v2
     uploadServer: 'https://joywill.cc/api/tool/files'
   },
   route: {

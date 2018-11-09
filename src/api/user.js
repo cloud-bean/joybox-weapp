@@ -28,8 +28,7 @@ export const signUp = function ({providerData, school, phone, slogan, displayNam
     displayName,
     providerData,
     profileImageURL,
-    provider: 'wechat',
-    
+    provider: 'wechat'
   }
   console.log(userInfo)
   return fetch('/auth/signup', 'POST', userInfo)
