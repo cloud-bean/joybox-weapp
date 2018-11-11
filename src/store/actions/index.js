@@ -4,4 +4,4 @@ export * from './task'
 export * from './order'
 export * from './card'
 export * from './course'
-
+export * from './mine'

@@ -1,0 +1,124 @@
+<template>
+  <view class="status-bar">
+    <i-grid>
+      <i-grid-item>
+        续航
+        <i-grid-label>{{ awesomeDays }}</i-grid-label>
+      </i-grid-item>
+      <i-grid-item>
+        完美周数
+        <i-grid-label> {{ keepInfo.perfectWeeks }}</i-grid-label>
+      </i-grid-item>
+    </i-grid>
+    <i-grid>
+      <i-grid-item>
+        <i-grid-label>一</i-grid-label>
+        <i-grid-icon>
+          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}"/>
+        </i-grid-icon>
+      </i-grid-item>
+      <i-grid-item>
+        <i-grid-label>二</i-grid-label>
+        <i-grid-icon>
+          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}"/>
+        </i-grid-icon>
+      </i-grid-item>
+      <i-grid-item>
+        <i-grid-label>三</i-grid-label>
+        <i-grid-icon>
+          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}"/>
+        </i-grid-icon>
+      </i-grid-item>
+      <i-grid-item>
+        <i-grid-label>四</i-grid-label>
+        <i-grid-icon>
+          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}"/>
+        </i-grid-icon>
+      </i-grid-item>
+      <i-grid-item>
+        <i-grid-label>五</i-grid-label>
+        <i-grid-icon>
+          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}"/>
+        </i-grid-icon>
+      </i-grid-item>
+      <i-grid-item>
+        <i-grid-label>六</i-grid-label>
+        <i-grid-icon>
+          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}"/>
+        </i-grid-icon>
+      </i-grid-item>
+      <i-grid-item>
+        <i-grid-label>日</i-grid-label>
+        <i-grid-icon>
+          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}"/>
+        </i-grid-icon>
+      </i-grid-item>
+    </i-grid>
+  </view>
+</template>
+<style scoped>
+  .status-bar{
+    color:#555;
+    background-color: #eee;
+    position: relative;
+    font-size: 1rem;
+  }
+  .sum-info{
+    padding: .5rem 1rem;
+    border-bottom: 1px solid #ccc;
+  }
+  .awesome-week{
+    margin-left: 1rem;
+  }
+  .keep-status{
+    padding: .5rem;
+  }
+  i{
+    color:#6F2DBD;
+  }
+</style>
+
+<script>
+  import wepy from 'wepy'
+  export default class keepBar extends wepy.component {
+    data() {
+      return {
+        weekDay: ['日', '一', '二', '三', '四', '五', '六']
+      }
+    }
+    config = {
+      usingComponents: {
+        'i-icon': '/iview/icon/index',
+        'i-grid': '/iview/grid/index',
+        'i-grid-item': '/iview/grid-item/index',
+        'i-grid-icon': '/iview/grid-icon/index',
+        'i-grid-label': '/iview/grid-label/index'
+      }
+    }
+    computed = {
+      awesomeDays() {
+        if (!this.keepInfo) {
+          return 0
+        }
+        let awesomeDayCount = 0
+        let countDays = 0
+        const keepDays = this.keepInfo.keepDays
+        for (const item of keepDays) {
+          if (item) {
+            countDays++
+            if (countDays > awesomeDayCount) {
+              awesomeDayCount = countDays
+            }
+          } else {
+            countDays = 0
+          }
+        }
+        return awesomeDayCount
+      }
+    }
+    props = {
+      keepInfo: Object
+    }
+    methods = { }
+  }
+</script>

@@ -32,13 +32,13 @@
   export default class storyListPage extends wepy.page {
     data = {
       stories: [{
-          title: '第一次冒险',
-          desc: '千里之行 先起床'
-        },
-        {
-          title: '第2个关卡',
-          desc: '至少再过一次哈'
-        }
+        title: '第一次冒险',
+        desc: '千里之行 先起床'
+      },
+      {
+        title: '第2个关卡',
+        desc: '至少再过一次哈'
+      }
       ]
     }
     config = {

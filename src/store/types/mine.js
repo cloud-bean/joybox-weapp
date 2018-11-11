@@ -1,8 +1,2 @@
-/**
- *
- * Created by hygkui on 2018/11/10
- */
-(function () {
-  'use strict'
-  
-}())
+export const GET_KEEP_INFO = 'GET_KEEP_INFO'
+export const GET_MY_BAG_CARDS = 'GET_MY_BAG_CARDS'

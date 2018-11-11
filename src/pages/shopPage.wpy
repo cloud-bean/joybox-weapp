@@ -4,11 +4,13 @@
 
 <template>
   <div>
-    敬请期待~
+    买入（我的背包）；卖出（二手市场）
+    二手交易市场，购买二手卡牌，购买官方卡包，购买其他
+    征兆队伍，打开卷轴，团购。。
   </div>
 </template>
 
 <script>
-  import wepy from 'wepy';
-  export default class shopPage extends wepy.page {}
+  import wepy from 'wepy'
+export default class shopPage extends wepy.page {}
 </script>

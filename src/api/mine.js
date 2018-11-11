@@ -1,28 +1,18 @@
 import {fetchWithAccessToken, fetchWithAccessTokenV2} from './fetchKF'
 
 // update avatar
-export const setMemberAvatar = (id, data) => fetchWithAccessToken.put(`/users/${id}/change/avatar`, data)
-
-// update user info
-export const updateUserInfo = (userid, userInfo) =>
-  new Promise((resolve, reject) => {
-    fetchWithAccessToken
-    .put(`/users/${userid}`, userInfo)
-    .then(result => {
-      resolve(result)
-    })
-    .catch(err => {
-      reject(err)
-    })
-  })
+export const setMemberAvatar = (id, data) => fetchWithAccessToken(`/users/${id}/change/avatar`, 'put', data)
 
 // mine, my bag
-export const getAllMyCards = () =>
+export const getAllMyCards = (page, limit) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/myBag') // knapsack page --- 'GET /api/v2/myBag'
+    fetchWithAccessToken(`/myBag?page=${page}&limit=${limit}`, 'get') // knapsack page --- 'GET /api/v2/myBag'
       .then((result) => {
-        resolve(result)
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve([])
+        }
       })
       .catch((err) => {
         reject(err)
@@ -31,10 +21,13 @@ export const getAllMyCards = () =>
 
 export const sellCard = data =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .post('/sellCard', data) // sell card --- '/api/v2/saleCard'
+    fetchWithAccessTokenV2('/sellCard', 'post', data) // sell card --- '/api/v2/saleCard'
       .then((result) => {
-        resolve(result)
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve({})
+        }
       })
       .catch((err) => {
         reject(err)
@@ -44,10 +37,13 @@ export const sellCard = data =>
 // keep data
 export const getKeepData = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/keep') // knapsack page --- 'GET /api/v2/keep'
+    fetchWithAccessTokenV2('/keep', 'get') // knapsack page --- 'GET /api/v2/keep'
       .then((result) => {
-        resolve(result)
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve({})
+        }
       })
       .catch((err) => {
         reject(err)
@@ -57,14 +53,13 @@ export const getKeepData = () =>
 // timeline data
 export const getActivities = (page, limit) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .get(`/timelines?page=${page}&limit=${limit}&sort=-created`)
+    fetchWithAccessToken(`/timelines?page=${page}&limit=${limit}&sort=-created`, 'get')
       .then(result => {
-        // if (result.data.code == 'success') {
-        //   const activities = result.data.data;
-        //   resolve(activities);
-        // }
-        resolve(result)
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve([])
+        }
       })
       .catch(err => {
         reject(err)
@@ -73,14 +68,13 @@ export const getActivities = (page, limit) =>
 
 export const upvoteActivity = id =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .post(`/timelines/${id}/addUpVote`)
+    fetchWithAccessToken(`/timelines/${id}/addUpVote`, 'post')
       .then(result => {
-        // if (result.data.code == 'success') {
-        //   const activity = result.data.data;
-        //   resolve(activity)
-        // }
-        resolve(result)
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve({})
+        }
       })
       .catch(err => {
         reject(err)
@@ -89,15 +83,15 @@ export const upvoteActivity = id =>
 
 export const addMsgToActivity = (id, content) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .post(`/timelines/${id}/addMessage`, {
-        content
-      })
+    fetchWithAccessToken(`/timelines/${id}/addMessage`, 'post', {
+      content
+    })
       .then(result => {
-        // if (result.data.code === 'success') {
-        //   const activity = result.data.data
-        //   resolve(activity)
-        // }
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve({})
+        }
         resolve(result)
       })
       .catch(err => {

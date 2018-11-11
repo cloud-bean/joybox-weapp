@@ -5,6 +5,7 @@ import task from './task'
 import order from './order'
 import card from './card'
 import course from './course'
+import mine from './mine'
 
 export default combineReducers({
   user,
@@ -12,5 +13,6 @@ export default combineReducers({
   task,
   order,
   card,
-  course
+  course,
+  mine
 })
