@@ -50,21 +50,7 @@ export const getKeepData = () =>
       })
   })
 
-// timeline data
-export const getActivities = (page, limit) =>
-  new Promise((resolve, reject) => {
-    fetchWithAccessToken(`/timelines?page=${page}&limit=${limit}&sort=-created`, 'get')
-      .then(result => {
-        if (result.data && (result.data.code === 'success')) {
-          resolve(result.data.data)
-        } else {
-          resolve([])
-        }
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
+
 
 export const upvoteActivity = id =>
   new Promise((resolve, reject) => {

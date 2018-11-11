@@ -1,0 +1,27 @@
+<template>
+  <view>
+    <image src="{{tlData.user.profileImageURL}}"></image>
+    {{ tlData.user.displayName }}
+    {{ tlData.title }}
+  </view>
+</template>
+<style scoped>
+
+</style>
+
+<script>
+  import wepy from 'wepy'
+  export default class timelineItem extends wepy.component {
+    config = {
+      usingComponents: {
+        // 'i-icon': '/iview/icon/index'
+      }
+    }
+    computed = {
+    }
+    props = {
+      tlData: Object
+    }
+    methods = { }
+  }
+</script>

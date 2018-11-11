@@ -8,15 +8,15 @@
   <div class="layout">
     <i-card title="{{user.displayName}}" extra="等级： {{level}}" thumb="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}">
       <view slot="footer">
-        <i-badge count="1.3" style="margin: 0 10px;  color: green !important;">
-          <i-icon type="flashlight" size="36" color="gold" />
+        <i-badge count="1.3" style="margin: 0 10px;">
+          <i-icon type="flashlight" size="36" color="purple" />
         </i-badge>
-        <i-badge count="1.8" style="margin: 0 10px;">
-          <i-icon type="redpacket" size="36" color="red" />
-        </i-badge>
-        <i-badge count="2.6" style="margin: 0 10px;" i-class="demo">
-          <i-icon type="integral" size="36" color="brown" />
-        </i-badge>
+        <!--<i-badge count="1.8" style="margin: 0 10px;">-->
+          <!--<i-icon type="redpacket" size="36" color="red" />-->
+        <!--</i-badge>-->
+        <!--<i-badge count="2.6" style="margin: 0 10px;" i-class="demo">-->
+          <!--<i-icon type="integral" size="36" color="brown" />-->
+        <!--</i-badge>-->
       </view>
       <view slot="content">
         <i-tag style="margin: 0 10px;" class="i-tags" type="border">
@@ -27,7 +27,7 @@
         </i-tag>
       </view>
     </i-card>
-    <view style="background: red;">
+    <view>
       <keepBar :keepInfo="keepInfo"></keepBar>
     </view>
 

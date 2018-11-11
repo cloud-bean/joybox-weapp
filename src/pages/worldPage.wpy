@@ -1,13 +1,126 @@
 <style scoped>
+  .news-box {
+    background-color: aquamarine;
+  }
+  .timelines-panel {
+    background-color: burlywood;
+  }
 </style>
 
 <template>
-  <div>
-    事件流，新闻和公告，攻略，敬请期待~
-  </div>
+  <view class="layout">
+    <view class="news-box">
+      <view wx:if="{{documents.length > 0}}">
+        <repeat for="{{documents}}" key="index" index="index" item="doc">
+          <view class="title">{{ doc.title }}</view>
+          <view class="title">{{ doc.subTitle }}</view>
+          <image src="{{doc.file.URL}}"></image>
+        </repeat>
+      </view>
+      <view wx:else>
+        nothing left ~
+      </view>
+
+      <i-page current="{{ docPage }}" total="{{ docTotalPage }}" bind:change="handleDocPageChange">
+        <view slot="prev">
+          前
+        </view>
+        <view slot="next">
+          后
+        </view>
+      </i-page>
+    </view>
+    <view class="timelines-panel">
+      <view wx:if="{{timelines.length > 0}}">
+        <repeat for="{{timelines}}" key="index" index="index" item="item">
+          <view>
+            <timeline-item :tlData="item"></timeline-item>
+          </view>
+        </repeat>
+      </view>
+      <view wx:else>
+        nothing left ~
+      </view>
+      <i-page current="{{ timelinePage }}" total="{{ tlTotalPage }}" bind:change="handleTimelinePageChange">
+        <view slot="prev">
+          前
+        </view>
+        <view slot="next">
+          后
+        </view>
+      </i-page>
+    </view>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  export default class worldPage extends wepy.page {}
+  import { connect } from 'wepy-redux'
+  import { getTimelines, getDocuments } from '../store/actions'
+  import TimelineItem from '../components/timelineItem'
+  @connect({
+    timelines(state) {
+      return state.world.timelines
+    },
+    documents(state) {
+      return state.world.documents
+    },
+    timelineCount(state) {
+      return state.world.totalTimelineCount
+    },
+    docCount(state) {
+      return state.world.totalDocumentCount
+    }
+  }, {
+    getTimelines,
+    getDocuments
+  })
+  export default class worldPage extends wepy.page {
+    data = {
+      timelinePage: 1,
+      timelineLimit: 30,
+      docPage: 1,
+      docLimit: 1
+    }
+    config = {
+      usingComponents: {
+        'i-page': '/iview/page/index'
+      }
+    }
+    components = {
+      'timeline-item': TimelineItem
+    }
+    computed = {
+      tlTotalPage () {
+        return Math.ceil(this.timelineCount / this.timelineLimit)
+      },
+      docTotalPage () {
+        return Math.ceil(this.docCount / this.docLimit)
+      }
+    }
+    methods = {
+      handleDocPageChange({ detail }) {
+        const type = detail.type
+        if (type === 'next') {
+          this.docPage = this.docPage + 1
+        } else if (type === 'prev') {
+          this.docPage = this.docPage - 1
+        }
+        this.methods.getDocuments(this.docPage, this.docLimit)
+      },
+      handleTimelinePageChange({ detail }) {
+        const type = detail.type
+        if (type === 'next') {
+          this.timelinePage = this.timelinePage + 1
+        } else if (type === 'prev') {
+          this.timelinePage = this.timelinePage - 1
+        }
+        this.methods.getTimelines(this.timelinePage, this.timelineLimit)
+      }
+    }
+    onReady() {
+      this.methods.getTimelines(this.timelinePage, this.timelineLimit)
+      this.methods.getDocuments(this.docPage, this.docLimit)
+    }
+  }
 </script>

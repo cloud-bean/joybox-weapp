@@ -1,0 +1,2 @@
+export const GET_TIMELINES = 'GET_TIMELINES'
+export const GET_DOCUMENTS = 'GET_DOCUMENTS'
