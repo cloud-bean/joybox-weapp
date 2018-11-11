@@ -1,4 +1,4 @@
-import {fetchWithAccessToken} from './fetchKF'
+import {fetchWithAccessToken, fetchWithAccessTokenV2} from './fetchKF'
 
 export const getAllTaskList = function (page, limit) {
   return fetchWithAccessToken(`/allTasks?page=${page}&limit=${limit}`, 'GET')
@@ -38,3 +38,39 @@ export const leaveComment = (content, taskId) => {
     .then(res => res.data.data)
     .catch(console.log)
 }
+
+export const getDoneTasksCount = () =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessTokenV2
+      .get('/doneTasksCount') // 'GET /api/v2/userTaskInfo'
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+
+export const bindUserInfo = data =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessTokenV2
+      .post('/bindCourse', data) // 'POST /bindCourse'
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+
+export const getCourses = () =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessTokenV2
+      .get('/courses') // 'GET /api/v2/courses'
+      .then((result) => {
+        resolve(result)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })

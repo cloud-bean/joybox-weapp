@@ -14,13 +14,14 @@ export const updateUserInfo = function (userId, userInfo) {
     .catch(console.log)
 }
 
-export const signUp = function ({providerData, phone, slogan, displayName, profileImageURL}) {
+export const signUp = function ({providerData, school, phone, slogan, displayName, profileImageURL}) {
   let userInfo = {
     option: {
       goldToken: 0,
       exp: 0,
       courses: [],
       phone,
+      school,
       slogan
     },
     roleType: 'student',

@@ -1,56 +1,51 @@
 <style lang="less" scoped>
-
-
   .wrapper {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 40rpx;
   }
-.entity{
-  margin-top: 20rpx;
-  width: 100%;
-}
-input {
-  margin-top:20rpx;
-  border: 1px solid #ccc;
-  padding: 10rpx;
-  font-size: 13pt;
-}
-textarea{
-  margin-top:20rpx;
-  border: 1px solid #ccc;
-  padding: 10rpx;
-  font-size: 13pt;
-  width: auto;
-}
-button{
-  margin-top:20rpx;
-}
+  .entity {
+    margin-top: 20rpx;
+    width: 100%;
+  }
+  input {
+    margin-top: 20rpx;
+    border: 1px solid #ccc;
+    padding: 10rpx;
+    font-size: 13pt;
+  }
+  textarea {
+    margin-top: 20rpx;
+    border: 1px solid #ccc;
+    padding: 10rpx;
+    font-size: 13pt;
+    width: auto;
+  }
+  button {
+    margin-top: 20rpx;
+  }
   .hidden-input {
     display: none;
   }
 </style>
 
 <template>
-
   <view class="wrapper">
     <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true">
-
       <view class="score">
         <!-- <starPanel></starPanel> -->
         <view hidden="true">
-          <input name="orderId" value="{{activeOrder._id}}"/>
+          <input name="orderId" value="{{activeOrder._id}}" />
         </view>
       </view>
       <view class="message">
         <text class="title">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
         <input type="number" name="score" value="" placeholder="请输入评分"></input>
         <textarea name="comments" placeholder="请输入作业评语"></textarea>
-        <button  type="primary" formType="submit">提交评价</button>
+        <button type="primary" formType="submit">提交评价</button>
       </view>
     </form>
-
     <view class="entity">
       <view wx:if="{{activeOrder.files[0].type === 0 }}">
         <image src="{{activeOrder.files[0].URL}}" mode="widthFix"></image>
@@ -65,17 +60,17 @@ button{
       <!-- <image mode= "aspectFit" src="./head.jpg"></image> -->
     </view>
   </view>
-
 </template>
 
 <script>
   import wepy from 'wepy'
   // import starPanel from '../components/teacherSetScorePage/starPanel'
-  import { connect } from 'wepy-redux'
+  import {
+    connect
+  } from 'wepy-redux'
   import * as api from '../api'
-
   @connect({
-    activeOrder (state) {
+    activeOrder(state) {
       return state.order.activeOrder
     }
   }, {})
@@ -87,9 +82,13 @@ button{
       // starPanel
     }
     methods = {
-      async formSubmit (e) {
+      async formSubmit(e) {
         console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
-        const {score, comments, orderId} = e.detail.value
+        const {
+          score,
+          comments,
+          orderId
+        } = e.detail.value
         if (!score || !comments) {
           wepy.showModal({
             title: '提示',
@@ -104,7 +103,7 @@ button{
           url: '/pages/successPage'
         })
       },
-      async handlePlayVoice () {
+      async handlePlayVoice() {
         const that = this
         if (!that.fileURL) {
           try {
@@ -112,7 +111,11 @@ button{
               title: '素材下载中',
               mask: true
             })
-            const {tempFilePath} = await wepy.downloadFile({url: that.activeOrder.files[0].URL})
+            const {
+              tempFilePath
+            } = await wepy.downloadFile({
+              url: that.activeOrder.files[0].URL
+            })
             wepy.hideLoading()
             that.fileURL = tempFilePath
           } catch (e) {
@@ -125,21 +128,20 @@ button{
         })
         wx.playVoice({
           filePath: that.fileURL,
-          success () {
+          success() {
             wepy.showToast({
               title: '播放完成',
               icon: 'success',
               duration: 1000
             })
           },
-          complete () {
+          complete() {
             wepy.hideLoading()
           }
         })
       }
     }
-
-    async onLoad () {
+    async onLoad() {
       const that = this
       console.log(that.activeOrder.files[0].URL)
       // try{

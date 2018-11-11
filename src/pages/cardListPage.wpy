@@ -1,34 +1,44 @@
 <template>
-  <view wx:if="cards.length > 0">
-    <repeat for="{{cards}}" key="index" index="index" item="item">
-      <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image"></image>
-    </repeat>
+  <view class="container">
+    <view wx:if="{{cards.length > 0}}">
+      <repeat for="{{cards}}" key="index" index="index" item="item">
+        <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+      </repeat>
+    </view>
+    <view wx:else>
+      暂无卡牌数据哦~
+    </view>
   </view>
 </template>
 
 
 <script>
   import wepy from 'wepy'
-  import { connect } from 'wepy-redux'
-  import { getCards } from '../store/actions'
-
+  import {
+    connect
+  } from 'wepy-redux'
+  import {
+    getCards
+  } from '../store/actions'
   @connect({
-    cards (state) {
+    cards(state) {
       return state.card.cards
     }
   }, {
     getCards
   })
-
   export default class CardListPage extends wepy.page {
     onReady() {
-      this.methods.getCards(1, 50)
+      this.methods.getCards(1, 30)
     }
   }
-
 </script>
 
 <style scoped>
+  .container {
+    text-align: center;
+    background-color: #f8f8f9;
+  }
   .card-image {
     width: 64px;
     height: 100px;

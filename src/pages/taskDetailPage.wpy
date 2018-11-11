@@ -1,259 +1,244 @@
 <style lang="less" scoped>
-@import "../plugin/wxParse/wxParse.wxss";
-.submit{
-  background-color: #09BB07;
-  color: white;
-  position: fixed;
-  // padding: 20rpx;
-  width: 80%;
-  // border-radius: 10rpx;
-  bottom:20rpx;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  // right:20rpx;
-}
-
-.video-play{
-  background-color: black;
-  color: white;
-  // padding: 20rpx;
-  width: 50%;
-  // border-radius: 10rpx;
-  bottom: -10rpx;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-}
-
-.record-box{
-  position: absolute;
-  top:300rpx;
-  left: 0;
-  right: 0;
-  width: 70%;
-  margin: 0 auto;
-  background-color: #ffffff;
-  z-index: 1000;
-}
-.md-container{
-  padding: 10rpx 20rpx;
-}
-.summary{
-  color: #576b95;
-}
-.mask{
-  width: 100%;
-  height: 100%;
-  /* Bg: */
-  // opacity: 0.5;
-  background: rgba(0,0,0,.5);
-  position: absolute;
-  z-index: 999;
-  top: 0;
-}
-.task-title{
-  padding: 20rpx 20rpx;
-  font-size: 14pt;
-  background-color: #26a2ff;
-  opacity: 0.8;
-  color: white;
-}
-.task-head{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20rpx 20rpx;
-  height: 140rpx;
-  background-color: #26a2ff;
-  font-size: 13pt;
-  color: white;
-}
-.msg-container{
-  margin-bottom: 100rpx;
-}
-.play-audio{
-  /*border: 1px solid #ccc;*/
-  display:flex;
-  justify-content: space-around;
-}
-.play-audio audio{
-
-  margin: 0 auto;
-}
-
-.play-video{
-  margin:0 auto;
-}
-// .play-video video{
-//   height:100%;
-//   width: 100%;
-// }
+  @import "../plugin/wxParse/wxParse.wxss";
+  .submit {
+    background-color: #09BB07;
+    color: white;
+    position: fixed; // padding: 20rpx;
+    width: 80%; // border-radius: 10rpx;
+    bottom: 20rpx;
+    left: 0;
+    right: 0;
+    margin: 0 auto; // right:20rpx;
+  }
+  .video-play {
+    background-color: black;
+    color: white; // padding: 20rpx;
+    width: 50%; // border-radius: 10rpx;
+    bottom: -10rpx;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+  .record-box {
+    position: absolute;
+    top: 300rpx;
+    left: 0;
+    right: 0;
+    width: 70%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    z-index: 1000;
+  }
+  .md-container {
+    padding: 10rpx 20rpx;
+  }
+  .summary {
+    color: #576b95;
+  }
+  .mask {
+    width: 100%;
+    height: 100%;
+    /* Bg: */
+    // opacity: 0.5;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    z-index: 999;
+    top: 0;
+  }
+  .task-title {
+    padding: 20rpx 20rpx;
+    font-size: 14pt;
+    background-color: #26a2ff;
+    opacity: 0.8;
+    color: white;
+  }
+  .task-head {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20rpx 20rpx;
+    height: 140rpx;
+    background-color: #26a2ff;
+    font-size: 13pt;
+    color: white;
+  }
+  .msg-container {
+    margin-bottom: 100rpx;
+  }
+  .play-audio {
+    /*border: 1px solid #ccc;*/
+    display: flex;
+    justify-content: space-around;
+  }
+  .play-audio audio {
+    margin: 0 auto;
+  }
+  .play-video {
+    margin: 0 auto;
+  }
+  // .play-video video{
+  //   height:100%;
+  //   width: 100%;
+  // }
 </style>
 
 <template>
-
-  <import src="../plugin/wxParse/wxParse.wxml"/>
+  <import src="../plugin/wxParse/wxParse.wxml" />
   <view class="task-title">{{activeTask.name}}</view>
   <view class="task-head">
     <view>发布于 {{activeTask.created }}</view>
     <view> {{activeTask.expireTime }}超期</view>
     <view>类型 {{activeTask.type}}</view>
   </view>
-
   <!--视频播放组件，视频播放文件存在七牛上，已测试可用-->
   <!--<video style="width: 100%;" src="http://oeif08fpp.bkt.clouddn.com/%E8%AE%A1%E7%AE%97%E8%83%9C%E5%88%A9%E7%95%8C%E9%9D%A2-modal%E5%92%8C%E9%9F%B3%E6%95%88.mp4"></video>-->
-
   <view class="wxParse md-container">
-    <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}"/>
-
+    <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}" />
     <image src="{{activeTask.contentImage.URL}}"></image>
-
     <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
       <view class="wxParse-h1">任务素材</view>
       <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">
-        <video  src="{{activeTask.videoFile.URL}}" controls>  </video>
+        <video src="{{activeTask.videoFile.URL}}" controls>  </video>
       </view>
-      <view class="play-audio"  wx:if="{{activeTask.audioFile}}">
+      <view class="play-audio" wx:if="{{activeTask.audioFile}}">
         <audio src="{{activeTask.audioFile.URL}}" binderror="handleError" controls> </audio>
       </view>
     </view>
   </view>
-
   <view class="wxParse md-container summary" wx:if="{{activeTask.isDone}}">
-    <template is="wxParse" wx:if="{{activeTask.summary}}" data="{{wxParseData:summary.nodes}}"/>
+    <template is="wxParse" wx:if="{{activeTask.summary}}" data="{{wxParseData:summary.nodes}}" />
   </view>
-
   <view class="md-container">
     <completeList :completeUsers.sync="taskDoneUsers"></completeList>
   </view>
   <view class="msg-container">
-    <repeat  for="{{taskComments}}" key="index" index="index" item="item">
+    <repeat for="{{taskComments}}" key="index" index="index" item="item">
       <msgItem :msgData.sync="item"></msgItem>
     </repeat>
   </view>
-
   <button wx:if="{{!activeTask.isDone}}" class="submit" @tap="open">上传作业</button>
 </template>
 
 <script>
-import wepy from 'wepy'
-import completeList from '../components/taskDetailPage/completeList'
-import msgItem from '../components/taskDetailPage/msgItem'
-import recordBox from '../components/taskDetailPage/recordBox'
-var WxParse = require('../plugin/wxParse/wxParse.js')
-import { getTaskComments } from '../store/actions'
-import { connect } from 'wepy-redux'
-@connect({
-  activeTask (state) {
-    return state.task.activeTask
-  },
-  taskDoneUsers(state) {
-    return state.task.activeTask.taskDoneUsers
-  },
-  taskComments(state) {
-    return state.task.activeTaskComments
-  }
-}, {
-  getTaskComments
-})
-export default class TaskDetailPage extends wepy.page {
-  data = {
-    tempAudioFile: '',
-    tempVideoFile: '',
-    defaultImgUrl: 'http://oeif08fpp.bkt.clouddn.com/default-task-title-image.jpeg'
-  }
-  components = {
-    completeList,
-    msgItem,
-    recordBox
-  }
-  onShareAppMessage(res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
+  import wepy from 'wepy'
+  import completeList from '../components/taskDetailPage/completeList'
+  import msgItem from '../components/taskDetailPage/msgItem'
+  import recordBox from '../components/taskDetailPage/recordBox'
+  var WxParse = require('../plugin/wxParse/wxParse.js')
+  import {
+    getTaskComments
+  } from '../store/actions'
+  import {
+    connect
+  } from 'wepy-redux'
+  @connect({
+    activeTask(state) {
+      return state.task.activeTask
+    },
+    taskDoneUsers(state) {
+      return state.task.activeTask.taskDoneUsers
+    },
+    taskComments(state) {
+      return state.task.activeTaskComments
     }
-    console.log('this.activeTask', this.activeTask)
-    let imgUrl = this.defaultImgUrl
-    if (this.activeTask.contentImage && this.activeTask.contentImage.URL) {
-      imgUrl = this.activeTask.contentImage.URL
+  }, {
+    getTaskComments
+  })
+  export default class TaskDetailPage extends wepy.page {
+    data = {
+      tempAudioFile: '',
+      tempVideoFile: '',
+      defaultImgUrl: 'http://qn.joywill.com/default-task-title-image.jpeg'
     }
-    return {
-      title: this.activeTask.name,
-      path: 'pages/initPage',
-      imageUrl: imgUrl,
-      success(res) {
-        console.log(res)
+    components = {
+      completeList,
+      msgItem,
+      recordBox
+    }
+    onShareAppMessage(res) {
+      if (res.from === 'button') {
+        // 来自页面内转发按钮
+        console.log(res.target)
+      }
+      console.log('this.activeTask', this.activeTask)
+      let imgUrl = this.defaultImgUrl
+      if (this.activeTask.contentImage && this.activeTask.contentImage.URL) {
+        imgUrl = this.activeTask.contentImage.URL
+      }
+      return {
+        title: this.activeTask.name,
+        path: 'pages/initPage',
+        imageUrl: imgUrl,
+        success(res) {
+          console.log(res)
+        }
+      }
+    }
+    onLoad() {
+      const question = this.activeTask.description
+      const summary = this.activeTask.summary
+      WxParse.wxParse('question', 'md', question, this, 5)
+      WxParse.wxParse('summary', 'md', summary, this, 5)
+      this.methods.getTaskComments(this.activeTask._id)
+    }
+    computed = {}
+    async onShow() {
+      // try{
+      //   wepy.showLoading({title:'素材下载中'})
+      //   if(that.activeTask.audioFile){
+      //     const {tempFilePath} = await wepy.downloadFile({url: that.activeTask.audioFile.URL})
+      //     this.tempAudioFile = tempFilePath;
+      //   }
+      //   if(that.activeTask.videoFile){
+      //     const {tempFilePath} = await wepy.downloadFile({url: that.activeTask.videoFile.URL})
+      //     this.tempAudioFile = tempFilePath;
+      //   }
+      //   wepy.hideLoading()
+      // } catch (e) {
+      //   console.log(e)
+      // }
+    }
+    methods = {
+      handleSubmit() {
+        console.log('handleSubmit')
+      },
+      handleError(e) {
+        console.log(e.detail)
+      },
+      open() {
+        let that = this
+        wx.showActionSheet({
+          itemList: ['拍照', '录音', '视频'],
+          success: function(res) {
+            console.log(res.tapIndex)
+            if (res.tapIndex === 1) {
+              wx.navigateTo({
+                url: `/pages/recordPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
+              })
+            } else if (res.tapIndex !== undefined) {
+              wx.navigateTo({
+                url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
+              })
+            }
+          },
+          fail: function(res) {
+            console.log(res.errMsg)
+          }
+        })
+      },
+      showVideo() {
+        const startTag = '<iframe frameborder="0" width="100%" src="https://v.qq.com/iframe/player.html?'
+        const endTag = '&tiny=0&auto=0" allowfullscreen></iframe>'
+        const vidStr = this.activeTask.txVideoFrame.slice(startTag.length, 0 - endTag.length)
+        const url = `/pages/videoPage?${vidStr}`
+        wx.navigateTo({
+          url
+        })
+      },
+      checkWeb() {
+        console.log('web-view', wx.canIUse('web-view'))
+        return wx.canIUse('web-view')
       }
     }
   }
-  onLoad() {
-    const question = this.activeTask.description
-    const summary = this.activeTask.summary
-    WxParse.wxParse('question', 'md', question, this, 5)
-    WxParse.wxParse('summary', 'md', summary, this, 5)
-    this.methods.getTaskComments(this.activeTask._id)
-  }
-  computed = {
-  }
-  async onShow() {
-    // try{
-    //   wepy.showLoading({title:'素材下载中'})
-    //   if(that.activeTask.audioFile){
-    //     const {tempFilePath} = await wepy.downloadFile({url: that.activeTask.audioFile.URL})
-    //     this.tempAudioFile = tempFilePath;
-    //   }
-    //   if(that.activeTask.videoFile){
-    //     const {tempFilePath} = await wepy.downloadFile({url: that.activeTask.videoFile.URL})
-    //     this.tempAudioFile = tempFilePath;
-    //   }
-    //   wepy.hideLoading()
-    // } catch (e) {
-    //   console.log(e)
-    // }
-  }
-  methods = {
-    handleSubmit() {
-      console.log('handleSubmit')
-    },
-    handleError(e) {
-      console.log(e.detail)
-    },
-    open () {
-      let that = this
-      wx.showActionSheet({
-        itemList: ['拍照', '录音', '视频'],
-        success: function(res) {
-          console.log(res.tapIndex)
-          if (res.tapIndex === 1) {
-            wx.navigateTo({
-              url: `/pages/recordPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
-            })
-          } else if (res.tapIndex !== undefined) {
-            wx.navigateTo({
-              url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}`
-            })
-          }
-        },
-        fail: function(res) {
-          console.log(res.errMsg)
-        }
-      })
-    },
-    showVideo() {
-      const startTag = '<iframe frameborder="0" width="100%" src="https://v.qq.com/iframe/player.html?'
-      const endTag = '&tiny=0&auto=0" allowfullscreen></iframe>'
-      const vidStr = this.activeTask.txVideoFrame.slice(startTag.length, 0 - endTag.length)
-      const url = `/pages/videoPage?${vidStr}`
-
-      wx.navigateTo({
-        url
-      })
-    },
-    checkWeb() {
-      console.log('web-view', wx.canIUse('web-view'))
-      return wx.canIUse('web-view')
-    }
-  }
-}
 </script>

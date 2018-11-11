@@ -1,55 +1,56 @@
 <style lang="less" scoped>
-.wrapper{
-  padding: 20rpx 40rpx;
-
-}
-.title{
-  text-align: center;
-  color: #26a2ff;
-  font-size: 18pt;
-  padding: 20rpx;
-}
-.content{
-  font-size: 13pt;
-  color: #888;
-  margin-bottom:20rpx;
-
-}
-.text{
-  font-size: 11pt;
-  color: #353535;
-
-}
-input{
-  border: 1px solid #b2b2b2;
-  padding: 20rpx;
-  font-size: 12pt;
-  margin-bottom: 20rpx;
-}
-button{
-  margin-top:20rpx;
-}
-
+  .wrapper {
+    padding: 20rpx 40rpx;
+  }
+  .title {
+    text-align: center;
+    color: #26a2ff;
+    font-size: 18pt;
+    padding: 10rpx;
+  }
+  .content {
+    font-size: 13pt;
+    color: #888;
+    margin-bottom: 20rpx;
+  }
+  .text {
+    font-size: 11pt;
+    color: #353535;
+  }
+  input {
+    border: 1px solid #b2b2b2;
+    padding: 20rpx;
+    font-size: 12pt;
+    margin-bottom: 20rpx;
+  }
+  button {
+    margin-top: 20rpx;
+  }
 </style>
 <template>
   <view class="wrapper">
     <view class="title">
-      悦盒 JoyBox
+      欢迎加入悦盒 JoyBox
     </view>
     <view class="content">
-如果您以前使用过JOYBOX系统，请到原系统中完成数据迁移工作，重新注册用户会导致您的历史数据丢失，请慎重。
+      通过每天的坚持学习，迎接挑战，积累经验和悦币，获得先机，赢取好成绩和酷奖品！学习就是升级打怪，学习就是游戏，让学习上瘾~
+    </view>
+    <view class="content" style="display: none;">
+      如果你以前使用过JOYBOX系统，请到原系统中完成数据迁移工作，重新注册用户会导致你的历史数据丢失，请慎重。
     </view>
     <view wx:if="{{formVisable}}">
-      <label class="text">填写您的手机号码</label>
-      <input id="phone" class="input" placeholder="" bindblur="bindChange"/>
-      <label class="text">请填写真实姓名</label>
-      <input id="displayName" class="input" placeholder="" bindblur="bindChange"/>
-      <label class="text">请填写学习宣言</label>
-      <input id="slogan" class="input" placeholder="" bindblur="bindChange"/>
-      <button type="primary" open-type="getUserInfo" bindgetuserinfo="handleUserInfo">确认</button>
+      <label class="text" for="phone">填写你的手机号码(必填)</label>
+      <input id="phone" required class="input" placeholder="手机号" bindblur="bindChange" />
+      <label class="text" for="displayName">请填写你的姓名(必填)</label>
+      <input id="displayName" class="input" placeholder="学生姓名" bindblur="bindChange" />
+      <label class="text" for="school">填写你所在的学校(必填)</label>
+      <input id="school" class="input" placeholder="学校" bindblur="bindChange" />
+      <label class="text" for="slogan">请填写学习宣言</label>
+      <input id="slogan" class="input" placeholder="Learning with Joy" bindblur="bindChange" />
+      <button type="primary" open-type="getUserInfo" bindgetuserinfo="handleUserInfo">加  入</button>
     </view>
     <view wx:if="{{!formVisable}}">
-      <button  @tap="showForm">注册</button>
+      <button @tap="showForm">创建新用户</button>
     </view>
   </view>
 </template>
@@ -57,17 +58,18 @@ button{
 <script>
   import wepy from 'wepy'
   import * as api from '../api/user'
-  import { connect } from 'wepy-redux'
-  // import * as aldApp from '../utils/sdk/ald-stat.js'
+  import {
+    connect
+  } from 'wepy-redux'
   @connect({
-    wxCredits (state) {
+    wxCredits(state) {
       return state.root.wxCredits
     }
   })
   export default class bindPage extends wepy.page {
     data = {
       inputContent: {},
-      formVisable: false
+      formVisable: true
     }
     methods = {
       async handleUserInfo(e) {
@@ -75,16 +77,27 @@ button{
         const userInfo = e.detail.userInfo
         const displayName = this.inputContent['displayName']
         const phone = this.inputContent['phone']
+        const school = this.inputContent['school']
         const slogan = this.inputContent['slogan']
-        if (!displayName || !phone) {
+        if (!displayName || !phone || !school) {
           wepy.showModal({
             title: '提示',
-            content: '请准确填写您的姓名和手机号',
+            content: '请填写完整你的信息哦',
             showCancel: false
           })
           return
         }
-        const userData = {displayName, providerData: {...userInfo, unionid: this.wxCredits.unionid, openid: this.wxCredits.openid}, phone, slogan, profileImageURL: userInfo.avatarUrl}
+        const userData = {
+          displayName,
+          school,
+          providerData: { ...userInfo,
+            unionid: this.wxCredits.unionid,
+            openid: this.wxCredits.openid
+          },
+          phone,
+          slogan,
+          profileImageURL: userInfo.avatarUrl
+        }
         const res = await api.signUp(userData)
         wepy.showToast({
           title: '注册成功',
@@ -96,13 +109,11 @@ button{
         })
         console.log('userdata: ', userData, 'return data:', res)
       },
-      bindChange (e) {
+      bindChange(e) {
         this.inputContent[e.currentTarget.id] = e.detail.value
       },
       showForm() {
         this.formVisable = true
-        // console.log(aldApp)
-        // aldApp.sendEvent('点击了注册按钮，显示表单')
       }
     }
     onLoad(options) {
@@ -115,5 +126,4 @@ button{
       //       学生Id   方便学生获得奖励
     }
   }
-
 </script>

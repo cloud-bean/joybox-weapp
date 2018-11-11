@@ -1,0 +1,13 @@
+<style scoped>
+</style>
+
+<template>
+  <div>
+    敬请期待~
+  </div>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class worldPage extends wepy.page {}
+</script>

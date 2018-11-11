@@ -35,7 +35,7 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/initPage',
-      'pages/bindPage',
+      'pages/homePage',
       'pages/recordPage',
       'pages/taskListPage',
       'pages/teacherOrderListPage',
@@ -44,7 +44,12 @@ export default class extends wepy.app {
       'pages/submitOrderPage',
       'pages/successPage',
       'pages/cardListPage',
-      'pages/videoPage'
+      'pages/storyListPage',
+      'pages/storyDetailPage',
+      'pages/teamListPage',
+      'pages/worldPage',
+      'pages/myPage',
+      'pages/shopPage'
     ],
     window: {
       backgroundTextStyle: 'dark',
@@ -53,6 +58,39 @@ export default class extends wepy.app {
       backgroundColor: '#eee',
       enablePullDownRefresh: false,
       navigationBarBackgroundColor: '#000'
+    },
+    tabBar: {
+      color: '#AEADAD',
+      selectedColor: '#049BFF',
+      backgroundColor: '#fff',
+      borderStyle: 'black',
+      list: [{
+        pagePath: 'pages/homePage',
+        iconPath: '/assets/images/home.gray.png',
+        selectedIconPath: '/assets/images/home.blue.png',
+        text: '首页'
+      }, {
+        pagePath: 'pages/cardListPage',
+        iconPath: '/assets/images/cards.gray.png',
+        selectedIconPath: '/assets/images/cards.blue.png',
+        text: '卡牌'
+      }, {
+        pagePath: 'pages/myPage',
+        iconPath: '/assets/images/mine.gray.png',
+        selectedIconPath: '/assets/images/mine.blue.png',
+        text: '我的',
+        selected: true
+      }, {
+        pagePath: 'pages/shopPage',
+        iconPath: '/assets/images/shop.gray.png',
+        selectedIconPath: '/assets/images/shop.blue.png',
+        text: '酒馆'
+      }, {
+        pagePath: 'pages/worldPage',
+        iconPath: '/assets/images/world.gray.png',
+        selectedIconPath: '/assets/images/world.blue.png',
+        text: '世界'
+      }]
     }
   }
 
