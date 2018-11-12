@@ -1,22 +1,35 @@
 <style scoped>
-
+  .tab-container {
+    margin-top: 40px;
+    padding: 10px;
+  }
 </style>
 
 <template>
-  <i-tabs current="{{ current }}" bindchange="handleChange">
-    <i-tab key="tab1" title="我的背包">
+  <view>
+    <i-tabs current="{{ current }}" fixed bindchange="handleChange">
+      <i-tab key="tab1" title="我的背包">
+      </i-tab>
+      <i-tab key="tab2" title="二手交易市场">
+      </i-tab>
+      <i-tab key="tab3" title="购买官方卡包">
+      </i-tab>
+      <i-tab key="tab4" title="其他">
+      </i-tab>
+    </i-tabs>
+    <view wx:if="{{ current === 'tab1' }}" class="tab-container">
       我的背包 totalCardsCount {{totalCardsCount}}
-    </i-tab>
-    <i-tab key="tab2" title="二手交易市场">
+    </view>
+    <view wx:if="{{ current === 'tab2' }}" class="tab-container">
       totalGoodsCount: {{ totalGoodsCount }}
-    </i-tab>
-    <i-tab key="tab3" title="购买官方卡包">
+    </view>
+    <view wx:if="{{ current === 'tab3' }}" class="tab-container">
       官方卡包 cardPool
-    </i-tab>
-    <i-tab key="tab4" title="其他">
+    </view>
+    <view wx:if="{{ current === 'tab4' }}" class="tab-container">
       购买其他 征兆队伍，打开卷轴，团购。。
-    </i-tab>
-  </i-tabs>
+    </view>
+  </view>
 </template>
 
 <script>
@@ -28,17 +41,18 @@
     getMyBagCards,
     getAllGoods
   } from '../store/actions'
+
   @connect({
-    myCards(state) {
+    myCards (state) {
       return state.shop.myBagCards
     },
-    totalCardsCount(state) {
+    totalCardsCount (state) {
       return state.shop.totalCardsCount
     },
-    goods(state) {
+    goods (state) {
       return state.shop.goods
     },
-    totalGoodsCount(state) {
+    totalGoodsCount (state) {
       return state.shop.totalGoodsCount
     }
   }, {
@@ -60,13 +74,14 @@
       }
     }
     methods = {
-      handleChange({
-        detail
-      }) {
+      handleChange ({
+                      detail
+                    }) {
         this.current = detail.key
       }
     }
-    onReady() {
+
+    onReady () {
       this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
       this.methods.getAllGoods(this.goodsPage, this.goodsLimit)
     }

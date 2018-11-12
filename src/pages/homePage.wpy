@@ -2,7 +2,7 @@
 .layout{
 }
 .layout-content{
-    min-height: 160px;
+    min-height: 140px;
     margin: 15px;
     overflow: hidden;
     background: #fff;
