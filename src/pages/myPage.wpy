@@ -8,15 +8,15 @@
   <div class="layout">
     <i-card title="{{user.displayName}}" extra="等级： {{level}}" thumb="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}">
       <view slot="footer">
-        <i-badge count="1.3" style="margin: 0 10px;  color: green !important;">
-          <i-icon type="flashlight" size="36" color="gold" />
+        <i-badge count="1.3" style="margin: 0 10px;">
+          <i-icon type="flashlight" size="36" color="purple" />
         </i-badge>
-        <i-badge count="1.8" style="margin: 0 10px;">
-          <i-icon type="redpacket" size="36" color="red" />
-        </i-badge>
-        <i-badge count="2.6" style="margin: 0 10px;" i-class="demo">
-          <i-icon type="integral" size="36" color="brown" />
-        </i-badge>
+        <!--<i-badge count="1.8" style="margin: 0 10px;">-->
+          <!--<i-icon type="redpacket" size="36" color="red" />-->
+        <!--</i-badge>-->
+        <!--<i-badge count="2.6" style="margin: 0 10px;" i-class="demo">-->
+          <!--<i-icon type="integral" size="36" color="brown" />-->
+        <!--</i-badge>-->
       </view>
       <view slot="content">
         <i-tag style="margin: 0 10px;" class="i-tags" type="border">
@@ -27,10 +27,19 @@
         </i-tag>
       </view>
     </i-card>
+    <view>
+      <keepBar :keepInfo="keepInfo"></keepBar>
+    </view>
+
+    <view>
+      排行，荣耀
+    </view>
   </div>
 </template>
 <script>
   import wepy from 'wepy'
+  import KeepBar from '../components/keepBar'
+  import { getMyBagCards } from '../store/actions'
   import {
     connect
   } from 'wepy-redux'
@@ -42,7 +51,16 @@
       }
       newUser.created = moment(new Date(state.user.created)).toNow(true)
       return newUser
+    },
+    keepInfo(state) {
+      console.log('keepInfo in connect my page', state.mine.keepInfo)
+      return state.mine.keepInfo
+    },
+    myBagCards(state) {
+      return state.mine.myBagCards
     }
+  }, {
+    getMyBagCards
   })
   export default class myPage extends wepy.page {
     config = {
@@ -50,8 +68,15 @@
         'i-card': '/iview/card/index',
         'i-tag': '/iview/tag/index',
         'i-badge': '/iview/badge/index',
-        'i-icon': '/iview/icon/index'
+        'i-icon': '/iview/icon/index',
+        'i-grid': '/iview/grid/index',
+        'i-grid-item': '/iview/grid-item/index',
+        'i-grid-icon': '/iview/grid-icon/index',
+        'i-grid-label': '/iview/grid-label/index'
       }
+    }
+    components = {
+      keepBar: KeepBar
     }
     computed = {
       level() {
@@ -67,6 +92,9 @@
         console.log('enter level func', experience, maxlevel)
         return maxlevel
       }
+    }
+    onReady() {
+      this.methods.getMyBagCards()
     }
   }
 </script>

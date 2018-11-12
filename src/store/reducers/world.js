@@ -1,26 +1,27 @@
 import { handleActions } from 'redux-actions'
-import { GET_NEWS, SET_NEWS_PAGE_LIMIT } from '../types'
+import { GET_DOCUMENTS, GET_TIMELINES } from '../types'
 
-const initNewsState = {
-  news: [],
-  totalPage: 1,
-  page: 1,
-  limit: 2
+const initCardState = {
+  documents: [],
+  timelines: [],
+  totalDocumentCount: 0,
+  totalTimelineCount: 0
 }
 export default handleActions({
-  [GET_NEWS] (state, action) {
-    console.log('GET_NEWS', action)
+  [GET_TIMELINES] (state, action) {
+    console.log('GET_TIMELINES', action.payload)
     if (action.payload) {
-      state.news = action.payload.data
-      state.totalPage = Math.ceil(action.payload.totalCount / state.limit) || 1
+      state.timelines = action.payload.timelines
+      state.totalTimelineCount = action.payload.totalCount
     }
-    console.log('set world state', state)
     return state
   },
-  [SET_NEWS_PAGE_LIMIT] (state, action) {
-    console.log('enter into SET_NEWS_PAGE_LIMIT')
-    state.page = action.payload.page
-    state.limit = action.payload.limit
+  [GET_DOCUMENTS] (state, action) {
+    console.log('GET_DOCUMENTS', action.payload)
+    if (action.payload) {
+      state.documents = action.payload.documents
+      state.totalDocumentCount = action.payload.totalCount
+    }
     return state
   }
-}, initNewsState)
+}, initCardState)

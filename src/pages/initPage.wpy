@@ -9,7 +9,7 @@
 <script>
   import wepy from 'wepy'
   import * as api from '../api/user'
-  import {setUserInfo, authClient, setWxAuthIds} from '../store/actions'
+  import {setUserInfo, authClient, setWxAuthIds, getKeepInfo} from '../store/actions'
   import { getStore } from 'wepy-redux'
   const store = getStore()
   export default class bindPage extends wepy.page {
@@ -29,6 +29,8 @@
       store.dispatch(authClient(loginInfo))
       if (userInfo) {
         store.dispatch(setUserInfo(newUserInfo))
+        // get keep data
+        store.dispatch(getKeepInfo())
         wepy.hideLoading()
         if (userInfo.roleType === 'teacher') {
           wepy.reLaunch({

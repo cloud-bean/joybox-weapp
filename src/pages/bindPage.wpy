@@ -116,5 +116,14 @@
         this.formVisable = true
       }
     }
+    onLoad(options) {
+      console.log(options)  // 判断传递机进来的参数。
+      // 暂定分 school 校区
+      //       partner 第三方
+      //       saleId  销售id
+      //       teacherId 老师id
+      //       其他 Id
+      //       学生Id   方便学生获得奖励
+    }
   }
 </script>

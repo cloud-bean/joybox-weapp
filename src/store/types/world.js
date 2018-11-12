@@ -1,2 +1,2 @@
-export const GET_NEWS = 'GET_NEWS'
-export const SET_NEWS_PAGE_LIMIT = 'SET_NEWS_PAGE_LIMIT'
+export const GET_TIMELINES = 'GET_TIMELINES'
+export const GET_DOCUMENTS = 'GET_DOCUMENTS'
