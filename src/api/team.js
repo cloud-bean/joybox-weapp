@@ -3,8 +3,7 @@ import {fetchWithAccessToken} from './fetchKF'
 // teams, get all the teams.
 export const getAllTeams = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .get('/teams')
+    fetchWithAccessToken('/teams', 'get')
       .then((result) => {
         resolve(result)
       })
@@ -16,8 +15,7 @@ export const getAllTeams = () =>
 // get the team
 export const getTeam = (teamId) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .get(`/teams/${teamId}`)
+    fetchWithAccessToken(`/teams/${teamId}`, 'get')
       .then((result) => {
         resolve(result)
       })

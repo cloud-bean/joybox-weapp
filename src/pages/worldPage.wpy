@@ -1,13 +1,112 @@
 <style scoped>
+  .title {
+    color: #1c2438;
+    font-size: 24px;
+    display: block;
+    padding: 5px;
+  }
+  .sub-title {
+    color: #80848f;
+    font-size: 12px;
+    display: block;
+    padding: 5px;
+  }
+  .content {
+    color: #495060;
+    font-size: 18px;
+    display: block;
+    padding: 5px;
+  }
+  .cover-image {
+    width: 100%;
+  }
+  .layout {
+    margin: 10px;
+    padding: 5px;
+  }
 </style>
 
 <template>
-  <div>
-    敬请期待~
-  </div>
+  <view class="layout">
+    <view wx:if="{{news.length > 0}}">
+      <repeat for="{{news}}" key="index" index="index" item="item">
+        <view class="title">{{ item.title }}</view>
+        <view class="sub-title">{{ item.created }}
+          <i-tag>{{ item.type }}</i-tag>
+        </view>
+        <image class="cover-image" mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" />
+        <view class="content">{{ item.content }}</view>
+      </repeat>
+    </view>
+    <view wx:else>
+      暂无数据哦~
+    </view>
+    <i-page current="{{ pageOption.page }}" total="{{ pageOption.totalPage }}" bind:change="handlePageChange">
+      <view slot="prev">上一页</view>
+      <view slot="next">下一页</view>
+    </i-page>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  export default class worldPage extends wepy.page {}
+  import {
+    connect,
+    getStore
+  } from 'wepy-redux'
+  import {
+    getNews
+  } from '../store/actions'
+  // var WxParse = require('../plugin/WxParse/WxParse.js')
+  const store = getStore()
+  @connect({
+    news(state) {
+      return state.world.news
+    },
+    pageOption(state) {
+      return {
+        page: state.world.page,
+        limit: state.world.limit,
+        totalPage: state.world.totalPage
+      }
+    }
+  }, {
+    getNews
+  })
+  export default class worldPage extends wepy.page {
+    config = {
+      usingComponents: {
+        'i-page': '/iview/page/index',
+        'i-tag': '/iview/tag/index'
+      }
+    }
+    methods = {
+      handlePageChange({
+        detail
+      }) {
+        const type = detail.type
+        let page = this.data.pageOption.page
+        let limit = this.data.pageOption.limit
+        if (type === 'next') {
+          this.refreshNews(page + 1, limit)
+        } else if (type === 'prev') {
+          this.refreshNews(page - 1, limit)
+        }
+      }
+    }
+    refreshNews(page, limit) {
+      store.dispatch({
+        type: 'SET_NEWS_PAGE_LIMIT',
+        payload: {
+          page,
+          limit
+        }
+      })
+      this.methods.getNews(page, limit)
+    }
+    onLoad() {
+      this.refreshNews(1, 1)
+    }
+    onReady() {}
+  }
 </script>

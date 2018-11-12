@@ -3,8 +3,7 @@ import {fetchWithAccessTokenV2} from './fetchKF'
 // shop
 export const getAllGoods = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/goods')
+    fetchWithAccessTokenV2('/goods', 'get')
       .then((result) => {
         resolve(result)
       })
@@ -15,8 +14,7 @@ export const getAllGoods = () =>
 
 export const buyGood = data =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .post('/buyGood', data)
+    fetchWithAccessTokenV2('/buyGood', 'post', data)
       .then((result) => {
         resolve(result)
       })

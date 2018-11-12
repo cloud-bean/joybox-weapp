@@ -3,7 +3,6 @@
 @import "./plugin/fontAwesome/font-awesome.wxss";
 @import "./plugin/wxParse/wxParse.wxss";
 
-
 .container {
   height: 100%;
   display: flex;

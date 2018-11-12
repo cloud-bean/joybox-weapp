@@ -1,26 +1,9 @@
 import {fetchWithAccessToken, fetchWithAccessTokenV2} from './fetchKF'
 
-// update avatar
-export const setMemberAvatar = (id, data) => fetchWithAccessToken.put(`/users/${id}/change/avatar`, data)
-
-// update user info
-export const updateUserInfo = (userid, userInfo) =>
-  new Promise((resolve, reject) => {
-    fetchWithAccessToken
-    .put(`/users/${userid}`, userInfo)
-    .then(result => {
-      resolve(result)
-    })
-    .catch(err => {
-      reject(err)
-    })
-  })
-
 // mine, my bag
 export const getAllMyCards = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/myBag') // knapsack page --- 'GET /api/v2/myBag'
+    fetchWithAccessTokenV2('/myBag', 'get') // knapsack page --- 'GET /api/v2/myBag'
       .then((result) => {
         resolve(result)
       })
@@ -44,8 +27,7 @@ export const sellCard = data =>
 // keep data
 export const getKeepData = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/keep') // knapsack page --- 'GET /api/v2/keep'
+    fetchWithAccessTokenV2('/keep', 'get') // knapsack page --- 'GET /api/v2/keep'
       .then((result) => {
         resolve(result)
       })
@@ -57,8 +39,7 @@ export const getKeepData = () =>
 // timeline data
 export const getActivities = (page, limit) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .get(`/timelines?page=${page}&limit=${limit}&sort=-created`)
+    fetchWithAccessToken(`/timelines?page=${page}&limit=${limit}&sort=-created`, 'get')
       .then(result => {
         // if (result.data.code == 'success') {
         //   const activities = result.data.data;
@@ -73,8 +54,7 @@ export const getActivities = (page, limit) =>
 
 export const upvoteActivity = id =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .post(`/timelines/${id}/addUpVote`)
+    fetchWithAccessToken(`/timelines/${id}/addUpVote`, 'post')
       .then(result => {
         // if (result.data.code == 'success') {
         //   const activity = result.data.data;
@@ -89,10 +69,7 @@ export const upvoteActivity = id =>
 
 export const addMsgToActivity = (id, content) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .post(`/timelines/${id}/addMessage`, {
-        content
-      })
+    fetchWithAccessToken(`/timelines/${id}/addMessage`, 'post', content)
       .then(result => {
         // if (result.data.code === 'success') {
         //   const activity = result.data.data

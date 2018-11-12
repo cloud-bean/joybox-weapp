@@ -53,8 +53,7 @@ export const getDoneTasksCount = () =>
 
 export const bindUserInfo = data =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .post('/bindCourse', data) // 'POST /bindCourse'
+    fetchWithAccessTokenV2('/bindCourse', 'post', data) // 'POST /bindCourse'
       .then((result) => {
         resolve(result)
       })
@@ -65,8 +64,7 @@ export const bindUserInfo = data =>
 
 export const getCourses = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/courses') // 'GET /api/v2/courses'
+    fetchWithAccessTokenV2('/courses', 'get') // 'GET /api/v2/courses'
       .then((result) => {
         resolve(result)
       })

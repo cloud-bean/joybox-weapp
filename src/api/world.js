@@ -1,12 +1,14 @@
 import {fetchWithAccessToken} from './fetchKF'
 
 // get the news.
-export const getNews = () =>
+export const getNews = (page, limit) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken
-      .get('/documents')
+    fetchWithAccessToken(`/documents?page=${page}&limit=${limit}`, 'get')
       .then((result) => {
-        resolve(result)
+        resolve({
+          data: result.data.data,
+          totalCount: result.header['x-total-items-count']
+        })
       })
       .catch((err) => {
         reject(err)

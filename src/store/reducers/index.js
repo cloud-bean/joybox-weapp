@@ -4,11 +4,13 @@ import root from './root'
 import task from './task'
 import order from './order'
 import card from './card'
+import world from './world'
 
 export default combineReducers({
   user,
   root,
   task,
   order,
-  card
+  card,
+  world
 })

@@ -3,8 +3,7 @@ import { fetchWithAccessTokenV2 } from './fetchKF'
 // rank
 export const getCurrentUserRank = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/currentUserRank') // 'GET /api/v2/userRank'
+    fetchWithAccessTokenV2('/currentUserRank', 'get') // 'GET /api/v2/userRank'
       .then((result) => {
         resolve(result)
       })
@@ -15,8 +14,7 @@ export const getCurrentUserRank = () =>
 
 export const getFriendRank = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/friendRank') // friend list page --- 'GET /api/v2/ranks'
+    fetchWithAccessTokenV2('/friendRank', 'get') // friend list page --- 'GET /api/v2/ranks'
       .then((result) => {
         resolve(result)
       })
@@ -27,8 +25,7 @@ export const getFriendRank = () =>
 
 export const getTeamRank = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/teamRank') // friend list page --- 'GET /api/v2/teams/:teamId/rank'
+    fetchWithAccessTokenV2('/teamRank', 'get') // friend list page --- 'GET /api/v2/teams/:teamId/rank'
       .then((result) => {
         resolve(result)
       })
@@ -39,8 +36,7 @@ export const getTeamRank = () =>
 
 export const getTeamRankDetail = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/teamRankDetail') // team detail page --- 'GET /api/v2/teams/:teamId'
+    fetchWithAccessTokenV2('/teamRankDetail', 'get') // team detail page --- 'GET /api/v2/teams/:teamId'
       .then((result) => {
         resolve(result)
       })
@@ -51,8 +47,7 @@ export const getTeamRankDetail = () =>
 
 export const getFriendRankDetail = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2
-      .get('/friendRankDetail') // friend detail page
+    fetchWithAccessTokenV2('/friendRankDetail', 'get') // friend detail page
       .then((result) => {
         resolve(result)
       })
