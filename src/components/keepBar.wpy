@@ -2,10 +2,12 @@
   <view class="status-bar">
     <i-grid>
       <i-grid-item>
+        <image src="/assets/images/thunder.png" style="width: 20px; height: 20px;"/>
         续航
         <i-grid-label>{{ awesomeDays }}</i-grid-label>
       </i-grid-item>
       <i-grid-item>
+        <image src="/assets/images/great.png" style="width: 20px; height: 20px;"/>
         完美周数
         <i-grid-label> {{ keepInfo.perfectWeeks }}</i-grid-label>
       </i-grid-item>

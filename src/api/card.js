@@ -8,6 +8,11 @@ export const submitCard = (data) => {
 
 export const getCards = (page, limit) => {
   return fetchWithAccessToken(`/cards?page=${page}&limit=${limit}`, 'GET') // 默认20，不够用
-  .then(res => res.data)
+  .then(res => {
+    return {
+      data: res.data.data,
+      totalCount: parseInt(res.header['x-total-items-count'], 10)
+    }
+  })
   .catch(console.log)
 }

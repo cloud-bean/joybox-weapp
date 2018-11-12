@@ -1,38 +1,7 @@
-import {fetchWithAccessToken, fetchWithAccessTokenV2} from './fetchKF'
+import { fetchWithAccessToken, fetchWithAccessTokenV2 } from './fetchKF'
 
 // update avatar
 export const setMemberAvatar = (id, data) => fetchWithAccessToken(`/users/${id}/change/avatar`, 'put', data)
-
-// mine, my bag
-export const getAllMyCards = (page, limit) =>
-  new Promise((resolve, reject) => {
-    fetchWithAccessToken(`/myBag?page=${page}&limit=${limit}`, 'get') // knapsack page --- 'GET /api/v2/myBag'
-      .then((result) => {
-        if (result.data && (result.data.code === 'success')) {
-          resolve(result.data.data)
-        } else {
-          resolve([])
-        }
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
-
-export const sellCard = data =>
-  new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2('/sellCard', 'post', data) // sell card --- '/api/v2/saleCard'
-      .then((result) => {
-        if (result.data && (result.data.code === 'success')) {
-          resolve(result.data.data)
-        } else {
-          resolve({})
-        }
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
 
 // keep data
 export const getKeepData = () =>

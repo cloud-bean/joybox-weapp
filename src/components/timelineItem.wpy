@@ -1,6 +1,6 @@
 <template>
   <view>
-    <image src="{{tlData.user.profileImageURL}}"></image>
+    <image src="{{ imgSrc }}" style="border-radius: 50%; height: 40px; width: 40px;"></image>
     {{ tlData.user.displayName }}
     {{ tlData.title }}
   </view>
@@ -12,15 +12,12 @@
 <script>
   import wepy from 'wepy'
   export default class timelineItem extends wepy.component {
-    config = {
-      usingComponents: {
-        // 'i-icon': '/iview/icon/index'
-      }
-    }
     computed = {
+
     }
     props = {
-      tlData: Object
+      tlData: Object,
+      imgSrc: String
     }
     methods = { }
   }

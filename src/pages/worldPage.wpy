@@ -1,5 +1,4 @@
 <style scoped>
-<<<<<<< HEAD
   .title {
     color: #1c2438;
     font-size: 24px;
@@ -22,15 +21,14 @@
     width: 100%;
   }
   .layout {
-    margin: 10px;
-    padding: 5px;
-=======
+    margin: 0;
+    padding: 0;
+  }
   .news-box {
     background-color: aquamarine;
   }
   .timelines-panel {
     background-color: burlywood;
->>>>>>> fd759a8a153087a9d1a4b9402d4378405b1fe2d5
   }
 </style>
 
@@ -40,7 +38,7 @@
       <view wx:if="{{documents.length > 0}}">
         <repeat for="{{documents}}" key="index" index="index" item="doc">
           <view class="title">{{ doc.title }}</view>
-          <view class="title">{{ doc.subTitle }}</view>
+          <view class="sub-title">{{ doc.subTitle }}</view>
           <image src="{{doc.file.URL}}"></image>
         </repeat>
       </view>
@@ -50,10 +48,12 @@
 
       <i-page current="{{ docPage }}" total="{{ docTotalPage }}" bind:change="handleDocPageChange">
         <view slot="prev">
-          前
+          <i-icon type="return"></i-icon>
+          上一页
         </view>
         <view slot="next">
-          后
+          下一页
+          <i-icon type="enter"></i-icon>
         </view>
       </i-page>
     </view>
@@ -61,7 +61,8 @@
       <view wx:if="{{timelines.length > 0}}">
         <repeat for="{{timelines}}" key="index" index="index" item="item">
           <view>
-            <timeline-item :tlData="item"></timeline-item>
+            <timeline-item :tlData="item"
+            :imgSrc="item.user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'"></timeline-item>
           </view>
         </repeat>
       </view>
@@ -70,10 +71,12 @@
       </view>
       <i-page current="{{ timelinePage }}" total="{{ tlTotalPage }}" bind:change="handleTimelinePageChange">
         <view slot="prev">
-          前
+          <i-icon type="return"></i-icon>
+          上一页
         </view>
         <view slot="next">
-          后
+          下一页
+          <i-icon type="enter"></i-icon>
         </view>
       </i-page>
     </view>
@@ -111,7 +114,8 @@
     }
     config = {
       usingComponents: {
-        'i-page': '/iview/page/index'
+        'i-page': '/iview/page/index',
+        'i-icon': '/iview/icon/index'
       }
     }
     components = {

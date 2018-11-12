@@ -8,6 +8,18 @@
     <view wx:else>
       暂无卡牌数据哦~
     </view>
+    <view style="width: 100%">
+      <i-page current="{{ page }}" total="{{ totalPage }}" bind:change="handlePageChange">
+        <view slot="prev">
+          <i-icon type="return"></i-icon>
+          上一页
+        </view>
+        <view slot="next">
+          下一页
+          <i-icon type="enter"></i-icon>
+        </view>
+      </i-page>
+    </view>
   </view>
 </template>
 
@@ -23,13 +35,42 @@
   @connect({
     cards(state) {
       return state.card.cards
+    },
+    totalCount(state) {
+      return state.card.totalCount
     }
   }, {
     getCards
   })
   export default class CardListPage extends wepy.page {
+    config = {
+      usingComponents: {
+        'i-page': '/iview/page/index',
+        'i-icon': '/iview/icon/index'
+      }
+    }
+    data = {
+      page: 1,
+      limit: 30
+    }
+    computed = {
+      totalPage () {
+        return Math.ceil(this.totalCount / this.limit)
+      }
+    }
+    methods = {
+      handlePageChange({ detail }) {
+        const type = detail.type
+        if (type === 'next') {
+          this.page = this.page + 1
+        } else if (type === 'prev') {
+          this.page = this.page - 1
+        }
+        this.methods.getCards(this.page, this.limit)
+      }
+    }
     onReady() {
-      this.methods.getCards(1, 30)
+      this.methods.getCards(this.page, this.limit)
     }
   }
 </script>

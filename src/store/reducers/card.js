@@ -3,7 +3,8 @@ import { GET_CARDS, SUBMIT_CARD } from '../types'
 
 const initCardState = {
   status: '',
-  cards: []
+  cards: [],
+  totalCount: 0
 }
 export default handleActions({
   [SUBMIT_CARD] (state, action) {
@@ -17,6 +18,7 @@ export default handleActions({
     console.log('GET_CARDS', action)
     if (action.payload) {
       state.cards = action.payload.data
+      state.totalCount = action.payload.totalCount
     }
     return state
   }

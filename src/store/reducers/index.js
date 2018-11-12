@@ -7,6 +7,7 @@ import card from './card'
 import course from './course'
 import mine from './mine'
 import world from './world'
+import shop from './shop'
 
 export default combineReducers({
   user,
@@ -16,5 +17,6 @@ export default combineReducers({
   card,
   course,
   mine,
-  world
+  world,
+  shop
 })

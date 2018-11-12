@@ -3,14 +3,72 @@
 </style>
 
 <template>
-  <div>
-    买入（我的背包）；卖出（二手市场）
-    二手交易市场，购买二手卡牌，购买官方卡包，购买其他
-    征兆队伍，打开卷轴，团购。。
-  </div>
+  <i-tabs current="{{ current }}" bindchange="handleChange">
+    <i-tab key="tab1" title="我的背包">
+      我的背包 totalCardsCount {{totalCardsCount}}
+    </i-tab>
+    <i-tab key="tab2" title="二手交易市场">
+      totalGoodsCount: {{ totalGoodsCount }}
+    </i-tab>
+    <i-tab key="tab3" title="购买官方卡包">
+      官方卡包 cardPool
+    </i-tab>
+    <i-tab key="tab4" title="其他">
+      购买其他 征兆队伍，打开卷轴，团购。。
+    </i-tab>
+  </i-tabs>
 </template>
 
 <script>
   import wepy from 'wepy'
-  export default class shopPage extends wepy.page {}
+  import {
+    connect
+  } from 'wepy-redux'
+  import {
+    getMyBagCards,
+    getAllGoods
+  } from '../store/actions'
+  @connect({
+    myCards(state) {
+      return state.shop.myBagCards
+    },
+    totalCardsCount(state) {
+      return state.shop.totalCardsCount
+    },
+    goods(state) {
+      return state.shop.goods
+    },
+    totalGoodsCount(state) {
+      return state.shop.totalGoodsCount
+    }
+  }, {
+    getMyBagCards,
+    getAllGoods
+  })
+  export default class shopPage extends wepy.page {
+    data = {
+      myCardsPage: 1,
+      myCardsLimit: 12,
+      goodsPage: 1,
+      goodsLimit: 12,
+      current: 'tab1'
+    }
+    config = {
+      usingComponents: {
+        'i-tabs': '/iview/tabs/index',
+        'i-tab': '/iview/tab/index'
+      }
+    }
+    methods = {
+      handleChange({
+        detail
+      }) {
+        this.current = detail.key
+      }
+    }
+    onReady() {
+      this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
+      this.methods.getAllGoods(this.goodsPage, this.goodsLimit)
+    }
+  }
 </script>
