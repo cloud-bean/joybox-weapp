@@ -9,7 +9,7 @@
     <view>
        <i-avatar src="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}"
         size="large" shape="circle"></i-avatar>
-        {{user.displayName}}
+        {{user.displayName}} - {{user.created}}
         <image src="/assets/images/level.png" style="width: 20px; height: 20px;"/>
         等级{{level}}
         <image src="/assets/images/exp.png" style="width: 20px; height: 20px;"/>
@@ -31,7 +31,9 @@
     <view>
       <keepBar :keepInfo="keepInfo"></keepBar>
     </view>
-
+    <view>
+      {{ rank.me }}
+    </view>
     <view>
       排行，荣耀
     </view>
@@ -40,11 +42,11 @@
 <script>
   import wepy from 'wepy'
   import KeepBar from '../components/keepBar'
-  import { getMyBagCards } from '../store/actions'
+  import { getMyBagCards, getRank } from '../store/actions'
   import {
     connect
   } from 'wepy-redux'
-  var moment = require('moment')
+  const moment = require('moment')
   moment.locale('zh-cn')
   @connect({
     user(state) {
@@ -58,9 +60,13 @@
     },
     myBagCards(state) {
       return state.mine.myBagCards
+    },
+    rank(state) {
+      return state.mine.rank
     }
   }, {
-    getMyBagCards
+    getMyBagCards,
+    getRank
   })
   export default class myPage extends wepy.page {
     config = {
@@ -96,6 +102,7 @@
     }
     onReady() {
       this.methods.getMyBagCards()
+      this.methods.getRank()
     }
   }
 </script>

@@ -18,10 +18,26 @@
       </i-tab>
     </i-tabs>
     <view wx:if="{{ current === 'tab1' }}" class="tab-container">
-      我的背包 totalCardsCount {{totalCardsCount}}
+      <view wx:if="{{myCards.length > 0}}">
+        <repeat for="{{myCards}}" key="index" index="index" item="item">
+          <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+           {{ item.name }} {{ item.category }} {{ item.description }}
+        </repeat>
+      </view>
+      <view wx:else>
+        暂无卡牌数据哦~
+      </view>
     </view>
     <view wx:if="{{ current === 'tab2' }}" class="tab-container">
-      totalGoodsCount: {{ totalGoodsCount }}
+      <view wx:if="{{goods.length > 0}}">
+        <repeat for="{{goods}}" key="index" index="index" item="item">
+          <image mode="scaleToFill" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+           {{ item.name }} - {{ item.price }} 悦币 - {{item.owner.displayName}} - {{ item.created }}
+        </repeat>
+      </view>
+      <view wx:else>
+        暂无卡牌数据哦~
+      </view>
     </view>
     <view wx:if="{{ current === 'tab3' }}" class="tab-container">
       官方卡包 cardPool
@@ -34,6 +50,8 @@
 
 <script>
   import wepy from 'wepy'
+  const moment = require('moment')
+  moment.locale('zh-cn')
   import {
     connect
   } from 'wepy-redux'
@@ -41,18 +59,22 @@
     getMyBagCards,
     getAllGoods
   } from '../store/actions'
-
   @connect({
-    myCards (state) {
+    myCards(state) {
       return state.shop.myBagCards
     },
-    totalCardsCount (state) {
+    totalCardsCount(state) {
       return state.shop.totalCardsCount
     },
-    goods (state) {
-      return state.shop.goods
+    goods(state) {
+      return state.shop.goods.map((item) => {
+        const newItem = { ...item
+        }
+        newItem.created = moment(new Date(item.created)).fromNow()
+        return newItem
+      })
     },
-    totalGoodsCount (state) {
+    totalGoodsCount(state) {
       return state.shop.totalGoodsCount
     }
   }, {
@@ -64,7 +86,7 @@
       myCardsPage: 1,
       myCardsLimit: 12,
       goodsPage: 1,
-      goodsLimit: 12,
+      goodsLimit: 6,
       current: 'tab1'
     }
     config = {
@@ -74,14 +96,17 @@
       }
     }
     methods = {
-      handleChange ({
-                      detail
-                    }) {
+      handleChange({
+        detail
+      }) {
         this.current = detail.key
+      },
+      transDate(created) {
+        console.log(created)
+        return moment(new Date(created)).fromNow()
       }
     }
-
-    onReady () {
+    onReady() {
       this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
       this.methods.getAllGoods(this.goodsPage, this.goodsLimit)
     }

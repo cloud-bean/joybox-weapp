@@ -1,4 +1,4 @@
-import {fetchWithAccessToken} from './fetchKF'
+import { fetchWithAccessToken } from './fetchKF'
 
 // timeline data
 export const getAllTimelines = (page, limit) =>
@@ -32,6 +32,37 @@ export const getAllDocuments = (page, limit) =>
         } else {
           resolve([])
         }
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+
+export const upvoteActivity = id =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessToken(`/timelines/${id}/addUpVote`, 'post')
+      .then(result => {
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve({})
+        }
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+
+export const addMsgToActivity = (id, content) =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessToken(`/timelines/${id}/addMessage`, 'post', content)
+      .then(result => {
+        if (result.data && (result.data.code === 'success')) {
+          resolve(result.data.data)
+        } else {
+          resolve({})
+        }
+        resolve(result)
       })
       .catch(err => {
         reject(err)

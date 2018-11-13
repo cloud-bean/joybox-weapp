@@ -1,24 +1,30 @@
 <template>
   <view>
     <image src="{{ imgSrc }}" style="border-radius: 50%; height: 40px; width: 40px;"></image>
-    {{ tlData.user.displayName }}
-    {{ tlData.title }}
+    {{ tlData.user.displayName }} {{ tlData.title }} {{fromNow}}
   </view>
 </template>
+
 <style scoped>
 
 </style>
 
 <script>
   import wepy from 'wepy'
+  const moment = require('moment')
+  moment.locale('zh-cn')
   export default class timelineItem extends wepy.component {
     computed = {
-
+      fromNow() {
+        if (this.tlData) {
+          return moment(new Date(this.tlData.created)).fromNow()
+        } else return ''
+      }
     }
     props = {
       tlData: Object,
       imgSrc: String
     }
-    methods = { }
+    methods = {}
   }
 </script>

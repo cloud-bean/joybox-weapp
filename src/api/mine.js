@@ -19,33 +19,20 @@ export const getKeepData = () =>
       })
   })
 
-export const upvoteActivity = id =>
+// rank
+export const getCurrentUserRank = () =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken(`/timelines/${id}/addUpVote`, 'post')
-      .then(result => {
+    fetchWithAccessTokenV2('/currentUserRank', 'get') // 'GET /api/v2/userRank'
+      .then((result) => {
         if (result.data && (result.data.code === 'success')) {
-          resolve(result.data.data)
+          resolve({
+            rank: result.data.data
+          })
         } else {
           resolve({})
         }
       })
-      .catch(err => {
-        reject(err)
-      })
-  })
-
-export const addMsgToActivity = (id, content) =>
-  new Promise((resolve, reject) => {
-    fetchWithAccessToken(`/timelines/${id}/addMessage`, 'post', content)
-      .then(result => {
-        if (result.data && (result.data.code === 'success')) {
-          resolve(result.data.data)
-        } else {
-          resolve({})
-        }
-        resolve(result)
-      })
-      .catch(err => {
+      .catch((err) => {
         reject(err)
       })
   })

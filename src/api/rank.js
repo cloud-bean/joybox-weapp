@@ -1,17 +1,5 @@
 import { fetchWithAccessTokenV2 } from './fetchKF'
 
-// rank
-export const getCurrentUserRank = () =>
-  new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2('/currentUserRank', 'get') // 'GET /api/v2/userRank'
-      .then((result) => {
-        resolve(result)
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
-
 export const getFriendRank = () =>
   new Promise((resolve, reject) => {
     fetchWithAccessTokenV2('/friendRank', 'get') // friend list page --- 'GET /api/v2/ranks'
