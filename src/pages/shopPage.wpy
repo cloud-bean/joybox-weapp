@@ -20,8 +20,8 @@
     <view wx:if="{{ current === 'tab1' }}" class="tab-container">
       <view wx:if="{{myCards.length > 0}}">
         <repeat for="{{myCards}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
-           {{ item.name }} {{ item.category }} {{ item.description }}
+          <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} {{ item.category }} {{ item.description }}
+          <i-button bind:click="sellCard({{item}})" type="success" shape="circle">出售</i-button>
         </repeat>
       </view>
       <view wx:else>
@@ -31,8 +31,8 @@
     <view wx:if="{{ current === 'tab2' }}" class="tab-container">
       <view wx:if="{{goods.length > 0}}">
         <repeat for="{{goods}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
-           {{ item.name }} - {{ item.price }} 悦币 - {{item.owner.displayName}} - {{ item.created }}
+          <image mode="scaleToFill" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} - {{ item.price }} 悦币 - {{item.owner.displayName}} - {{ item.created }}
+          <i-button bind:click="buyCard({{item}})" type="success" shape="circle">购买</i-button>
         </repeat>
       </view>
       <view wx:else>
@@ -41,6 +41,7 @@
     </view>
     <view wx:if="{{ current === 'tab3' }}" class="tab-container">
       官方卡包 cardPool
+      <Button type="primary" @tap="buyCardPool({id: 123})">购买卡牌套餐</Button>
     </view>
     <view wx:if="{{ current === 'tab4' }}" class="tab-container">
       购买其他 征兆队伍，打开卷轴，团购。。
@@ -59,6 +60,7 @@
     getMyBagCards,
     getAllGoods
   } from '../store/actions'
+  import * as api from '../api/shop'
   @connect({
     myCards(state) {
       return state.shop.myBagCards
@@ -92,7 +94,8 @@
     config = {
       usingComponents: {
         'i-tabs': '/iview/tabs/index',
-        'i-tab': '/iview/tab/index'
+        'i-tab': '/iview/tab/index',
+        'i-button': '/iview/button/index'
       }
     }
     methods = {
@@ -104,6 +107,27 @@
       transDate(created) {
         console.log(created)
         return moment(new Date(created)).fromNow()
+      },
+      async sellCard(item) {
+        console.log('sellCard', {
+          cardId: item._id,
+          price: 30
+        })
+        await api.sellCard({
+          cardId: item._id,
+          price: 30
+        }) // todo: sellCard
+      },
+      async buyCard(item) {
+        console.log('buyCard', {
+          goodId: item._id
+        })
+        await api.buyGood({
+          goodId: item._id
+        })
+      },
+      buyCardPool(item) {
+        console.log('buyCardpool', item)
       }
     }
     onReady() {

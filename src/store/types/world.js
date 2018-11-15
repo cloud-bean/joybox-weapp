@@ -1,2 +1,4 @@
 export const GET_TIMELINES = 'GET_TIMELINES'
 export const GET_DOCUMENTS = 'GET_DOCUMENTS'
+export const ADD_UPVOTE = 'ADD_UPVOTE'
+export const ADD_MSG_TO_TIMELINE = 'ADD_MSG_TO_TIMELINE'

@@ -24,7 +24,7 @@ export const getAllGoods = (page, limit, option) =>
 
 export const sellCard = data =>
   new Promise((resolve, reject) => {
-    fetchWithAccessTokenV2('/sellCard', 'post', data) // sell card --- '/api/v2/saleCard'
+    fetchWithAccessTokenV2('/sellCard', 'post', data) // sell card --- '/api/v2/sellCard'
       .then((result) => {
         if (result.data && (result.data.code === 'success')) {
           resolve(result.data.data)

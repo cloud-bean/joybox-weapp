@@ -1,7 +1,13 @@
 <template>
   <view>
     <image src="{{ imgSrc }}" style="border-radius: 50%; height: 40px; width: 40px;"></image>
-    {{ tlData.user.displayName }} {{ tlData.title }} {{fromNow}}
+    {{ tlData.user.displayName }} {{ tlData.title }} {{fromNow}} 点赞数: {{tlData.upVotes.length}}
+    <repeat for="{{tlData.messages}}" key="index" index="index" item="item">
+      <message-item :data="item"></message-item>
+    </repeat>
+    <Button type="primary" style="width: 100px;" @tap="like">点赞</Button>
+    <input v-model="msg" placeholder="..." style="width: 300px; background-color: white"></input>
+    <Button type="primary" style="width: 100px;" @tap="comment">留言</Button>
   </view>
 </template>
 
@@ -13,6 +19,18 @@
   import wepy from 'wepy'
   const moment = require('moment')
   moment.locale('zh-cn')
+  import messageItem from './messageItem'
+  import {
+    connect
+  } from 'wepy-redux'
+  import {
+    upVote,
+    addMsg2Timeline
+  } from '../store/actions'
+  @connect({}, {
+    upVote,
+    addMsg2Timeline
+  })
   export default class timelineItem extends wepy.component {
     computed = {
       fromNow() {
@@ -25,6 +43,19 @@
       tlData: Object,
       imgSrc: String
     }
-    methods = {}
+    data = {
+      msg: ''
+    }
+    components = {
+      'message-item': messageItem
+    }
+    methods = {
+      like() {
+        this.methods.upVote(this.tlData._id)
+      },
+      comment() {
+        this.methods.addMsg2Timeline(this.tlData._id, this.msg)
+      }
+    }
   }
 </script>

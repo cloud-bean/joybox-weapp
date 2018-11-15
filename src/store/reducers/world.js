@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions'
-import { GET_DOCUMENTS, GET_TIMELINES } from '../types'
+import { GET_DOCUMENTS, GET_TIMELINES, ADD_UPVOTE, ADD_MSG_TO_TIMELINE } from '../types'
 
 const initCardState = {
   documents: [],
@@ -23,5 +23,11 @@ export default handleActions({
       state.totalDocumentCount = action.payload.totalCount
     }
     return state
+  },
+  [ADD_UPVOTE]  (state, action) {
+    console.log('ADD_UPVOTE', action.payload)
+  },
+  [ADD_MSG_TO_TIMELINE]  (state, action) {
+    console.log('ADD_MSG_TO_TIMELINE', action.payload)
   }
 }, initCardState)

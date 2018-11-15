@@ -14,9 +14,6 @@ export const updateUserInfo = function (userId, userInfo) {
     .catch(console.log)
 }
 
-// // update avatar
-// export const setMemberAvatar = (id, data) => fetchWithAccessToken(`/users/${id}/change/avatar`, 'put', ata)
-
 export const signUp = function ({providerData, school, phone, slogan, displayName, profileImageURL}) {
   let userInfo = {
     option: {
