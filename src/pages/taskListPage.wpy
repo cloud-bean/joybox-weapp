@@ -3,6 +3,7 @@
     padding: 10rpx 0;
   }
 </style>
+
 <template>
   <view class="wrapper">
     <navbar :onChange="handleChange"></navbar>
@@ -32,8 +33,7 @@
     showTaskDone,
     showTaskUnDone
   } from '../store/actions'
-  var moment = require('moment')
-  moment.locale('zh-cn')
+  import dayjs from '../utils/dayJS'
   @connect({
     myTasks(state) {
       return state.task.showTasks.map((item) => {
@@ -41,8 +41,8 @@
         }
         const a = new Date(item.expireTime)
         const b = new Date(item.created)
-        newItem.expireTime = moment(a).fromNow()
-        newItem.created = moment(b).format('YYYY/MM/DD HH:mm')
+        newItem.expireTime = dayjs(a).fromNow()
+        newItem.created = dayjs(b).format('YYYY/MM/DD HH:mm')
         return newItem
       })
     },

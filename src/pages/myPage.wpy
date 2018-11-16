@@ -4,28 +4,25 @@
     background: #f5f7f9;
   }
 </style>
+
 <template>
   <div class="layout">
     <view>
-       <i-avatar src="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}"
-        size="large" shape="circle"></i-avatar>
-        {{user.displayName}} - {{user.created}}
-        <image src="/assets/images/level.png" style="width: 20px; height: 20px;"/>
-        等级{{level}}
-        <image src="/assets/images/exp.png" style="width: 20px; height: 20px;"/>
-        经验值{{user.option.exp}}
-        <image src="/assets/images/gold.png" style="width: 20px; height: 20px;"/>
-        悦币{{user.option.goldToken}}
+      <i-avatar src="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}" size="large" shape="circle"></i-avatar>
+      {{user.displayName}} - 已加入{{user.created}}
+      <image src="/assets/images/level.png" style="width: 20px; height: 20px;" /> 等级{{level}}
+      <image src="/assets/images/exp.png" style="width: 20px; height: 20px;" /> 经验值{{user.option.exp}}
+      <image src="/assets/images/gold.png" style="width: 20px; height: 20px;" /> 悦币{{user.option.goldToken}}
     </view>
     <view slot="footer">
       <i-badge count="1.3" style="margin: 0 10px;">
         <i-icon type="flashlight" size="36" color="purple" />
       </i-badge>
       <!--<i-badge count="1.8" style="margin: 0 10px;">-->
-        <!--<i-icon type="redpacket" size="36" color="red" />-->
+      <!--<i-icon type="redpacket" size="36" color="red" />-->
       <!--</i-badge>-->
       <!--<i-badge count="2.6" style="margin: 0 10px;" i-class="demo">-->
-        <!--<i-icon type="integral" size="36" color="brown" />-->
+      <!--<i-icon type="integral" size="36" color="brown" />-->
       <!--</i-badge>-->
     </view>
     <view>
@@ -39,20 +36,23 @@
     </view>
   </div>
 </template>
+
 <script>
   import wepy from 'wepy'
   import KeepBar from '../components/keepBar'
-  import { getMyBagCards, getRank } from '../store/actions'
+  import {
+    getMyBagCards,
+    getRank
+  } from '../store/actions'
   import {
     connect
   } from 'wepy-redux'
-  const moment = require('moment')
-  moment.locale('zh-cn')
+  import dayjs from '../utils/dayJS'
   @connect({
     user(state) {
       const newUser = { ...state.user
       }
-      newUser.created = moment(new Date(state.user.created)).toNow(true)
+      newUser.created = dayjs(new Date(state.user.created)).toNow(true)
       return newUser
     },
     keepInfo(state) {

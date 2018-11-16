@@ -3,6 +3,10 @@
     margin-top: 40px;
     padding: 10px;
   }
+  .card-image {
+    width: 128px;
+    height: 198px;
+  }
 </style>
 
 <template>
@@ -20,7 +24,7 @@
     <view wx:if="{{ current === 'tab1' }}" class="tab-container">
       <view wx:if="{{myCards.length > 0}}">
         <repeat for="{{myCards}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} {{ item.category }} {{ item.description }}
+          <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} {{ item.category }} {{ item.description }} {{item.created}}
           <i-button bind:click="sellCard({{item}})" type="success" shape="circle">出售</i-button>
         </repeat>
       </view>
@@ -31,7 +35,7 @@
     <view wx:if="{{ current === 'tab2' }}" class="tab-container">
       <view wx:if="{{goods.length > 0}}">
         <repeat for="{{goods}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} - {{ item.price }} 悦币 - {{item.owner.displayName}} - {{ item.created }}
+          <image mode="scaleToFill" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} - {{ item.price }} 悦币 - {{item.owner.displayName}} {{ item.created }}
           <i-button bind:click="buyCard({{item}})" type="success" shape="circle">购买</i-button>
         </repeat>
       </view>
@@ -51,8 +55,7 @@
 
 <script>
   import wepy from 'wepy'
-  const moment = require('moment')
-  moment.locale('zh-cn')
+  import dayjs from '../utils/dayJS'
   import {
     connect
   } from 'wepy-redux'
@@ -63,7 +66,12 @@
   import * as api from '../api/shop'
   @connect({
     myCards(state) {
-      return state.shop.myBagCards
+      return state.shop.myBagCards.map((item) => {
+        const newItem = { ...item
+        }
+        newItem.created = dayjs(new Date(item.created)).fromNow()
+        return newItem
+      })
     },
     totalCardsCount(state) {
       return state.shop.totalCardsCount
@@ -72,7 +80,7 @@
       return state.shop.goods.map((item) => {
         const newItem = { ...item
         }
-        newItem.created = moment(new Date(item.created)).fromNow()
+        newItem.created = dayjs(new Date(item.created)).fromNow()
         return newItem
       })
     },
@@ -105,8 +113,7 @@
         this.current = detail.key
       },
       transDate(created) {
-        console.log(created)
-        return moment(new Date(created)).fromNow()
+        return dayjs(new Date(created)).fromNow()
       },
       async sellCard(item) {
         console.log('sellCard', {

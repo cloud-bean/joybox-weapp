@@ -1,4 +1,4 @@
-import {fetchWithAccessToken, fetchWithAccessTokenV2} from './fetchKF'
+import { fetchWithAccessToken, fetchWithAccessTokenV2 } from './fetchKF'
 
 // shop
 export const getAllGoods = (page, limit, option) =>
@@ -53,16 +53,8 @@ export const getMyBagCards = (page, limit) =>
     fetchWithAccessToken(`/myBag?page=${page}&limit=${limit}`, 'get') // knapsack page --- 'GET /api/v2/myBag'
       .then((result) => {
         if (result.data && (result.data.code === 'success')) {
-          let cards = result.data.data.cards
-          let newCards = []
-          cards.map(function(card) {
-            if (card.file && card.file.URL && (card.file.URL.indexOf('oeif08fpp.bkt.clouddn.com') !== -1)) {
-              card.file.URL = card.file.URL.replace('oeif08fpp.bkt.clouddn.com', 'qn.joywill.com')
-              newCards.push(card)
-            }
-          })
           resolve({
-            cards: newCards,
+            cards: result.data.data.cards,
             totalCount: result.header['x-total-items-count'] || result.data.data.cards.length
           })
         } else {

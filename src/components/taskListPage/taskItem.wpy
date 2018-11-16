@@ -1,45 +1,43 @@
 <style lang="less" scoped>
-.task-item{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20rpx 20rpx;
-  border-bottom: 1px solid #e5e5e5;
-  .info{
-    height: 120rpx;
+  .task-item {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-left: 20rpx;
-    .title{
-      font-size: 12pt;
-      color: #222;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20rpx 20rpx;
+    border-bottom: 1px solid #e5e5e5;
+    .info {
+      height: 120rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      margin-left: 20rpx;
+      .title {
+        font-size: 12pt;
+        color: #222;
+      }
+      .sub-title {
+        font-size: 11pt;
+        color: #576b95;
+      }
+      .date {
+        font-size: 11pt;
+        color: #b2b2b2;
+      }
     }
-    .sub-title{
-      font-size: 11pt;
-      color: #576b95;
+    .type {
+      .book {
+        margin: auto 0;
+        font-size: 18pt;
+        background-color: #eeeeee;
+      }
     }
-    .date{
-      font-size: 11pt;
-      color: #b2b2b2;
+    .indicator {
+      // font-size: 28rpx;
+      color: #c7c7cc;
+      margin-left: 240rpx;
+      font-size: 30rpx;
     }
   }
-  .type{
-
-    .book{
-      margin: auto 0;
-      font-size: 18pt;
-      background-color: #eeeeee;
-    }
-  }
-  .indicator{
-    // font-size: 28rpx;
-    color: #c7c7cc;
-    margin-left: 240rpx;
-    font-size: 30rpx;
-  }
-
-}
 </style>
 <template>
   <view class="task-item">
@@ -52,10 +50,10 @@
         {{taskData.name}}
       </view>
       <view class="date">
-         {{taskData.expireTime}} 超期
+        {{taskData.expireTime}} 超期
       </view>
       <view class="sub-title">
-        经验 {{taskData.exp}}   悦币 {{taskData.goldToken}}
+        经验 {{taskData.exp}} 悦币 {{taskData.goldToken}}
       </view>
     </view>
     <view class="indicator">
@@ -64,21 +62,15 @@
   </view>
 </template>
 <script>
-import wepy from 'wepy'
-
-export default class TaskItem extends wepy.component {
-  data = {
-    // get expireTime(){
-    //   const a = new Date(this.taskData.expireTime)
-    //   return moment(a).toNow()
-    // },
-    expireTime: ''
+  import wepy from 'wepy'
+  export default class TaskItem extends wepy.component {
+    data = {
+      expireTime: ''
+    }
+    props = {
+      taskData: Object
+    }
+    methods = {
+    }
   }
-  props={
-    taskData: Object
-  }
-  methods = {
-
-  }
-}
 </script>

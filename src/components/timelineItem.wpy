@@ -17,8 +17,7 @@
 
 <script>
   import wepy from 'wepy'
-  const moment = require('moment')
-  moment.locale('zh-cn')
+  import dayjs from '../utils/dayJS'
   import messageItem from './messageItem'
   import {
     connect
@@ -35,7 +34,7 @@
     computed = {
       fromNow() {
         if (this.tlData) {
-          return moment(new Date(this.tlData.created)).fromNow()
+          return dayjs(new Date(this.tlData.created)).fromNow()
         } else return ''
       }
     }
