@@ -5,6 +5,7 @@ export default {
     midServer: 'https://joywill.cc', // for wechat auth server end point, tinyServer
     bigServer: 'https://joywill.cc/api', // for kf-admin api end point, api v1  /api/base
     bigServerV2: 'https://joywill.cc/v2', // for kf-admin api end point, api v2  /api/v2
+    // bigServerV2: 'http://localhost:7000/api/v2', // for kf-admin api end point, api v2  /api/v2; local test
     uploadServer: 'https://joywill.cc/api/tool/files'
   },
   route: {

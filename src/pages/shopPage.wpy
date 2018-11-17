@@ -36,7 +36,8 @@
       <view wx:if="{{goods.length > 0}}">
         <repeat for="{{goods}}" key="index" index="index" item="item">
           <image mode="scaleToFill" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} - {{ item.price }} 悦币 - {{item.owner.displayName}} {{ item.created }}
-          <i-button bind:click="buyCard({{item}})" type="success" shape="circle">购买</i-button>
+          <i-button wx:if="{{ item && (userId == item.owner._id) }}" bind:click="revertCard({{item}})" type="warning" shape="circle">撤下</i-button>
+          <i-button wx:else bind:click="buyCard({{item}})" type="success" shape="circle">购买</i-button>
         </repeat>
       </view>
       <view wx:else>
@@ -72,6 +73,9 @@
         newItem.created = dayjs(new Date(item.created)).fromNow()
         return newItem
       })
+    },
+    userId(state) {
+      return state.root.userId
     },
     totalCardsCount(state) {
       return state.shop.totalCardsCount
@@ -116,22 +120,26 @@
         return dayjs(new Date(created)).fromNow()
       },
       async sellCard(item) {
-        console.log('sellCard', {
-          cardId: item._id,
+        await api.sellCard({
+          cardId: item.cardId,
           price: 30
         })
-        await api.sellCard({
-          cardId: item._id,
-          price: 30
-        }) // todo: sellCard
+        this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
+        this.methods.getAllGoods(this.goodsPage, this.goodsLimit)
       },
       async buyCard(item) {
-        console.log('buyCard', {
-          goodId: item._id
-        })
         await api.buyGood({
           goodId: item._id
         })
+        this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
+        this.methods.getAllGoods(this.goodsPage, this.goodsLimit)
+      },
+      async revertCard(item) {
+        await api.revertGood({
+          goodId: item._id
+        })
+        this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
+        this.methods.getAllGoods(this.goodsPage, this.goodsLimit)
       },
       buyCardPool(item) {
         console.log('buyCardpool', item)
