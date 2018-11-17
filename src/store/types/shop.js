@@ -1,2 +1,4 @@
 export const GET_MY_BAG_CARDS = 'GET_MY_BAG_CARDS'
 export const GET_ALL_GOODS = 'GET_ALL_GOODS'
+export const GET_MY_LOTTERYS = 'GET_MY_LOTTERYS'
+export const GET_CARD_POOLS = 'GET_CARD_POOLS'

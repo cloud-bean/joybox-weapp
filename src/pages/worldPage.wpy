@@ -61,7 +61,7 @@
       <view wx:if="{{timelines.length > 0}}">
         <repeat for="{{timelines}}" key="index" index="index" item="item">
           <view>
-            <timeline-item :tlData="item"
+            <timeline-item :tlData="item" @onLike.user="like" @onComment.user="comment"
             :imgSrc="item.user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'"></timeline-item>
           </view>
         </repeat>
@@ -86,11 +86,16 @@
 <script>
   import wepy from 'wepy'
   import { connect } from 'wepy-redux'
-  import { getTimelines, getDocuments } from '../store/actions'
+  import { getTimelines, getDocuments, upVote, addMsg2Timeline } from '../store/actions'
   import TimelineItem from '../components/timelineItem'
+  import dayjs from '../utils/dayJS'
   @connect({
     timelines(state) {
-      return state.world.timelines
+      return state.world.timelines.map(item => {
+        let newItem = {...item}
+        newItem.created = dayjs(item.created).fromNow()
+        return newItem
+      })
     },
     documents(state) {
       return state.world.documents
@@ -103,7 +108,9 @@
     }
   }, {
     getTimelines,
-    getDocuments
+    getDocuments,
+    upVote,
+    addMsg2Timeline
   })
   export default class worldPage extends wepy.page {
     data = {
@@ -146,6 +153,16 @@
         } else if (type === 'prev') {
           this.timelinePage = this.timelinePage - 1
         }
+        this.methods.getTimelines(this.timelinePage, this.timelineLimit)
+      },
+      like(id) {
+        console.log('on like: ', id)
+        this.methods.upVote(id)
+        this.methods.getTimelines(this.timelinePage, this.timelineLimit)
+      },
+      comment(id, msg) {
+        console.log('on comment', id, msg)
+        this.methods.addMsg2Timeline(id, msg)
         this.methods.getTimelines(this.timelinePage, this.timelineLimit)
       }
     }

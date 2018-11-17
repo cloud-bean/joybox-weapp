@@ -55,14 +55,13 @@ export const upvoteActivity = id =>
 
 export const addMsgToActivity = (id, content) =>
   new Promise((resolve, reject) => {
-    fetchWithAccessToken(`/timelines/${id}/addMessage`, 'post', content)
+    fetchWithAccessToken(`/timelines/${id}/addMessage`, 'post', {content})
       .then(result => {
         if (result.data && (result.data.code === 'success')) {
           resolve(result.data.data)
         } else {
           resolve({})
         }
-        resolve(result)
       })
       .catch(err => {
         reject(err)

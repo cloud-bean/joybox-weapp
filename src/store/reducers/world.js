@@ -26,8 +26,10 @@ export default handleActions({
   },
   [ADD_UPVOTE]  (state, action) {
     console.log('ADD_UPVOTE', action.payload)
+    return state
   },
   [ADD_MSG_TO_TIMELINE]  (state, action) {
     console.log('ADD_MSG_TO_TIMELINE', action.payload)
+    return state
   }
 }, initCardState)

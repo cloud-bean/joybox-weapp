@@ -1,13 +1,14 @@
 <template>
   <view>
     <image src="{{ imgSrc }}" style="border-radius: 50%; height: 40px; width: 40px;"></image>
-    {{ tlData.user.displayName }} {{ tlData.title }} {{fromNow}} 点赞数: {{tlData.upVotes.length}}
+    {{ tlData.user.displayName }} {{ tlData.title }} {{tlData.created}} 点赞数: {{tlData.upVotes.length}}
     <repeat for="{{tlData.messages}}" key="index" index="index" item="item">
       <message-item :data="item"></message-item>
     </repeat>
-    <Button type="primary" style="width: 100px;" @tap="like">点赞</Button>
-    <input v-model="msg" placeholder="..." style="width: 300px; background-color: white"></input>
-    <Button type="primary" style="width: 100px;" @tap="comment">留言</Button>
+    <Button type="primary" style="width: 100px;" @tap="onLike">点赞</Button>
+    <input value="{{mgs}}" placeholder="..." style="width: 300px; background-color: white" bindinput="onInput"></input>
+    {{ msg }}
+    <Button type="primary" style="width: 100px;" @tap="onComment">留言</Button>
   </view>
 </template>
 
@@ -17,27 +18,9 @@
 
 <script>
   import wepy from 'wepy'
-  import dayjs from '../utils/dayJS'
   import messageItem from './messageItem'
-  import {
-    connect
-  } from 'wepy-redux'
-  import {
-    upVote,
-    addMsg2Timeline
-  } from '../store/actions'
-  @connect({}, {
-    upVote,
-    addMsg2Timeline
-  })
+
   export default class timelineItem extends wepy.component {
-    computed = {
-      fromNow() {
-        if (this.tlData) {
-          return dayjs(new Date(this.tlData.created)).fromNow()
-        } else return ''
-      }
-    }
     props = {
       tlData: Object,
       imgSrc: String
@@ -49,11 +32,15 @@
       'message-item': messageItem
     }
     methods = {
-      like() {
-        this.methods.upVote(this.tlData._id)
+      onLike() {
+        this.$emit('onLike', this.tlData._id)
       },
-      comment() {
-        this.methods.addMsg2Timeline(this.tlData._id, this.msg)
+      onComment() {
+        this.$emit('onComment', this.tlData._id, this.msg)
+        this.msg = ''
+      },
+      onInput({detail}) {
+        this.msg = detail.value
       }
     }
   }
