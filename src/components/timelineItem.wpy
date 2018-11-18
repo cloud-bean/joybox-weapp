@@ -5,9 +5,6 @@
     <repeat for="{{tlData.messages}}" key="index" index="index" item="item">
       <message-item :data="item"></message-item>
     </repeat>
-    <Button type="primary" style="width: 100px;" @tap="onLike">点赞</Button>
-    <input value="{{msg}}" placeholder="..." style="width: 300px; background-color: white" bindinput="onInput"></input>
-    <Button type="primary" style="width: 100px;" @tap="onComment">留言</Button>
   </view>
 </template>
 
@@ -31,16 +28,6 @@
       'message-item': messageItem
     }
     methods = {
-      onLike() {
-        this.$emit('onLike', this.tlData._id)
-      },
-      onComment() {
-        this.$emit('onComment', this.tlData._id, this.msg)
-        this.msg = ''
-      },
-      onInput({detail}) {
-        this.msg = detail.value
-      }
     }
   }
 </script>

@@ -36,3 +36,15 @@ export const getCurrentUserRank = () =>
         reject(err)
       })
   })
+
+export const getMyHonours = () =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessToken('/honours', 'get')
+      .then(result => {
+        const lotterys = result.data.data
+        resolve({lotterys})
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })

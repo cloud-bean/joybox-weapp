@@ -57,12 +57,21 @@
         </view>
       </i-page>
     </view>
+
+    <i-modal title="留言" visible="{{ isModalShow }}" bind:ok="handleOKClose" bind:cancel="handleCancelClose">
+      <view>
+        <input value="{{modalMsg}}" bindinput="onModalMsgChanged" placeholder="sth..."/>
+      </view>
+    </i-modal>
+
     <view class="timelines-panel">
       <view wx:if="{{timelines.length > 0}}">
         <repeat for="{{timelines}}" key="index" index="index" item="item">
           <view>
             <timeline-item :tlData="item" @onLike.user="like" @onComment.user="comment"
             :imgSrc="item.user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'"></timeline-item>
+            <i-button inline type="primary" @tap="like({{item._id}})">点赞</i-button>
+            <i-button inline @tap="toggleModalVisable({{item._id}})">留言</i-button>
           </view>
         </repeat>
       </view>
@@ -94,6 +103,15 @@
       return state.world.timelines.map(item => {
         let newItem = {...item}
         newItem.created = dayjs(item.created).fromNow()
+        let messages = []
+        if (newItem.messages.length > 0) {
+          newItem.messages.map(msg => {
+            let newMsg = {...msg}
+            newMsg.created = dayjs(msg.created).fromNow()
+            messages.push(newMsg)
+          })
+        }
+        newItem.messages = messages
         return newItem
       })
     },
@@ -117,12 +135,16 @@
       timelinePage: 1,
       timelineLimit: 30,
       docPage: 1,
-      docLimit: 1
+      docLimit: 1,
+      isModalShow: false,
+      modalMsg: ''
     }
     config = {
       usingComponents: {
         'i-page': '/iview/page/index',
-        'i-icon': '/iview/icon/index'
+        'i-icon': '/iview/icon/index',
+        'i-button': '/iview/button/index',
+        'i-modal': '/iview/modal/index'
       }
     }
     components = {
@@ -136,6 +158,13 @@
         return Math.ceil(this.docCount / this.docLimit)
       }
     }
+
+    clearModal () {
+      this.isModalShow = false
+      this.modalMsg = ''
+      this.selectedId = ''
+    }
+
     methods = {
       handleDocPageChange({ detail }) {
         const type = detail.type
@@ -164,6 +193,24 @@
         console.log('on comment', id, msg)
         this.methods.addMsg2Timeline(id, msg)
         this.methods.getTimelines(this.timelinePage, this.timelineLimit)
+      },
+      toggleModalVisable(id) {
+        this.isModalShow = !this.isModalShow
+        this.selectedId = id
+        console.log('this.selectedId', this.selectedId)
+      },
+      onModalMsgChanged({ detail }) {
+        console.log('onModalMsgChanged', detail)
+        this.modalMsg = detail.value
+      },
+      handleOKClose() {
+        console.log('this.selectedId, this.modalMsg: ', this.selectedId, this.modalMsg)
+        this.methods.addMsg2Timeline(this.selectedId, this.modalMsg)
+        this.methods.getTimelines(this.timelinePage, this.timelineLimit)
+        this.clearModal()
+      },
+      handleCancelClose() {
+        this.clearModal()
       }
     }
     onReady() {

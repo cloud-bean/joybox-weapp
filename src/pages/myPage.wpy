@@ -7,10 +7,11 @@
 
 <template>
   <div class="layout">
+    <i-message id="message" />
     <view>
       <i-avatar src="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}" size="large" shape="circle"></i-avatar>
       {{user.displayName}} - 已加入{{user.created}}
-      <image src="/assets/images/level.png" style="width: 20px; height: 20px;" /> 等级{{level}}
+      <image src="/assets/images/level.png" style="width: 20px; height: 20px;" /> 等级{{user.level}}
       <image src="/assets/images/exp.png" style="width: 20px; height: 20px;" /> 经验值{{user.option.exp}}
       <image src="/assets/images/gold.png" style="width: 20px; height: 20px;" /> 悦币{{user.option.goldToken}}
     </view>
@@ -29,10 +30,10 @@
       <keepBar :keepInfo="keepInfo"></keepBar>
     </view>
     <view>
-      {{ rank.me }}
+      排行: {{ rank.me }}
     </view>
     <view>
-      排行，荣耀
+      荣耀
     </view>
   </div>
 </template>
@@ -48,11 +49,22 @@
     connect
   } from 'wepy-redux'
   import dayjs from '../utils/dayJS'
+
+  const level = function(experience) {
+    const levelExp = [50, 100, 200, 350, 550, 800, 1100, 1450, 1850, 2300, 2800, 3350, 3950, 4600, 5300, 6050, 6850, 7700, 8600, 9550]
+    const maxlevel = levelExp.length
+    for (const key in levelExp) {
+      if (experience < levelExp[key]) return Number(key) + 1
+    }
+    return maxlevel
+  }
+
   @connect({
     user(state) {
       const newUser = { ...state.user
       }
-      newUser.created = dayjs(new Date(state.user.created)).toNow(true)
+      newUser.level = level(newUser.option.exp)
+      newUser.created = dayjs(new Date(newUser.created)).toNow(true)
       return newUser
     },
     keepInfo(state) {
@@ -86,19 +98,6 @@
       keepBar: KeepBar
     }
     computed = {
-      level() {
-        if (!this.user) {
-          return 0
-        }
-        const experience = this.user.option.exp
-        const levelExp = [50, 100, 200, 350, 550, 800, 1100, 1450, 1850, 2300, 2800, 3350, 3950, 4600, 5300, 6050, 6850, 7700, 8600, 9550]
-        const maxlevel = levelExp.length
-        for (const key in levelExp) {
-          if (experience < levelExp[key]) return Number(key) + 1
-        }
-        console.log('enter level func', experience, maxlevel)
-        return maxlevel
-      }
     }
     onReady() {
       this.methods.getMyBagCards()
