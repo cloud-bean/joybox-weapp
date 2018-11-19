@@ -1,130 +1,131 @@
 <style lang="less">
-// @import "./plugin/fontAwesome/stylesheet.css";
-@import "./plugin/fontAwesome/font-awesome.wxss";
-@import "./plugin/wxParse/wxParse.wxss";
-
-.container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-view{
-  overflow: visible;
-}
-// body{
-//   background-color: #eee;
-// }
+  // @import "./plugin/fontAwesome/stylesheet.css";
+  @import "./plugin/fontAwesome/font-awesome.wxss";
+  @import "./plugin/wxParse/wxParse.wxss";
+  .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  view {
+    overflow: visible;
+  }
+  // body{
+  //   background-color: #eee;
+  // }
 </style>
 
 <script>
-import wepy from 'wepy'
-import 'wepy-async-function'
-import { setStore } from 'wepy-redux'
-import configStore from './store'
-
-import './utils/sdk/ald-stat'
-
-const store = configStore()
-setStore(store)
-
-export default class extends wepy.app {
-  config = {
-    pages: [
-      'pages/initPage',
-      'pages/homePage',
-      'pages/recordPage',
-      'pages/taskListPage',
-      'pages/teacherOrderListPage',
-      'pages/teacherSetScorePage',
-      'pages/taskDetailPage',
-      'pages/submitOrderPage',
-      'pages/successPage',
-      'pages/cardListPage',
-      'pages/storyListPage',
-      'pages/storyDetailPage',
-      'pages/teamListPage',
-      'pages/worldPage',
-      'pages/myPage',
-      'pages/shopPage'
-    ],
-    window: {
-      backgroundTextStyle: 'dark',
-      navigationBarTitleText: '悦盒Lite',
-      navigationBarTextStyle: '#eee',
-      backgroundColor: '#eee',
-      enablePullDownRefresh: false,
-      navigationBarBackgroundColor: '#000'
-    },
-    tabBar: {
-      color: '#AEADAD',
-      selectedColor: '#049BFF',
-      backgroundColor: '#fff',
-      borderStyle: 'black',
-      list: [{
-        pagePath: 'pages/homePage',
-        iconPath: '/assets/images/home.gray.png',
-        selectedIconPath: '/assets/images/home.blue.png',
-        text: '首页'
-      }, {
-        pagePath: 'pages/cardListPage',
-        iconPath: '/assets/images/cards.gray.png',
-        selectedIconPath: '/assets/images/cards.blue.png',
-        text: '卡牌'
-      }, {
-        pagePath: 'pages/myPage',
-        iconPath: '/assets/images/mine.gray.png',
-        selectedIconPath: '/assets/images/mine.blue.png',
-        text: '我的',
-        selected: true
-      }, {
-        pagePath: 'pages/shopPage',
-        iconPath: '/assets/images/shop.gray.png',
-        selectedIconPath: '/assets/images/shop.blue.png',
-        text: '酒馆'
-      }, {
-        pagePath: 'pages/worldPage',
-        iconPath: '/assets/images/world.gray.png',
-        selectedIconPath: '/assets/images/world.blue.png',
-        text: '世界'
-      }]
+  import wepy from 'wepy'
+  import 'wepy-async-function'
+  import {
+    setStore
+  } from 'wepy-redux'
+  import configStore from './store'
+  import './utils/sdk/ald-stat'
+  const store = configStore()
+  setStore(store)
+  export default class extends wepy.app {
+    config = {
+      pages: [
+        'pages/initPage',
+        'pages/homePage',
+        'pages/recordPage',
+        'pages/taskListPage',
+        'pages/teacherOrderListPage',
+        'pages/teacherSetScorePage',
+        'pages/taskDetailPage',
+        'pages/submitOrderPage',
+        'pages/successPage',
+        'pages/cardListPage',
+        'pages/storyListPage',
+        'pages/storyDetailPage',
+        'pages/teamListPage',
+        'pages/worldPage',
+        'pages/myPage',
+        'pages/shopPage'
+      ],
+      window: {
+        backgroundTextStyle: 'dark',
+        navigationBarTitleText: '悦盒Lite',
+        navigationBarTextStyle: '#eee',
+        backgroundColor: '#eee',
+        enablePullDownRefresh: false,
+        navigationBarBackgroundColor: '#000'
+      },
+      tabBar: {
+        color: '#AEADAD',
+        selectedColor: '#049BFF',
+        backgroundColor: '#fff',
+        borderStyle: 'black',
+        list: [{
+          pagePath: 'pages/homePage',
+          iconPath: '/assets/images/home.gray.png',
+          selectedIconPath: '/assets/images/home.blue.png',
+          text: '首页'
+        }, {
+          pagePath: 'pages/cardListPage',
+          iconPath: '/assets/images/cards.gray.png',
+          selectedIconPath: '/assets/images/cards.blue.png',
+          text: '卡牌'
+        }, {
+          pagePath: 'pages/myPage',
+          iconPath: '/assets/images/mine.gray.png',
+          selectedIconPath: '/assets/images/mine.blue.png',
+          text: '我的',
+          selected: true
+        }, {
+          pagePath: 'pages/shopPage',
+          iconPath: '/assets/images/shop.gray.png',
+          selectedIconPath: '/assets/images/shop.blue.png',
+          text: '酒馆'
+        }, {
+          pagePath: 'pages/worldPage',
+          iconPath: '/assets/images/world.gray.png',
+          selectedIconPath: '/assets/images/world.blue.png',
+          text: '世界'
+        }]
+      },
+      plugins: {
+        tencentvideo: {
+          version: '1.2.2',
+          provider: 'wxa75efa648b60994b'
+        }
+      }
+    }
+    globalData = {
+      userInfo: null
+    }
+    constructor() {
+      super()
+      this.use('requestfix')
+      this.use('promisify')
+      // config intercept to include accessToken
+      // this.intercept('request', {
+      //   config (p) {
+      //     console.log('p', p)
+      //     p.header = {...p.header, Authorization: 'hello world'}
+      //     return p;
+      //   },
+      //   success (p) {
+      //     console.log('request success')
+      //     return p;
+      //   },
+      //   fail (p) {
+      //     console.log('request error')
+      //     return p;
+      //   }
+      // });
+    }
+    onLaunch() {
+      // console.log('launch')
+      // this.getUserInfo((res) => {
+      //   console.log('complete')
+      //   console.log(res)
+      // })
     }
   }
-
-  globalData = {
-    userInfo: null
-  }
-
-  constructor () {
-    super()
-    this.use('requestfix')
-    this.use('promisify')
-    // config intercept to include accessToken
-    // this.intercept('request', {
-    //   config (p) {
-    //     console.log('p', p)
-    //     p.header = {...p.header, Authorization: 'hello world'}
-    //     return p;
-    //   },
-    //   success (p) {
-    //     console.log('request success')
-    //     return p;
-    //   },
-    //   fail (p) {
-    //     console.log('request error')
-    //     return p;
-    //   }
-    // });
-  }
-
-  onLaunch() {
-    // console.log('launch')
-    // this.getUserInfo((res) => {
-    //   console.log('complete')
-    //   console.log(res)
-    // })
-  }
-}
 </script>
