@@ -75,8 +75,7 @@
   }
   .play-video {
     margin: 0 auto;
-  }
-  // .play-video video{
+  } // .play-video video{
   //   height:100%;
   //   width: 100%;
   // }
@@ -90,8 +89,9 @@
     <view> {{activeTask.expireTime }}超期</view>
     <view>类型 {{activeTask.type}}</view>
   </view>
-  <!--视频播放组件，视频播放文件存在七牛上，已测试可用-->
-  <!--<video style="width: 100%;" src="http://oeif08fpp.bkt.clouddn.com/%E8%AE%A1%E7%AE%97%E8%83%9C%E5%88%A9%E7%95%8C%E9%9D%A2-modal%E5%92%8C%E9%9F%B3%E6%95%88.mp4"></video>-->
+  <view wx:if="{{videoVid}}">
+    <txv-video vid="{{videoVid}}" playerid="txv-task" autoplay="{{false}}">></txv-video>
+  </view>
   <view class="wxParse md-container">
     <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}" />
     <image src="{{activeTask.contentImage.URL}}"></image>
@@ -140,6 +140,13 @@
     },
     taskComments(state) {
       return state.task.activeTaskComments
+    },
+    videoVid(state) {
+      const startTag = '<iframe frameborder="0" width="100%" src="https://v.qq.com/iframe/player.html?vid='
+      const endTag = '&tiny=0&auto=0" allowfullscreen></iframe>'
+      const vidStr = state.task.activeTask.txVideoFrame ? state.task.activeTask.txVideoFrame.slice(startTag.length, 0 - endTag.length) : ''
+      console.log('vidStr', vidStr, state.task.activeTask.txVideoFrame)
+      return vidStr
     }
   }, {
     getTaskComments
@@ -149,6 +156,11 @@
       tempAudioFile: '',
       tempVideoFile: '',
       defaultImgUrl: 'http://qn.joywill.com/default-task-title-image.jpeg'
+    }
+    config = {
+      usingComponents: {
+        'txv-video': 'plugin://tencentvideo/video'
+      }
     }
     components = {
       completeList,
@@ -225,19 +237,6 @@
             console.log(res.errMsg)
           }
         })
-      },
-      showVideo() {
-        const startTag = '<iframe frameborder="0" width="100%" src="https://v.qq.com/iframe/player.html?'
-        const endTag = '&tiny=0&auto=0" allowfullscreen></iframe>'
-        const vidStr = this.activeTask.txVideoFrame.slice(startTag.length, 0 - endTag.length)
-        const url = `/pages/videoPage?${vidStr}`
-        wx.navigateTo({
-          url
-        })
-      },
-      checkWeb() {
-        console.log('web-view', wx.canIUse('web-view'))
-        return wx.canIUse('web-view')
       }
     }
   }

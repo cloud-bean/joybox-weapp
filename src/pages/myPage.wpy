@@ -2,6 +2,18 @@
   .layout {
     border: 1px solid #d7dde4;
     background: #f5f7f9;
+    font-size: 12pt;
+  }
+  .icon-small {
+    width: 20px;
+    height: 20px;
+  }
+  .divs .imgs {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .divs .infos {
+    display: inline-block;
   }
 </style>
 
@@ -11,14 +23,22 @@
     <view>
       <i-avatar src="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}" size="large" shape="circle"></i-avatar>
       {{user.displayName}} - 已加入{{user.created}}
-      <image src="/assets/images/level.png" style="width: 20px; height: 20px;" /> 等级{{user.level}}
-      <image src="/assets/images/exp.png" style="width: 20px; height: 20px;" /> 经验值{{user.option.exp}}
-      <image src="/assets/images/gold.png" style="width: 20px; height: 20px;" /> 悦币{{user.option.goldToken}}
+      <view class="divs">
+        <div class="imgs">
+          <image class="icon-small" style="" src="../assets/images/level.png" alt=""></image>
+        </div>
+        <div class="infos" style="margin-right: 10px;">等级 {{user.level}}</div>
+        <div class="imgs">
+          <image class="icon-small" style="" src="../assets/images/exp.png" alt=""></image>
+        </div>
+        <div class="infos" style="margin-right: 10px;">经验值 {{user.option.exp}}</div>
+        <div class="imgs">
+          <image class="icon-small" src="../assets/images/gold.png" alt=""></image>
+        </div>
+        <div class="infos">悦币 {{user.option.goldToken}}</div>
+      </view>
     </view>
     <view slot="footer">
-      <i-badge count="1.3" style="margin: 0 10px;">
-        <i-icon type="flashlight" size="36" color="purple" />
-      </i-badge>
       <!--<i-badge count="1.8" style="margin: 0 10px;">-->
       <!--<i-icon type="redpacket" size="36" color="red" />-->
       <!--</i-badge>-->
@@ -29,12 +49,12 @@
     <view>
       <keepBar :keepInfo="keepInfo"></keepBar>
     </view>
-    <view>
+    <!--view>
       排行: {{ rank.me }}
     </view>
     <view>
       荣耀
-    </view>
+    </view-->
   </div>
 </template>
 

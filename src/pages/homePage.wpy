@@ -28,20 +28,12 @@
     <view class="layout-content" @tap="goTeamListPage">
       <p style="font-size: 28pt; color: #f5f7f9">团队</p>
     </view>
-    <!--view class="layout-content">
-        <txv-video vid="a0557tf28l5"></txv-video>
-      </view-->
   </view>
 </template>
-
 <script>
   import wepy from 'wepy'
   export default class homePage extends wepy.page {
-    config = {
-      usingComponents: {
-        'txv-video': 'plugin://tencentvideo/video'
-      }
-    }
+
     methods = {
       goTaskListPage() {
         wepy.navigateTo({

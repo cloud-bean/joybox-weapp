@@ -15,11 +15,11 @@
     <i-tabs current="{{ current }}" fixed bindchange="handleChange">
       <i-tab key="tab1" title="我的背包">
       </i-tab>
+      <i-tab key="tab4" title="宝箱">
+      </i-tab>
       <i-tab key="tab2" title="二手交易市场">
       </i-tab>
       <i-tab key="tab3" title="购买官方卡包">
-      </i-tab>
-      <i-tab key="tab4" title="宝箱">
       </i-tab>
     </i-tabs>
     <i-modal title="出售卡牌" visible="{{ isModalSellCardShow }}" bind:ok="handleSellCardOKClose" bind:cancel="handleSellCardCancelClose">

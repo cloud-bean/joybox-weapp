@@ -2,17 +2,43 @@
   .user-info {
     padding: 10rpx 0;
   }
+  .icon-small {
+    width: 20px;
+    height: 20px;
+  }
+
+  .divs .imgs {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .divs .infos {
+    display: inline-block;
+  }
 </style>
 
 <template>
   <view class="wrapper">
     <navbar :onChange="handleChange"></navbar>
     <view wx:if="{{hasTasks}}">
-      <repeat for="{{myTasks}}" key="index" index="index" item="item">
-        <view @tap="handleTap({{item}})">
-          <taskItem :taskData="item"></taskItem>
-        </view>
-      </repeat>
+      <i-cell-group>
+        <repeat for="{{myTasks}}" key="index" index="index" item="item">
+          <!--view @tap="handleTap({{item}})">
+                      <taskItem :taskData="item"></taskItem>
+                    </view-->
+          <i-cell title="{{item.name}}" label="{{item.expireTime}}" is-link bind:click="handleTap({{item}})">
+            <view slot="footer" class="divs">
+              <div class="imgs">
+                <image class="icon-small" style="" src="../assets/images/exp.png" alt=""></image>
+              </div>
+              <div class="infos" style="margin-right: 10px;">x{{item.exp}}</div>
+              <div class="imgs">
+                <image class="icon-small" src="../assets/images/gold.png" alt=""></image>
+              </div>
+              <div class="infos">x{{item.goldToken}}</div>
+            </view>
+          </i-cell>
+        </repeat>
+      </i-cell-group>
     </view>
     <view wx:else>
       暂无任务~
@@ -65,7 +91,9 @@
       enablePullDownRefresh: true,
       usingComponents: {
         'i-button': '/iview/button/index',
+        'i-icon': '/iview/icon/index',
         'i-card': '/iview/card/index',
+        'i-cell': '/iview/cell/index',
         'i-panel': '/iview/panel/index'
       }
     }
