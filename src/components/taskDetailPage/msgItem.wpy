@@ -1,75 +1,54 @@
 <style lang="less" scoped>
-.msg-item{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 11pt;
-  background-color: rgba(87,107,149,0.1);
-  .head{
+  .msg-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 11pt;
+    background-color: rgba(87, 107, 149, 0.1);
+    margin: 14rpx 20rpx;
+    padding: 10rpx;
+    border-radius: 10rpx;
+  }
+  .head {
     margin-right: 10rpx;
   }
-  .info{
-    // display: flex;
-    // flex-direction: column;
+  .info {
     color: #adadad;
-    text-align: left;
-    // height: 74rpx;
-    // justify-content: space-between;
+    text-align: left; // height: 74rpx;
     margin-left: 10rpx;
-    .name{
-      color: #576b95;
-    }
-    .msg{
-      color: #888;
-      margin-top: 10rpx;
-      overflow: scroll;
-    }
   }
-  margin: 14rpx 20rpx;
-  padding: 10rpx;
-  border-radius: 10rpx;
-}
-image{
-  // margin: auto 0;
-  width: 90rpx;
-  height: 90rpx;
-  // background-color: #eeeeee;
-  border-radius:10%;
-  // margin-left: 10rpx;
-  // margin-bottom: 10rpx;
-}
+  .name {
+    color: #576b95;
+  }
+  .msg {
+    color: #888;
+    margin-top: 10rpx;
+    overflow: scroll;
+  }
+  .avatar {
+    width: 90rpx;
+    height: 90rpx;
+    border-radius: 10%;
+  }
 </style>
+
 <template>
   <view class="msg-item">
     <view class="head">
-      <image mode="scaleToFill" src="{{msgData.user.profileImageURL || ''}}"></image>
+      <image mode="scaleToFill" class="avatar" src="{{msgData.user.profileImageURL || ''}}" />
     </view>
     <view class="info">
       <view class="name">{{msgData.user.displayName}} <text class="time">{{data.created}}</text></view>
       <view class="msg">{{msgData.content}}</view>
     </view>
   </view>
-
 </template>
+
 <script>
-import wepy from 'wepy'
-
-export default class msgItem extends wepy.component {
-  components={
-
+  import wepy from 'wepy'
+  export default class msgItem extends wepy.component {
+    props = {
+      msgData: Object
+    }
   }
-  props = {
-    msgData: Object
-  }
-
-  data = {
-  }
-  events = {
-
-  }
-
-  methods = {
-
-  }
-}
 </script>

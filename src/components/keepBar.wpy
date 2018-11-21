@@ -61,7 +61,7 @@
   </view>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
   .status-bar {
     color: #555;
     background-color: #eee;
@@ -81,8 +81,6 @@
   i {
     color: #6F2DBD;
   }
-
-  .red-box: {background: red;}
 </style>
 
 <script>

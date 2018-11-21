@@ -1,6 +1,4 @@
-<style type="less">
-.groupitem {
-}
+<style lang="less" scoped>
 </style>
 <template>
   <view class="groupitem">

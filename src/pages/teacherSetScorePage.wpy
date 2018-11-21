@@ -57,7 +57,7 @@
     </form>
     <view class="entity">
       <view wx:if="{{activeOrder.files[0].type === 0 }}">
-        <image src="{{activeOrder.files[0].URL}}" mode="widthFix"/>
+        <image src="{{activeOrder.files[0].URL}}" mode="widthFix" />
       </view>
       <view wx:if="{{activeOrder.files[0].type === 1 }}">
         <button size="small" type="default" @tap="handlePlayVoice">播放语音</button>
@@ -91,16 +91,17 @@
       fileURL: '',
       score: 1,
       comments: '',
-      tags: [{
-        name: '好棒',
-        color: 'red',
-        checked: false
-      },
-      {
-        name: 'nice',
-        color: 'bule',
-        checked: false
-      }]
+      tags: []
+      // {
+      //   name: '好棒',
+      //   color: 'red',
+      //   checked: false
+      // },
+      // {
+      //   name: 'nice',
+      //   color: 'bule',
+      //   checked: false
+      // }
     }
     components = {
       // starPanel

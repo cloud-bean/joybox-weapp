@@ -1,69 +1,63 @@
 <style lang="less" scoped>
-.complete-list{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  .head-list{
+  .complete-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10rpx 10rpx;
+    border-bottom: 1px solid #adadad;
+  }
+  .head-list {
     flex-grow: 5;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
   }
-  .info{
+  .info {
     flex-grow: 3;
     color: #adadad;
     font-size: 28rpx;
     text-align: center;
   }
-  padding: 10rpx 10rpx;
-  border-bottom:1px solid  #adadad;
-}
-image{
-  margin: auto 0;
-  width: 60rpx;
-  height: 60rpx;
-  background-color: #eeeeee;
-  border-radius:50%;
-  margin-left: 10rpx;
-  margin-bottom: 10rpx;
-}
+  image {
+    margin: auto 0;
+    width: 60rpx;
+    height: 60rpx;
+    background-color: #eeeeee;
+    border-radius: 50%;
+    margin-left: 10rpx;
+    margin-bottom: 10rpx;
+  }
 </style>
+
 <template>
   <view class="complete-list" @tap="handleClick">
-    <view class="head-list" >
-      <repeat  for="{{completeUsers}}" key="index" index="index" item="user">
-        <image mode="scaleToFill" src="{{user.profileImageURL || ''}}"></image>
+    <view class="head-list">
+      <repeat for="{{completeUsers}}" key="index" index="index" item="user">
+        <image mode="scaleToFill" src="{{user.profileImageURL || ''}}" />
       </repeat>
     </view>
     <view class="info">
       {{completeUsers.length}}人完成作业
     </view>
   </view>
-
 </template>
+
 <script>
-import wepy from 'wepy'
-
-export default class completeList extends wepy.component {
-  components={
-
-  }
-  props = {
-    completeUsers: Array
-  }
-
-  data = {
-  }
-  events = {
-
-  }
-  methods = {
-    handleClick() {
-      console.log(this)
+  import wepy from 'wepy'
+  export default class completeList extends wepy.component {
+    components = {}
+    props = {
+      completeUsers: Array
+    }
+    data = {}
+    events = {}
+    methods = {
+      handleClick() {
+        console.log(this)
+      }
+    }
+    onLoad() {
+      console.log('on show ', this.completeUsers)
     }
   }
-  onLoad() {
-    console.log('on show ', this.completeUsers)
-  }
-}
 </script>

@@ -82,41 +82,43 @@
 </style>
 
 <template>
-  <import src="../plugin/wxParse/wxParse.wxml" />
-  <view class="task-title">{{activeTask.name}}</view>
-  <view class="task-head">
-    <view>发布于 {{activeTask.created }}</view>
-    <view> {{activeTask.expireTime }}超期</view>
-    <view>类型 {{activeTask.type}}</view>
-  </view>
-  <view wx:if="{{videoVid}}">
-    <txv-video vid="{{videoVid}}" playerid="txv-task" autoplay="{{false}}">></txv-video>
-  </view>
-  <view class="wxParse md-container">
-    <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}" />
-    <image src="{{activeTask.contentImage.URL}}"/>
-    <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
-      <view class="wxParse-h1">任务素材</view>
-      <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">
-        <video src="{{activeTask.videoFile.URL}}" controls>  </video>
-      </view>
-      <view class="play-audio" wx:if="{{activeTask.audioFile}}">
-        <audio src="{{activeTask.audioFile.URL}}" binderror="handleError" controls> </audio>
+  <view>
+    <import src="../plugin/wxParse/wxParse.wxml" />
+    <view class="task-title">{{activeTask.name}}</view>
+    <view class="task-head">
+      <view>发布于 {{activeTask.created }}</view>
+      <view> {{activeTask.expireTime }}超期</view>
+      <view>类型 {{activeTask.type}}</view>
+    </view>
+    <view wx:if="{{videoVid}}">
+      <txv-video vid="{{videoVid}}" playerid="txv-task" autoplay="{{false}}">></txv-video>
+    </view>
+    <view class="wxParse md-container">
+      <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}" />
+      <image src="{{activeTask.contentImage.URL}}" />
+      <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
+        <view class="wxParse-h1">任务素材</view>
+        <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">
+          <video src="{{activeTask.videoFile.URL}}" controls>  </video>
+        </view>
+        <view class="play-audio" wx:if="{{activeTask.audioFile}}">
+          <audio src="{{activeTask.audioFile.URL}}" binderror="handleError" controls> </audio>
+        </view>
       </view>
     </view>
+    <view class="wxParse md-container summary" wx:if="{{activeTask.isDone}}">
+      <template is="wxParse" wx:if="{{activeTask.summary}}" data="{{wxParseData:summary.nodes}}" />
+    </view>
+    <view class="md-container">
+      <completeList :completeUsers.sync="taskDoneUsers"></completeList>
+    </view>
+    <view class="msg-container">
+      <repeat for="{{taskComments}}" key="index" index="index" item="item">
+        <msgItem :msgData.sync="item"></msgItem>
+      </repeat>
+    </view>
+    <button wx:if="{{!activeTask.isDone}}" class="submit" @tap="open">上传作业</button>
   </view>
-  <view class="wxParse md-container summary" wx:if="{{activeTask.isDone}}">
-    <template is="wxParse" wx:if="{{activeTask.summary}}" data="{{wxParseData:summary.nodes}}" />
-  </view>
-  <view class="md-container">
-    <completeList :completeUsers.sync="taskDoneUsers"></completeList>
-  </view>
-  <view class="msg-container">
-    <repeat for="{{taskComments}}" key="index" index="index" item="item">
-      <msgItem :msgData.sync="item"></msgItem>
-    </repeat>
-  </view>
-  <button wx:if="{{!activeTask.isDone}}" class="submit" @tap="open">上传作业</button>
 </template>
 
 <script>

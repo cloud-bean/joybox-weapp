@@ -23,7 +23,7 @@
   }
 </script>
 
-<style lang="css" scoped>
+<style lang="less" scoped>
   .message-item {
     display: flex;
     flex-direction: row;

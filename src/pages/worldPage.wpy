@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="less" scoped>
   .title {
     color: #1c2438;
     font-size: 24px;

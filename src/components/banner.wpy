@@ -1,26 +1,25 @@
 <style lang="less" scoped>
-.banner{
-  display: flex;
-  justify-content: flex-start;
-}
-.small-text{
-  font-size: 13pt;
-
-}
-.text{
-  border-radius: 10rpx 0 0 10rpx;
-  color: white;
-  padding: 10rpx 20rpx;
-  background: #26a2ff;
-}
-.num{
-  background: #D8D8D8;
-  color: #888888;
-  border-radius: 0px 10rpx 10rpx 0px;
-  padding: 10rpx 20rpx;
-
-}
+  .banner {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .small-text {
+    font-size: 13pt;
+  }
+  .text {
+    border-radius: 10rpx 0 0 10rpx;
+    color: white;
+    padding: 10rpx 20rpx;
+    background: #26a2ff;
+  }
+  .num {
+    background: #D8D8D8;
+    color: #888888;
+    border-radius: 0px 10rpx 10rpx 0px;
+    padding: 10rpx 20rpx;
+  }
 </style>
+
 <template>
   <view class="banner">
     <view class="text small-text">
@@ -30,22 +29,16 @@
       {{bannerData.value}}
     </view>
   </view>
-
 </template>
+
 <script>
-import wepy from 'wepy'
-
-export default class banner extends wepy.component {
-  props = ['bannerData']
-
-  data = {
+  import wepy from 'wepy'
+  export default class banner extends wepy.component {
+    props = ['bannerData']
+    data = {}
+    events = {
+    }
+    methods = {
+    }
   }
-  events = {
-
-  }
-
-  methods = {
-
-  }
-}
 </script>

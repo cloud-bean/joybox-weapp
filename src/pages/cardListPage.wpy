@@ -75,7 +75,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .container {
     text-align: center;
     background-color: #f8f8f9;

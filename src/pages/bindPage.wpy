@@ -17,7 +17,7 @@
     font-size: 11pt;
     color: #353535;
   }
-  input {
+  .input {
     border: 1px solid #b2b2b2;
     padding: 20rpx;
     font-size: 12pt;

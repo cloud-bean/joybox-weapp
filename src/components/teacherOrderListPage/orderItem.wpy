@@ -29,9 +29,6 @@
 </style>
 <template>
   <view class="submit-item">
-    <!-- <view class="sub-title">
-      [{{createdDate}}]
-    </view> -->
     <view class="title">
       {{orderData.task.name}}
     </view>

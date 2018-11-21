@@ -1,5 +1,4 @@
-<style scoped>
-  .layout {}
+<style lang="less" scoped>
   .layout-content {
     min-height: 140px;
     margin: 15px;
@@ -16,7 +15,6 @@
     margin: 10px;
   }
 </style>
-
 <template>
   <view class="layout">
     <view class="layout-content" @tap="goTaskListPage">
@@ -33,7 +31,6 @@
 <script>
   import wepy from 'wepy'
   export default class homePage extends wepy.page {
-
     methods = {
       goTaskListPage() {
         wepy.navigateTo({
