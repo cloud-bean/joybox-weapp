@@ -123,7 +123,6 @@
   import wepy from 'wepy'
   import completeList from '../components/taskDetailPage/completeList'
   import msgItem from '../components/taskDetailPage/msgItem'
-  import recordBox from '../components/taskDetailPage/recordBox'
   var WxParse = require('../plugin/wxParse/wxParse.js')
   import {
     getTaskComments
@@ -164,8 +163,7 @@
     }
     components = {
       completeList,
-      msgItem,
-      recordBox
+      msgItem
     }
     onShareAppMessage(res) {
       if (res.from === 'button') {
