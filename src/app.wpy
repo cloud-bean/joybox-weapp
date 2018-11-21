@@ -31,12 +31,12 @@
   export default class extends wepy.app {
     config = {
       pages: [
+        'pages/teacherSetScorePage',
+        'pages/teacherOrderListPage',
+        'pages/recordPage',
         'pages/initPage',
         'pages/homePage',
-        'pages/recordPage',
         'pages/taskListPage',
-        'pages/teacherOrderListPage',
-        'pages/teacherSetScorePage',
         'pages/taskDetailPage',
         'pages/submitOrderPage',
         'pages/successPage',
@@ -91,7 +91,7 @@
       },
       plugins: {
         tencentvideo: {
-          version: '1.2.2',
+          version: '1.2.3',
           provider: 'wxa75efa648b60994b'
         }
       }

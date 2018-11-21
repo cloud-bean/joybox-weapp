@@ -3,25 +3,25 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 40rpx;
+    background-color: #efefef;
+    padding: 20px;
   }
   .entity {
     margin-top: 20rpx;
     width: 100%;
-  }
-  input {
-    margin-top: 20rpx;
-    border: 1px solid #ccc;
-    padding: 10rpx;
-    font-size: 13pt;
-  }
-  textarea {
-    margin-top: 20rpx;
-    border: 1px solid #ccc;
-    padding: 10rpx;
-    font-size: 13pt;
-    width: auto;
-  }
+  } // input {
+  //   margin-top: 20rpx;
+  //   border: 1px solid #ccc;
+  //   padding: 10rpx;
+  //   font-size: 13pt;
+  // }
+  // textarea {
+  //   margin-top: 20rpx;
+  //   border: 1px solid #ccc;
+  //   padding: 10rpx;
+  //   font-size: 13pt;
+  //   width: auto;
+  // }
   button {
     margin-top: 20rpx;
   }
@@ -40,9 +40,18 @@
         </view>
       </view>
       <view class="message">
-        <text class="title">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
-        <input type="number" name="score" value="" placeholder="请输入评分"></input>
-        <textarea name="comments" placeholder="请输入作业评语"></textarea>
+        <text class="title" wx:if="{{activeOrder._id}}">{{activeOrder.task.name}}-{{activeOrder.student.displayName}}</text>
+        <i-panel title="打分">
+          <i-rate bind:change="onRateChange" value="{{score}}" size="24">
+          </i-rate>
+        </i-panel>
+        <i-panel title="点评">
+          <i-input value="{{ comments }}" type="textarea" title="" mode="normal" maxlength="300" placeholder="请输入作业评语" bindchange="onCommentsChange" />
+        </i-panel>
+        <i-tag wx:for="{{tags}}" wx:key="{{index}}" bindchange="onTagChange" checkable="{{true}}" name="{{index}}" color="{{item.color}}" checked="{{item.checked}}" type="border" style="margin-right:5px;">
+          {{item.name}}
+        </i-tag>
+        {{score}} - {{comments}} - {{orderId}}
         <button type="primary" formType="submit">提交评价</button>
       </view>
     </form>
@@ -72,14 +81,37 @@
   @connect({
     activeOrder(state) {
       return state.order.activeOrder
+    },
+    orderId(state) {
+      return state.order.activeOrder._id
     }
   }, {})
   export default class TeacherSetScorePage extends wepy.page {
     data = {
-      fileURL: ''
+      fileURL: '',
+      score: 1,
+      comments: '',
+      tags: [{
+        name: '好棒',
+        color: 'red',
+        checked: false
+      },
+      {
+        name: 'nice',
+        color: 'bule',
+        checked: false
+      }]
     }
     components = {
       // starPanel
+    }
+    config = {
+      usingComponents: {
+        'i-rate': '/iview/rate/index',
+        'i-panel': '/iview/panel/index',
+        'i-input': '/iview/input/index',
+        'i-tag': '/iview/tag/index'
+      }
     }
     methods = {
       async formSubmit(e) {
@@ -139,6 +171,23 @@
             wepy.hideLoading()
           }
         })
+      },
+      onRateChange({
+        detail
+      }) {
+        const index = detail.index
+        this.score = index
+        this.$apply()
+      },
+      onTagChange(event) {
+        const detail = event.detail
+        console.log(['tags[' + event.detail.name + '].checked'], detail.checked)
+      },
+      onCommentsChange(e) {
+        console.log(e.detail)
+        this.comments = e.detail.detail.value
+        console.log(this.comments)
+        this.$apply()
       }
     }
     async onLoad() {
