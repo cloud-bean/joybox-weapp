@@ -39,7 +39,7 @@
         <repeat for="{{documents}}" key="index" index="index" item="doc">
           <view class="title">{{ doc.title }}</view>
           <view class="sub-title">{{ doc.subTitle }}</view>
-          <image src="{{doc.file.URL}}"></image>
+          <image src="{{doc.file.URL}}"/>
         </repeat>
       </view>
       <view wx:else>

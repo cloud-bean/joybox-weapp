@@ -83,35 +83,33 @@
 <template>
   <view class="recorder">
     <view class="recorder-status">
-      <image wx:if="{{recordStatus=='录音中'}}" class="icon-small" style=" width: 20px; height: 20px;margin-bottom: 20px;" src="../assets/images/record-red.png" alt=""></image>
+      <image wx:if="{{recordStatus=='录音中'}}" class="icon-small" style=" width: 20px; height: 20px;margin-bottom: 20px;" src="../assets/images/record-red.png" alt=""/>
       {{recordStatus}}
     </view>
     <view class="preview">
-      {{ tempFilePath }}
+      {{ tempFilePath }} -
       <audio id="vid" />
-      <audio poster="../assets/images/voice-green.png" name="uploadFileURL" author="me1" src="{{uploadFileURL}}"></audio>
-      <audio poster="../assets/images/voice-green.png" name="tempFilePath" author="me2" src="{{tempFilePath}}"></audio> {{ uploadFileURL }}
       <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info></progress>
     </view>
     <view class="button-group">
       <view class="button button-play" wx:if="{{recordStatus=='已停止'}}" @tap="playRecord">
-        <image class="icon-small {{playDisabled?'disabled':''}}" style="" src="../assets/images/play.png" alt=""></image>
+        <image class="icon-small {{playDisabled?'disabled':''}}" style="" src="../assets/images/play.png" alt=""/>
         <view class="button-text">播放</view>
       </view>
       <view class="button button-stop" wx:if="{{recordStatus=='录音中' || recordStatus == '播放中'}}" @tap="stopRecord">
-        <image class="icon-small" src="../assets/images/stop.png" alt=""></image>
+        <image class="icon-small" src="../assets/images/stop.png" alt=""/>
         <view class="button-text">停止</view>
       </view>
       <view class="button button-record {{recordDisabled?'disabled':''}}" wx:if="{{recordStatus=='已停止'}}" @tap="startRecord">
-        <image class="icon-small" style="" src="../assets/images/voice.png" alt=""></image>
+        <image class="icon-small" style="" src="../assets/images/voice.png" alt=""/>
         <view class="button-text">开始录制</view>
       </view>
       <view class="button button-play {{uploadDisabled?'disabled':''}}" @tap="uploadVoice">
-        <image class="icon-small" style="" src="../assets/images/upload.png" alt=""></image>
+        <image class="icon-small" style="" src="../assets/images/upload.png" alt=""/>
         <view class="button-text">上传</view>
       </view>
       <view class="button button-play {{uploadDisabled?'disabled':''}}" @tap="submitOrder">
-        <image class="icon-small" style="" src="../assets/images/upload.png" alt=""></image>
+        <image class="icon-small" style="" src="../assets/images/upload.png" alt=""/>
         <view class="button-text">提交作业</view>
       </view>
     </view>

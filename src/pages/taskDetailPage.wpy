@@ -94,7 +94,7 @@
   </view>
   <view class="wxParse md-container">
     <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}" />
-    <image src="{{activeTask.contentImage.URL}}"></image>
+    <image src="{{activeTask.contentImage.URL}}"/>
     <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
       <view class="wxParse-h1">任务素材</view>
       <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">

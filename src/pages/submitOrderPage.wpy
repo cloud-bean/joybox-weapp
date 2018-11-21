@@ -62,7 +62,7 @@
       <view class="preview">
         <text class="tip-text">{{uploadText}}</text>
         <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info ></progress>
-        <image wx:if="{{fileTypeIndex === 0 && uploadFileURL}}" src="{{uploadFileURL}}" class="image-preview" mode="widthFix"></image>
+        <image wx:if="{{fileTypeIndex === 0 && uploadFileURL}}" src="{{uploadFileURL}}" class="image-preview" mode="widthFix"/>
         <video wx:if="{{fileTypeIndex === 2 && uploadFileURL}}" src="{{uploadFileURL}}" class="video-preview" controls></video>
         <button type="default" wx:if="{{fileTypeIndex === 0}}" @tap="chooseImage">拍照或从相册中选择</button>
         <button type="default" wx:if="{{fileTypeIndex === 2}}" @tap="chooseVideo">拍摄或从相册中选择</button>

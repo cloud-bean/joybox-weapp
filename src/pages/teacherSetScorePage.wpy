@@ -57,7 +57,7 @@
     </form>
     <view class="entity">
       <view wx:if="{{activeOrder.files[0].type === 0 }}">
-        <image src="{{activeOrder.files[0].URL}}" mode="widthFix"></image>
+        <image src="{{activeOrder.files[0].URL}}" mode="widthFix"/>
       </view>
       <view wx:if="{{activeOrder.files[0].type === 1 }}">
         <button size="small" type="default" @tap="handlePlayVoice">播放语音</button>
@@ -66,7 +66,7 @@
       <view wx:if="{{activeOrder.files[0].type === 2 }}">
         <video src="{{activeOrder.files[0].URL}}" class="video-preview" controls></video>
       </view>
-      <!-- <image mode= "aspectFit" src="./head.jpg"></image> -->
+      <!-- <image mode= "aspectFit" src="./head.jpg"/> -->
     </view>
   </view>
 </template>
