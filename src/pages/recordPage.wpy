@@ -145,7 +145,7 @@
           this.recordStatus = '录音中'
           this.recorderManager.start({
             format: 'mp3' // 如果录制acc类型音频则改成aac
-          });
+          })
           this.recorderManager.onStop(function(data) {
             that.tempFilePath = data.tempFilePath
             console.log('录音停止', data)
@@ -179,7 +179,7 @@
           that.audioCtx.onPlay(function() {
             console.log('开始播放', that.tempFilePath)
           })
-          that.audioCtx.play();
+          that.audioCtx.play()
         }
         this.$apply()
       },
