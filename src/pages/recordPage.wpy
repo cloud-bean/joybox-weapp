@@ -71,7 +71,7 @@
     width: 60px;
     height: 60px;
   }
-      .preview {
+  .preview {
     width: 90%;
     display: block;
     margin: 50px auto;
@@ -87,7 +87,7 @@
     <view class="preview">
       <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info></progress>
     </view>
-    <view class="button-group"  wx-if="{{!uploadFileURL}}">
+    <view class="button-group" wx-if="{{!uploadFileURL}}">
       <view class="button button-play" wx:if="{{recordStatus=='已停止' && tempFilePath}}" @tap="playRecord">
         <image class="icon-large {{playDisabled?'disabled':''}}" style="" src="../assets/images/play.png" alt="" />
         <view class="button-text">播放</view>
@@ -128,8 +128,6 @@
     data = {
       recordStatus: '已停止',
       tempFilePath: '',
-      // duration:'00:00',
-      // timer:{},
       fileTypeIndex: 0,
       uploadFileURL: '',
       progress: 0,
@@ -219,8 +217,14 @@
           type: this.fileTypeIndex
         })
         this.$apply()
-        wx.navigateTo({
-          url: '/pages/successPage'
+        wepy.showToast({
+          title: '提交完毕~',
+          icon: 'success',
+          duration: 1000
+        }, () => {
+          wx.navigateTo({
+            url: '/pages/successPage'
+          })
         })
       },
       cancel() {
@@ -233,16 +237,6 @@
       this.uploadDisabled = upload
       this.$apply()
     }
-    // initState(){
-    //   console.log( 'init');
-    //   this.recordStatus = '已停止';
-    //   this.duration = '00:00';
-    //   this.playDisabled = true;
-    //   this.recordDisabled = false;
-    //   this.uploadDisabled = true
-    //   this.$apply()
-    //
-    // }
     onLoad(option) {
       let typeIndex = parseInt(option.type, 10)
       this.fileTypeIndex = typeIndex
@@ -250,146 +244,5 @@
       this.audioCtx = wx.createInnerAudioContext()
       this.recorderManager = wx.getRecorderManager()
     }
-    // startCount(){
-    //   const that = this;
-    //   let n = 0;
-    //   this.timer = setInterval(function () {
-    //     n++;
-    //     var m=parseInt(n/60);
-    //     var s=parseInt(n%60);
-    //     that.duration=that.toDub(m)+":"+that.toDub(s);
-    //   },1000/60);
-    //   this.$apply()
-    // }
-    // clearCount(){
-    //   this.duration='00:00';
-    //   this.$apply()
-    // }
-    // stopCount(){
-    //   clearInterval(this.timer);
-    // }
-    // toDub(n){
-    //   return n<10?"0"+n:""+n;
-    // }
-    // onShow(){
-    //    this.configRecord();
-    // }
-    // methods = {
-    //     configRecord(){
-    //       const that = this;
-    //       wx.onVoiceRecordEnd({
-    //         // 录音时间超过一分钟没有停止的时候会执行 complete 回调
-    //        complete: function (res) {
-    //           that.recordStatus='已停止';
-    //           that.stopCount();
-    //           that.localId = res.localId;
-    //           that.setButtonDisabled(false,false,false);
-    //        }
-    //       });
-    //       wx.onVoicePlayEnd({
-    //            success: function (res) {
-    //               that.recordStatus='已停止';
-    //               that.stopCount();
-    //               that.localId = res.localId; // 返回音频的本地ID
-    //               that.setButtonDisabled(false,false,false);
-    //           }
-    //       });
-    //     },
-    //     startRecord(){
-    //       if(!this.recordDisabled){
-    //           this.recordStatus='录音中';
-    //           this.clearCount()
-    //           this.startCount();
-    //           wx.startRecord();
-    //       }
-    //     },
-    //     stopRecord(){
-    //       const that = this;
-    //       this.recordStatus='已停止';
-    //       this.stopCount();
-    //       this.setButtonDisabled(false,false,false);
-    //       wx.stopRecord({
-    //           success: function (res) {
-    //                   that.localId = res.localId;
-    //
-    //               }
-    //           });
-    //     },
-    //     playRecord(){
-    //         if(!this.playDisabled){
-    //               this.setButtonDisabled(true,true,true);
-    //               const that = this;
-    //               this.recordStatus='播放中';
-    //               this.clearCount()
-    //               this.startCount();
-    //               wx.playVoice({
-    //                   localId:that.localId,
-    //               });
-    //         }
-    //
-    //     },
-    //     cancel(){
-    //         this.$router.push('/taskDetail');
-    //     },
-    //     startCount(){
-    //       const that = this;
-    //       let n = 0;
-    //       this.timer = setInterval(function () {
-    //               n++;
-    //               var m=parseInt(n/60);
-    //               var s=parseInt(n%60);
-    //               that.duration=that.toDub(m)+":"+that.toDub(s);
-    //           },1000/60);
-    //     },
-    //     clearCount(){
-    //       this.duration='00:00';
-    //     },
-    //     stopCount(){
-    //       clearInterval(this.timer);
-    //     },
-    //     toDub(n){
-    //       return n<10?"0"+n:""+n;
-    //     },
-    //     setButtonDisabled(play,record,upload){
-    //         console.log('set');
-    //         this.playDisabled=play;
-    //         this.recordDisabled=record;
-    //         this.uploadDisabled=upload;
-    //     },
-    //     async uploadVoice(localId){
-    //       return new Promise((resolve, reject) =>{
-    //            wx.uploadVoice({
-    //               localId, // 需要上传的音频的本地ID，由stopRecord接口获得
-    //               isShowProgressTips: 1, // 默认为1，显示进度提示
-    //               success: function (res) {
-    //                   const serverId = res.serverId; // 返回音频的服务器端ID
-    //                   resolve(serverId);
-    //                },
-    //                fail(){
-    //                    reject();
-    //                }
-    //               });
-    //       });
-    //     },
-    //     async submit(){
-    //         if(!this.uploadDisabled){
-    //             try{
-    //               const serverId = await this.uploadVoice(this.localId);
-    //               await this.submitOrder({taskId:this.task._id, serverId, type:1})
-    //               await this.leaveComment({content:'我提交了语音答案', taskId:this.task._id})
-    //               Toast({
-    //                   message: '提交成功',
-    //                   position: 'middle',
-    //                   duration: 3000
-    //               });
-    //           }catch(err){
-    //               console.log(err);
-    //           }finally{
-    //               this.$router.push('/taskDetail');
-    //           }
-    //         }
-    //     }
-    //
-    // }
   }
 </script>
