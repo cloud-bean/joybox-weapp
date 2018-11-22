@@ -6,6 +6,12 @@ export const getAllTaskList = function (page, limit) {
     .catch(console.log)
 }
 
+export const getTask = function (taskId) {
+  return fetchWithAccessToken(`/tasks/${taskId}`, 'GET')
+    .then(res => res.data.data)
+    .catch(console.log)
+}
+
 export const getTaskList = state => {
   return fetchWithAccessToken(`/tasks?filter=${state}`, 'GET')
     .then(res => {

@@ -52,9 +52,8 @@
     opacity: 0.8;
     color: white;
   }
-  .share-button{
-    background-color:white;
-
+  .share-button {
+    background-color: white;
   }
   .task-head {
     display: flex;
@@ -90,13 +89,12 @@
     <import src="../plugin/wxParse/wxParse.wxml" />
     <view class="task-title">
       {{activeTask.name}}
-          </view>
+    </view>
     <view class="task-head">
       <view>发布于 {{activeTask.created }}</view>
       <view> {{activeTask.expireTime }}超期</view>
       <view>类型 {{activeTask.type}}</view>
     </view>
-
     <view wx:if="{{videoVid}}">
       <txv-video vid="{{videoVid}}" playerid="txv-task" autoplay="{{false}}">></txv-video>
     </view>
@@ -117,8 +115,8 @@
       <template is="wxParse" wx:if="{{activeTask.summary}}" data="{{wxParseData:summary.nodes}}" />
     </view>
     <button open-type="share" class="share-button">
-        <image src="/assets/images/share.png" style="width: 20px; height: 20px;" /> 分享
-      </button>
+              <image src="/assets/images/share.png" style="width: 20px; height: 20px;" /> 分享
+            </button>
     <view class="md-container">
       <completeList :completeUsers.sync="taskDoneUsers"></completeList>
     </view>
@@ -137,11 +135,13 @@
   import msgItem from '../components/taskDetailPage/msgItem'
   var WxParse = require('../plugin/wxParse/wxParse.js')
   import {
-    getTaskComments
+    getTaskComments,
+    setActiveTask
   } from '../store/actions'
   import {
     connect
   } from 'wepy-redux'
+  import * as api from '../api'
   @connect({
     activeTask(state) {
       return state.task.activeTask
@@ -159,7 +159,8 @@
       return vidStr
     }
   }, {
-    getTaskComments
+    getTaskComments,
+    setActiveTask
   })
   export default class TaskDetailPage extends wepy.page {
     data = {
@@ -183,19 +184,27 @@
       }
       return {
         title: this.activeTask.name,
-        path: 'pages/initPage',
+        path: `pages/taskDetailPage?from=share&taskId=${this.activeTask._id}`,
         imageUrl: imgUrl,
         success(res) {
           console.log(res)
         }
       }
     }
-    onLoad() {
-      const question = this.activeTask.description
-      const summary = this.activeTask.summary
-      WxParse.wxParse('question', 'md', question, this, 5)
-      WxParse.wxParse('summary', 'md', summary, this, 5)
-      this.methods.getTaskComments(this.activeTask._id)
+    onLoad(option) {
+      if (option.from === 'share') {
+        var that = this
+        api.getTask(option.taskId).then(function(item) {
+          console.log('get task with id', item)
+          that.methods.setActiveTask(item)
+        })
+      } else {
+        const question = this.activeTask.description
+        const summary = this.activeTask.summary
+        WxParse.wxParse('question', 'md', question, this, 5)
+        WxParse.wxParse('summary', 'md', summary, this, 5)
+        this.methods.getTaskComments(this.activeTask._id)
+      }
     }
     computed = {}
     async onShow() {
