@@ -32,9 +32,9 @@
     config = {
       pages: [
         'pages/initPage',
+        'pages/recordPage',
         'pages/teacherSetScorePage',
         'pages/teacherOrderListPage',
-        'pages/recordPage',
         'pages/homePage',
         'pages/taskListPage',
         'pages/taskDetailPage',

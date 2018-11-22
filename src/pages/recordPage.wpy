@@ -17,6 +17,7 @@
   }
   .button-group {
     margin-top: 3rem;
+    margin-bottom: 3rem;
     display: flex;
     justify-content: space-around;
   }
@@ -44,7 +45,6 @@
     text-align: center;
     font-size: 4rem;
     width: 4rem;
-    height: 4rem;
     /*padding-top: 1rem;*/
     margin: 0 auto;
     /*border-radius: 50%;*/
@@ -67,53 +67,46 @@
   .recorder-active {
     color: red;
   }
-  .icon-small {
+  .icon-large {
     width: 60px;
     height: 60px;
   }
-  .preview {
+      .preview {
     width: 90%;
     display: block;
     margin: 50px auto;
-    height: 50px;
-    border: 1px dashed green;
+    height: 20px;
   }
 </style>
 
 <template>
   <view class="recorder">
     <view class="recorder-status">
-      <image wx:if="{{recordStatus=='录音中'}}" class="icon-small" style=" width: 20px; height: 20px;margin-bottom: 20px;" src="../assets/images/record-red.png" alt=""/>
-      {{recordStatus}}
+      <image wx:if="{{recordStatus=='录音中'}}" style=" width: 20px; height: 20px; display: inline-block; margin-bottom: -3px;" src="../assets/images/record-red.png" alt="" /> {{recordStatus}}
     </view>
     <view class="preview">
-      {{ tempFilePath }} -
-      <audio id="vid" />
       <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info></progress>
     </view>
-    <view class="button-group">
-      <view class="button button-play" wx:if="{{recordStatus=='已停止'}}" @tap="playRecord">
-        <image class="icon-small {{playDisabled?'disabled':''}}" style="" src="../assets/images/play.png" alt=""/>
+    <view class="button-group"  wx-if="{{!uploadFileURL}}">
+      <view class="button button-play" wx:if="{{recordStatus=='已停止' && tempFilePath}}" @tap="playRecord">
+        <image class="icon-large {{playDisabled?'disabled':''}}" style="" src="../assets/images/play.png" alt="" />
         <view class="button-text">播放</view>
       </view>
       <view class="button button-stop" wx:if="{{recordStatus=='录音中' || recordStatus == '播放中'}}" @tap="stopRecord">
-        <image class="icon-small" src="../assets/images/stop.png" alt=""/>
+        <image class="icon-large" src="../assets/images/stop.png" alt="" />
         <view class="button-text">停止</view>
       </view>
       <view class="button button-record {{recordDisabled?'disabled':''}}" wx:if="{{recordStatus=='已停止'}}" @tap="startRecord">
-        <image class="icon-small" style="" src="../assets/images/voice.png" alt=""/>
+        <image class="icon-large" style="" src="../assets/images/voice.png" alt="" />
         <view class="button-text">开始录制</view>
       </view>
-      <view class="button button-play {{uploadDisabled?'disabled':''}}" @tap="uploadVoice">
-        <image class="icon-small" style="" src="../assets/images/upload.png" alt=""/>
+      <view wx-if="{{recordStatus=='已停止' && tempFilePath}}" class="button button-play {{uploadDisabled?'disabled':''}}" @tap="uploadVoice">
+        <image class="icon-large" style="" src="../assets/images/upload.png" alt="" />
         <view class="button-text">上传</view>
-      </view>
-      <view class="button button-play {{uploadDisabled?'disabled':''}}" @tap="submitOrder">
-        <image class="icon-small" style="" src="../assets/images/upload.png" alt=""/>
-        <view class="button-text">提交作业</view>
       </view>
     </view>
     <view class="cancel" @tap="cancel">
+      <button @tap="submitOrder" wx-if="{{uploadFileURL}}" type="primary" size="large" plain>提交作业</button>
       <button type="default" size="large" plain>取消返回</button>
     </view>
   </view>
@@ -144,49 +137,55 @@
       playDisabled: true,
       recordDisabled: false,
       uploadDisabled: true,
-      audioCtx: null
+      audioCtx: null,
+      recorderManager: null
     }
     methods = {
-      async startRecord() {
+      startRecord() {
+        var that = this
         if (!this.recordDisabled) {
           this.recordStatus = '录音中'
-          const data = await wepy.startRecord()
-          this.tempFilePath = data.tempFilePath
-          if (this.tempFilePath) {
-            wepy.showToast({
-              title: '成功录音',
-              icon: 'success',
-              duration: 1000
-            })
-          }
+          this.recorderManager.start({
+            format: 'mp3' // 如果录制acc类型音频则改成aac
+          });
+          this.recorderManager.onStop(function(data) {
+            that.tempFilePath = data.tempFilePath
+            console.log('录音停止', data)
+            if (that.tempFilePath) {
+              wepy.showToast({
+                title: '成功录音',
+                icon: 'success',
+                duration: 1000
+              })
+            }
+            that.$apply()
+          })
         }
-        this.$apply()
       },
-      async stopRecord() {
+      stopRecord() {
         if (this.recordStatus === '录音中') {
           this.recordStatus = '已停止'
           this.setButtonDisabled(false, false, false)
-          await wepy.stopRecord()
-          console.log('录音停止')
+          this.recorderManager.stop()
         } else if (this.recordStatus === '播放中' && this.audioCtx) {
           this.audioCtx.stop()
-          console.log('播放停止')
+          this.recordStatus = '已停止'
         }
         this.$apply()
       },
-      async playRecord() {
+      playRecord() {
         if (!this.playDisabled) {
           const that = this
           that.recordStatus = '播放中'
           that.audioCtx.src = that.tempFilePath
-          that.audioCtx.play()
-          that.audioCtx.onStop(function() {
-            console.log('播放 on stop')
+          that.audioCtx.onPlay(function() {
+            console.log('开始播放', that.tempFilePath)
           })
+          that.audioCtx.play();
         }
         this.$apply()
       },
-      async uploadVoice() {
+      uploadVoice() {
         const that = this
         if (that.tempFilePath) {
           let uploadTask = wx.uploadFile({
@@ -249,6 +248,7 @@
       this.fileTypeIndex = typeIndex
       this.taskId = option.taskId
       this.audioCtx = wx.createInnerAudioContext()
+      this.recorderManager = wx.getRecorderManager()
     }
     // startCount(){
     //   const that = this;

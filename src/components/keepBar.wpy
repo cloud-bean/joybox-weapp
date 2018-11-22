@@ -18,37 +18,37 @@
       <i-grid-item>
         <i-grid-label>一</i-grid-label>
         <i-grid-icon>
-          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
+          <image src="{{ keepInfo.keepDays[0] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
         </i-grid-icon>
       </i-grid-item>
       <i-grid-item>
         <i-grid-label>二</i-grid-label>
         <i-grid-icon>
-          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
+          <image src="{{ keepInfo.keepDays[1] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
         </i-grid-icon>
       </i-grid-item>
       <i-grid-item>
         <i-grid-label>三</i-grid-label>
         <i-grid-icon>
-          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
+          <image src="{{ keepInfo.keepDays[2] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
         </i-grid-icon>
       </i-grid-item>
       <i-grid-item>
         <i-grid-label>四</i-grid-label>
         <i-grid-icon>
-          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
+          <image src="{{ keepInfo.keepDays[3] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
         </i-grid-icon>
       </i-grid-item>
       <i-grid-item>
         <i-grid-label>五</i-grid-label>
         <i-grid-icon>
-          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
+          <image src="{{ keepInfo.keepDays[4] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
         </i-grid-icon>
       </i-grid-item>
       <i-grid-item>
         <i-grid-label>六</i-grid-label>
         <i-grid-icon>
-          <image src="{{ keepInfo.keepDays[6] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
+          <image src="{{ keepInfo.keepDays[5] ? '../assets/images/circle-fill.png' : '../assets/images/circle-empty.png' }}" />
         </i-grid-icon>
       </i-grid-item>
       <i-grid-item>
@@ -64,9 +64,9 @@
 <style lang="less" scoped>
   .status-bar {
     color: #555;
-    background-color: #eee;
     position: relative;
     font-size: 1rem;
+    margin-top:2rem;
   }
   .sum-info {
     padding: .5rem 1rem;
