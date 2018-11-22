@@ -22,9 +22,6 @@
     <view wx:if="{{hasTasks}}">
       <i-cell-group>
         <repeat for="{{myTasks}}" key="index" index="index" item="item">
-          <!--view @tap="handleTap({{item}})">
-                      <taskItem :taskData="item"></taskItem>
-                    </view-->
           <i-cell title="{{item.name}}" label="{{item.expireTime}}" is-link bind:click="handleTap({{item}})">
             <view slot="footer" class="divs">
               <div class="imgs">
@@ -95,40 +92,7 @@
         'i-panel': '/iview/panel/index'
       }
     }
-    data = {
-      selected: false,
-      windowWidth: 0,
-      windowHeight: 0,
-      contentHeight: 0,
-      thinkList: [],
-      footer: '悦盒Joybox 让学习上瘾',
-      offset: 0,
-      lineHeight: 30,
-      content: '神探夏洛克的任务卡\n' +
-        '\n' +
-        '混乱字符：\n' +
-        '十月、National、October、\n' +
-        '一日、Day、1st、September\n' +
-        ' Teachers‘'
-    }
-    // 已测试，可用
-    // onShareAppMessage(res) {
-    //   if (res.from === 'button') {
-    //     // 来自页面内转发按钮
-    //     console.log(res.target)
-    //   }
-    //   return {
-    //     title: 'eeeeee',
-    //     // imageUrl: ''
-    //     path: '/',
-    //     imageUrl: 'https://avatars1.githubusercontent.com/u/20960902?s=88&v=4',
-    //     success(res) {
-    //       console.log(res)
-    //     }
-    //   }
-    // }
     onPullDownRefresh() {
-      console.log('refrash')
       this.methods.fetchTasksAction()
       wepy.showToast({
         title: '任务列表已刷新',
@@ -144,126 +108,10 @@
         wepy.navigateTo({
           url: '/pages/taskDetailPage'
         })
-      },
-      goWebView() {
-        wepy.navigateTo({
-          url: '/pages/webViewPage'
-        })
-      },
-      savePic() {
-        let that = this
-        wx.canvasToTempFilePath({
-          x: 0,
-          y: 50,
-          width: that.windowWidth,
-          height: that.contentHeight,
-          canvasId: 'myCanvas',
-          success: function(res) {
-            wx.saveImageToPhotosAlbum({
-              filePath: res.tempFilePath,
-              success(res) {
-                wx.showModal({
-                  content: '图片已保存到相册，赶紧晒一下吧~',
-                  showCancel: false,
-                  confirmText: '好哒',
-                  confirmColor: '#72B9C3',
-                  success: function(res) {
-                    if (res.confirm) {
-                      console.log('用户点击确定')
-                      that.hidden = true
-                    }
-                  }
-                })
-              }
-            })
-          }
-        })
       }
-    }
-    getData() {
-      let that = this
-      let i = 0
-      let lineNum = 1
-      let thinkStr = ''
-      let thinkList = []
-      for (let item of that.content) {
-        if (item === '\n') {
-          thinkList.push(thinkStr)
-          thinkList.push('a')
-          i = 0
-          thinkStr = ''
-          lineNum += 1
-        } else if (i === 24) {
-          thinkList.push(thinkStr)
-          i = 1
-          thinkStr = item
-          lineNum += 1
-        } else {
-          thinkStr += item
-          i += 1
-        }
-      }
-      thinkList.push(thinkStr)
-      // that.setData({
-      //   thinkList: thinkList
-      // })
-      that.thinkList = thinkList
-      that.createNewImg(lineNum)
-    }
-    drawSquare(ctx, height) {
-      ctx.rect(0, 50, this.windowWidth, height)
-      ctx.setFillStyle('#f5f6fd')
-      ctx.fill()
-    }
-    drawFont(ctx, content, height) {
-      ctx.setFontSize(16)
-      ctx.setFillStyle('#484a3d')
-      ctx.fillText(content, this.offset, height)
-    }
-    drawLine(ctx, height) {
-      ctx.beginPath()
-      ctx.moveTo(this.offset, height)
-      ctx.lineTo(this.windowWidth - this.offset, height)
-      ctx.stroke('#eee')
-      ctx.closePath()
-    }
-    createNewImg(lineNum) {
-      let that = this
-      let ctx = wx.createCanvasContext('myCanvas')
-      let contentHeight = lineNum * that.lineHeight + 180
-      that.drawSquare(ctx, contentHeight)
-      that.contentHeight = contentHeight
-      // that.setData({ canvas.contentHeight: contentHeight })
-      let height = 100
-      for (let item of that.thinkList) {
-        if (item !== 'a') {
-          that.drawFont(ctx, item, height)
-          height += that.lineHeight
-        }
-      }
-      that.drawLine(ctx, lineNum * that.lineHeight + 120)
-      that.drawFont(ctx, that.footer, lineNum * that.lineHeight + 156)
-      let p1 = that.windowWidth - that.offset - 50
-      let p2 = lineNum * that.lineHeight + 125
-      ctx.drawImage('../../assets/images/wx-logo.jpg', p1, p2, 50, 50)
-      ctx.draw()
-    }
-    onLoad() {
-      let that = this
-      wx.getSystemInfo({
-        success: function(res) {
-          that.windowWidth = res.windowWidth
-          that.windowHeight = res.windowHeight
-          that.offset = (res.windowWidth - 300) / 2
-        }
-      })
     }
     onReady() {
       this.methods.fetchTasksAction()
-    }
-    onShow() {
-      // 禁用生成分享图片功能，已测试可用
-      // this.getData()
     }
     onReload() {
       console.log('onreload of task list page')

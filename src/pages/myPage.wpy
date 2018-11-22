@@ -118,7 +118,7 @@
     computed = {}
     onReady() {
       this.methods.getMyBagCards()
-      this.methods.getRank()
+      // this.methods.getRank()
     }
   }
 </script>

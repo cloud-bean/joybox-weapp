@@ -126,6 +126,8 @@
   })
   export default class RecordPage extends wepy.page {
     data = {
+      taskRewardExp: 0,
+      taskRewardGold: 0,
       recordStatus: '已停止',
       tempFilePath: '',
       fileTypeIndex: 0,
@@ -241,6 +243,8 @@
       let typeIndex = parseInt(option.type, 10)
       this.fileTypeIndex = typeIndex
       this.taskId = option.taskId
+      this.taskRewardExp = option.exp
+      this.taskRewardGold = option.gold
       this.audioCtx = wx.createInnerAudioContext()
       this.recorderManager = wx.getRecorderManager()
     }
