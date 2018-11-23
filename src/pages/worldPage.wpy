@@ -60,7 +60,7 @@
 
     <i-modal title="留言" visible="{{ isModalShow }}" bind:ok="handleOKClose" bind:cancel="handleCancelClose">
       <view>
-        <input value="{{modalMsg}}" bindinput="onModalMsgChanged" placeholder="sth..."/>
+        <input style="background-color:#dcdcdc;margin:0 40px; border-radius:10px;" value="{{modalMsg}}" bindinput="onModalMsgChanged" placeholder="say something..."/>
       </view>
     </i-modal>
 

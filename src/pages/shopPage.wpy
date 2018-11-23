@@ -4,8 +4,15 @@
     padding: 10px;
   }
   .card-image {
-    width: 128px;
-    height: 198px;
+    width: 90%; // height: 100px;
+  }
+  .card-title {
+    font-size: 10pt;
+    display: block;
+    text-align:center;
+  }
+  .test-class {
+    background-color: red;
   }
 </style>
 
@@ -24,17 +31,27 @@
     </i-tabs>
     <i-modal title="出售卡牌" visible="{{ isModalSellCardShow }}" bind:ok="handleSellCardOKClose" bind:cancel="handleSellCardCancelClose">
       <view>想卖多少个悦币：</view>
-      <view style="color: rgba(238,95,105,0.57)">{{ msgErr }}</view>
+      <view style="color: rgba(238,95,105,0.7)">{{ msgErr }}</view>
       <view>
-        <input value="{{modalSellCardMsg}}" type="number" bindinput="onModalSellCardMsgChanged" placeholder="" placeholder-style="color:red" />
+        <input style="background-color:#dcdcdc;margin:0 40px; border-radius:10px;" value="{{modalSellCardMsg}}" type="number" bindinput="onModalSellCardMsgChanged" placeholder="" placeholder-style="color:red" />
       </view>
+    </i-modal>
+    <i-modal title="{{ selectedCard.name }}" visible="{{ isModalCardDetailShow }}" actions="{{ cardActions }}" bind:click="handleCardDetailClick">
+      <view>{{selectedCard.description}}</view>
     </i-modal>
     <view wx:if="{{ current === 'tab1' }}" class="tab-container">
       <view wx:if="{{myCards.length > 0}}">
-        <repeat for="{{myCards}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} {{ item.category }} {{ item.description }} {{item.created}}
-          <i-button @tap="tgMSellCardShow({{item.cardId}})" type="success" shape="circle">出售</i-button>
-        </repeat>
+        <i-row>
+          <repeat for="{{myCards}}" key="index" index="index" item="item">
+            <i-col span="6" i-class="col-class" @tap="tgMCardDetailShow({{item}})">
+              <view style="display: block;text-align: center; margin-bottom: 20px;">
+                <image mode="widthFix" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+                <view class="card-title">{{ item.name }}</view>
+                <i-tag>{{ item.category }} </i-tag>
+              </view>
+            </i-col>
+          </repeat>
+        </i-row>
       </view>
       <view wx:else>
         暂无卡牌数据哦~
@@ -42,12 +59,19 @@
     </view>
     <view wx:if="{{ current === 'tab2' }}" class="tab-container">
       <view wx:if="{{goods.length > 0}}">
-        <repeat for="{{goods}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} - {{ item.price }} 悦币 - {{item.owner.displayName}} {{ item.created }}
-          <i-button wx:if="{{ item && (userId == item.owner._id) }}" bind:click="revertCard({{item}})" type="warning" shape="circle">撤下
-          </i-button>
-          <i-button wx:else bind:click="buyCard({{item}})" type="success" shape="circle">购买</i-button>
-        </repeat>
+        <i-row>
+          <repeat for="{{goods}}" key="index" index="index" item="item">
+            <i-col span="6" i-class="col-class">
+              <image mode="widthFix" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+              <view class="card-title">{{ item.name }} </view>
+              <i-button wx:if="{{ item && (userId == item.owner._id) }}" bind:click="revertCard({{item}})" type="ghost" size="small" shape="circle">撤下
+              </i-button>
+              <i-button wx:else bind:click="buyCard({{item}})" type="info" size="small">
+                <image style="width: 20px; height: 20px;" src="../assets/images/gold.png" alt="" /> {{ item.price }}
+              </i-button>
+            </i-col>
+          </repeat>
+        </i-row>
       </view>
       <view wx:else>
         暂无卡牌数据哦~
@@ -55,10 +79,17 @@
     </view>
     <view wx:if="{{ current === 'tab3' }}" class="tab-container">
       <view wx:if="{{cardPools.length > 0}}">
-        <repeat for="{{cardPools}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.name }} - {{ item.ticketPrice }} 悦币 - 来自悦盒官方
-          <i-button bind:click="buyCardPool({{item}})" type="success" shape="circle">购买</i-button>
-        </repeat>
+        <i-row>
+          <repeat for="{{cardPools}}" key="index" index="index" item="item">
+            <i-col span="8" i-class="col-class">
+              <image mode="widthFix" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+              <view class="card-title">{{ item.name }}</view>
+              <i-button bind:click="buyCardPool({{item}})" type="ghost" shape="circle">
+                <image style="width: 20px; height: 20px;" src="../assets/images/gold.png" alt="" /> {{ item.ticketPrice }}
+              </i-button>
+            </i-col>
+          </repeat>
+        </i-row>
       </view>
       <view wx:else>
         暂无官方卡包哦~
@@ -144,12 +175,25 @@
       isModalSellCardShow: false,
       selectedCardId: '',
       modalSellCardMsg: '',
-      msgErr: ''
+      msgErr: '',
+      isModalCardDetailShow: false,
+      selectedCard: null,
+      cardActions: [{
+        name: '确定',
+        color: '#2d8cf0'
+      },
+      {
+        name: '出售',
+        color: '#19be6b'
+      }]
     }
     config = {
       usingComponents: {
         'i-tabs': '/iview/tabs/index',
         'i-tab': '/iview/tab/index',
+        'i-row': '/iview/row/index',
+        'i-col': '/iview/col/index',
+        'i-tag': '/iview/tag/index',
         'i-button': '/iview/button/index',
         'i-modal': '/iview/modal/index',
         'i-message': '/iview/message/index'
@@ -203,6 +247,23 @@
         await api.buyLottery(item._id)
         this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
       },
+      handleCardDetailClick({
+        detail
+      }) {
+        const index = detail.index
+        const cardId = this.selectedCard.cardId
+        console.log('handleCardDetailClick', cardId)
+        this.isModalCardDetailShow = false
+        this.selectedCard = null
+        if (index === 1) {
+          this.isModalSellCardShow = true
+          this.selectedCardId = cardId
+        } else {
+          this.isModalSellCardShow = false
+          this.selectedCardId = ''
+        }
+        this.$apply()
+      },
       onModalSellCardMsgChanged({
         detail
       }) {
@@ -220,6 +281,15 @@
       tgMSellCardShow(id) {
         this.isModalSellCardShow = !this.isModalSellCardShow
         this.selectedCardId = id
+      },
+      tgMCardDetailShow(item) {
+        this.isModalCardDetailShow = !this.isModalCardDetailShow
+        this.selectedCard = item
+      },
+      handleCardDetailOKClose() {
+        console.log('etner handleCardDetailOKClose')
+        this.isModalCardDetailShow = false
+        this.selectedCard = null
       },
       handleSellCardOKClose() {
         console.log('handleSellCardOKClose', this.selectedCardId, this.modalSellCardMsg)
