@@ -106,7 +106,7 @@
       </view>
     </view>
     <view class="cancel" @tap="cancel">
-      <button @tap="submitOrder" wx-if="{{uploadFileURL}}" type="primary" size="large" plain>提交作业</button>
+      <button @tap="submitTheOrder" wx-if="{{uploadFileURL}}" type="primary" size="large" plain>提交作业</button>
       <button type="default" size="large" plain>取消返回</button>
     </view>
   </view>
@@ -116,18 +116,18 @@
   import wepy from 'wepy'
   import config from '../config'
   import {
-    submitOrder
+    submitOrder,
+    setExpGoldAfterSubmitOrder
   } from '../store/actions'
   import {
     connect
   } from 'wepy-redux'
   @connect({}, {
-    submitOrder
+    submitOrder,
+    setExpGoldAfterSubmitOrder
   })
   export default class RecordPage extends wepy.page {
     data = {
-      taskRewardExp: 0,
-      taskRewardGold: 0,
       recordStatus: '已停止',
       tempFilePath: '',
       fileTypeIndex: 0,
@@ -138,9 +138,27 @@
       recordDisabled: false,
       uploadDisabled: true,
       audioCtx: null,
-      recorderManager: null
+      recorderManager: null,
+      taskRewardExp: 0,
+      taskRewardGold: 0
     }
     methods = {
+      showToastAfterSubmit(exp, gold) {
+        let title1 = `成长值+${exp}`
+        let title2 = `悦币+${gold}`
+        wepy.showToast({
+          title: title1,
+          icon: 'success',
+          duration: 1000
+        })
+        setTimeout(function() {
+          wepy.showToast({
+            title: title2,
+            icon: 'success',
+            duration: 1000
+          })
+        }, 1300)
+      },
       startRecord() {
         var that = this
         if (!this.recordDisabled) {
@@ -212,22 +230,27 @@
           })
         }
       },
-      submitOrder() {
+      submitTheOrder() {
         this.methods.submitOrder({
           taskId: this.taskId,
           serverId: this.uploadFileURL,
           type: this.fileTypeIndex
         })
-        this.$apply()
-        wepy.showToast({
-          title: '提交完毕~',
-          icon: 'success',
-          duration: 1000
-        }, () => {
+        let that = this
+        this.methods.showToastAfterSubmit(that.taskRewardExp, that.taskRewardGold)
+        setTimeout(function() {
+          console.log('now go to succ page')
+          that.uploadFileURL = ''
+          that.progress = 0
+          that.uploadText = ''
+          that.methods.setExpGoldAfterSubmitOrder({
+            exp: that.taskRewardExp,
+            gold: that.taskRewardGold
+          })
           wx.navigateTo({
             url: '/pages/successPage'
           })
-        })
+        }, 2300)
       },
       cancel() {
         wx.navigateBack()

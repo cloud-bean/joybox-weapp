@@ -1,8 +1,14 @@
 <template>
   <view class="container">
+    <i-modal title="{{ selectedCard.name }}" visible="{{ showCardModal }}" bind:ok="onCloseCardOK" show-cancel="{{false}}">
+      <view style="display: block; padding: 5px;">{{ selectedCard.description || '~ ' }}</view>
+      <i-tag style="display: inline-block; margin-right: 20px;">{{ selectedCard.category }}</i-tag>
+      <i-tag style="display: inline-block; margin-right: 20px;">等级：Lv.{{ selectedCard.level }}</i-tag>
+      <image style="display: block; margin: 10px auto; width: 80%" mode="widthFix" src="{{selectedCard.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}"/>
+    </i-modal>
     <view wx:if="{{cards.length > 0}}">
       <repeat for="{{cards}}" key="index" index="index" item="item">
-        <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+        <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" @tap="openCardModal({{item}})"/>
       </repeat>
     </view>
     <view wx:else>
@@ -46,12 +52,16 @@
     config = {
       usingComponents: {
         'i-page': '/iview/page/index',
-        'i-icon': '/iview/icon/index'
+        'i-icon': '/iview/icon/index',
+        'i-tag': '/iview/tag/index',
+        'i-modal': '/iview/modal2/index'
       }
     }
     data = {
       page: 1,
-      limit: 30
+      limit: 30,
+      selectedCard: null,
+      showCardModal: false
     }
     computed = {
       totalPage () {
@@ -67,6 +77,15 @@
           this.page = this.page - 1
         }
         this.methods.getCards(this.page, this.limit)
+      },
+      openCardModal(item) {
+        console.log('openCardModal', item)
+        this.showCardModal = true
+        this.selectedCard = item
+      },
+      onCloseCardOK () {
+        this.showCardModal = false
+        this.selectedCard = ''
       }
     }
     onReady() {

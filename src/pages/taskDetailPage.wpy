@@ -30,7 +30,8 @@
     z-index: 1000;
   }
   .md-container {
-    padding: 10rpx 20rpx;
+    padding: 10rpx 5rpx;
+    text-align: center;
   }
   .summary {
     color: #576b95;
@@ -49,7 +50,6 @@
     padding: 20rpx 20rpx;
     font-size: 14pt;
     background-color: #26a2ff;
-    opacity: 0.8;
     color: white;
   }
   .share-button {
@@ -59,11 +59,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 20rpx 20rpx;
-    height: 140rpx;
+    padding: 10rpx 10rpx;
+    height: 100rpx;
     background-color: #26a2ff;
-    font-size: 13pt;
+    font-size: 10pt;
     color: white;
+    opacity: 0.6;
+
   }
   .msg-container {
     margin-bottom: 100rpx;
@@ -100,7 +102,8 @@
     </view>
     <view class="wxParse md-container">
       <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}" />
-      <image src="{{activeTask.contentImage.URL}}" />
+
+      <image mode="widthFix" src="{{activeTask.contentImage.URL}}" />
       <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
         <view class="wxParse-h1">任务素材</view>
         <view class="play-video" wx:if="{{activeTask.videoFile}}" binderror="handleError">

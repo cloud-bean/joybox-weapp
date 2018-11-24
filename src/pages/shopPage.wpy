@@ -66,7 +66,7 @@
               <view class="card-title">{{ item.name }} </view>
               <i-button wx:if="{{ item && (userId == item.owner._id) }}" bind:click="revertCard({{item}})" type="ghost" size="small" shape="circle">撤下
               </i-button>
-              <i-button wx:else bind:click="buyCard({{item}})" type="info" size="small">
+              <i-button wx:else bind:click="buyCard({{item}})" type="ghost" shape="circle" size="small">
                 <image style="width: 20px; height: 20px;" src="../assets/images/gold.png" alt="" /> {{ item.price }}
               </i-button>
             </i-col>
