@@ -4,11 +4,11 @@
       <view style="display: block; padding: 5px;">{{ selectedCard.description || '~ ' }}</view>
       <i-tag style="display: inline-block; margin-right: 20px;">{{ selectedCard.category }}</i-tag>
       <i-tag style="display: inline-block; margin-right: 20px;">等级：Lv.{{ selectedCard.level }}</i-tag>
-      <image style="display: block; margin: 10px auto; width: 80%" mode="widthFix" src="{{selectedCard.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}"/>
+      <image style="display: block; margin: 10px auto; width: 80%" mode="widthFix" src="{{selectedCard.file.URL + '-card.large'}}"/>
     </i-modal>
     <view wx:if="{{cards.length > 0}}">
       <repeat for="{{cards}}" key="index" index="index" item="item">
-        <image mode="scaleToFill" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" @tap="openCardModal({{item}})"/>
+        <image mode="scaleToFill" src="{{item.file.URL + '-card.normal'}}" class="card-image" @tap="openCardModal({{item}})"/>
       </repeat>
     </view>
     <view wx:else>

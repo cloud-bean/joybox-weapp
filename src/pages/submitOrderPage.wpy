@@ -77,7 +77,8 @@
   import config from '../config'
   import {
     submitOrder,
-    setExpGoldAfterSubmitOrder
+    setExpGoldAfterSubmitOrder,
+    getUserInfoAction
   } from '../store/actions'
   import {
     connect
@@ -85,10 +86,14 @@
   @connect({
     orderStatus(state) {
       return state.order.status
+    },
+    userId(state) {
+      return state.root.userId
     }
   }, {
     submitOrder,
-    setExpGoldAfterSubmitOrder
+    setExpGoldAfterSubmitOrder,
+    getUserInfoAction
   })
   export default class SubmitOrderPage extends wepy.page {
     data = {
@@ -131,6 +136,7 @@
             exp: that.taskRewardExp,
             gold: that.taskRewardGold
           })
+          that.methods.getUserInfoAction(that.userId)
           wx.navigateTo({
             url: '/pages/successPage'
           })

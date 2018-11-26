@@ -123,6 +123,24 @@
     <view class="md-container">
       <completeList :completeUsers.sync="taskDoneUsers"></completeList>
     </view>
+
+    <view class="msg-container" wx-if="{{taskOrder}}">
+        <view>作业状态： {{ taskOrder.status == 0 ? '已提交 0 ' : '已批改 1' }}</view>
+        <repeat for="{{taskOrder.files}}" key="index" index="index" item="file">
+          <i-avatar src="/assets/images/file-image.png" wx-if="{{file.type == 0}}" size="small" shape="square"></i-avatar>
+          <i-avatar src="/assets/images/file-audio.png" wx-if="{{file.type == 1}}" size="small" shape="square"></i-avatar>
+          <i-avatar src="/assets/images/file-video.png" wx-if="{{file.type == 2}}" size="small" shape="square"></i-avatar>
+        </repeat>
+      </repeat>
+    </view>
+
+    <view class="msg-container" wx-if="{{!taskOrder}}">
+      <view>提交作业：</view>
+      <i-avatar src="/assets/images/file-image.png" size="small" shape="square">+图片</i-avatar>
+      <i-avatar src="/assets/images/file-audio.png" size="small" shape="square">+音频</i-avatar>
+      <i-avatar src="/assets/images/file-video.png" size="small" shape="square">+视频</i-avatar>
+    </view>
+
     <view class="msg-container">
       <repeat for="{{taskComments}}" key="index" index="index" item="item">
         <msgItem :msgData.sync="item"></msgItem>
@@ -139,7 +157,8 @@
   var WxParse = require('../plugin/wxParse/wxParse.js')
   import {
     getTaskComments,
-    setActiveTasksAction
+    setActiveTasksAction,
+    getTaskOrdersAction
   } from '../store/actions'
   import {
     connect
@@ -155,6 +174,13 @@
     taskComments(state) {
       return state.task.activeTaskComments
     },
+    taskOrder(state) {
+      if (state.task.activeTaskOrders && state.task.activeTaskOrders.length > 0) {
+        return state.task.activeTaskOrders[0]  // just fucking one order!
+      } else {
+        return null
+      }
+    },
     videoVid(state) {
       const startTag = '<iframe frameborder="0" width="100%" src="https://v.qq.com/iframe/player.html?vid='
       const endTag = '&tiny=0&auto=0" allowfullscreen></iframe>'
@@ -163,7 +189,8 @@
     }
   }, {
     getTaskComments,
-    setActiveTasksAction
+    setActiveTasksAction,
+    getTaskOrdersAction
   })
   export default class TaskDetailPage extends wepy.page {
     data = {
@@ -173,7 +200,8 @@
     }
     config = {
       usingComponents: {
-        'txv-video': 'plugin://tencentvideo/video'
+        'txv-video': 'plugin://tencentvideo/video',
+        'i-avatar': '/iview/avatar/index'
       }
     }
     components = {
@@ -201,6 +229,7 @@
           console.log('get task with id', item)
           that.methods.setActiveTasksAction(item)
           that.methods.getTaskComments(item._id)
+          that.methods.getTaskOrdersAction(item._id)
         })
       } else {
         const question = this.activeTask.description
@@ -208,6 +237,7 @@
         WxParse.wxParse('question', 'md', question, this, 5)
         WxParse.wxParse('summary', 'md', summary, this, 5)
         this.methods.getTaskComments(this.activeTask._id)
+        this.methods.getTaskOrdersAction(this.activeTask._id)
       }
     }
     computed = {}

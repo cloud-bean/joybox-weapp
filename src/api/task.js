@@ -12,6 +12,12 @@ export const getTask = function (taskId) {
     .catch(console.log)
 }
 
+export const getTaskOrders = function (taskId) {
+  return fetchWithAccessToken(`/tasks/${taskId}/orders`, 'GET')
+    .then(res => res.data.data)
+    .catch(console.log)
+}
+
 export const getTaskList = state => {
   return fetchWithAccessToken(`/tasks?filter=${state}`, 'GET')
     .then(res => {

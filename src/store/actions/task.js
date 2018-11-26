@@ -1,6 +1,7 @@
-import { SET_TASKS, SET_ACTIVE_TASK, SET_ACTIVE_STORY, SET_ACTIVE_TASK_COMMENTS, SHOW_TASK_DONE, SHOW_TASK_UNDONE } from '../types/task'
+import { SET_TASKS, SET_ACTIVE_TASK, SET_ACTIVE_TASK_COMMENTS, SET_ACTIVE_TASK_ORDERS, SHOW_TASK_DONE, SHOW_TASK_UNDONE } from '../types/task'
 import { createAction } from 'redux-actions'
 import * as api from '../../api'
+import task from '../reducers/task'
 
 const defaultPage = 1
 const defaultLimit = 15
@@ -16,11 +17,11 @@ export const setActiveTasksAction = createAction(SET_ACTIVE_TASK, (activeTask) =
   return activeTask
 })
 
-export const setActiveStoryAction = createAction(SET_ACTIVE_STORY, (activeStory) => {
-  return activeStory
-})
-
 export const getTaskComments = createAction(SET_ACTIVE_TASK_COMMENTS, async (taskId) => {
   const comments = await api.getTaskComments(taskId)
   return comments
+})
+
+export const getTaskOrdersAction = createAction(SET_ACTIVE_TASK_ORDERS, async (taskId) => {
+  return await api.getTaskOrders(taskId)
 })

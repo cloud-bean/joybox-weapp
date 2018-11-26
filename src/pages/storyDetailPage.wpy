@@ -7,7 +7,7 @@
 
 <template>
   <div class="layout">
-    {{activeStory.title}}
+    {{activeStory.name}}
   </div>
 </template>
 
@@ -18,7 +18,7 @@
   } from 'wepy-redux'
   @connect({
     activeStory(state) {
-      return state.task.activeStory
+      return state.story.activeStory
     }
   })
   export default class storyDetailPage extends wepy.page {}

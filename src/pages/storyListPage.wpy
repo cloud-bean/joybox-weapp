@@ -7,9 +7,9 @@
 
 <template>
   <view class="layout">
-    <view wx:if="{{stories.length > 0}}">
-      <repeat for="{{stories}}" key="index" index="index" item="item">
-        <i-cell title="{{item.title}}" value="{{item.desc}}" is-link @tap="handleTapItem({{item}})"></i-cell>
+    <view wx:if="{{myStories.length > 0}}">
+      <repeat for="{{myStories}}" key="index" index="index" item="item">
+        <i-cell title="{{item.name}}" value="{{item.desc}}" is-link @tap="handleTapItem({{item}})"></i-cell>
       </repeat>
     </view>
     <view wx:else>
@@ -24,22 +24,19 @@
     connect
   } from 'wepy-redux'
   import {
-    setActiveStoryAction
+    setActiveStoryAction,
+    fetchStoriesAction
   } from '../store/actions'
-  @connect({}, {
-    setActiveStoryAction
+  @connect({
+    myStories (state) {
+      return state.story.stories
+    }
+  }, {
+    setActiveStoryAction,
+    fetchStoriesAction
   })
   export default class storyListPage extends wepy.page {
-    data = {
-      stories: [{
-        title: '第一次冒险',
-        desc: '千里之行 先起床'
-      },
-      {
-        title: '第2个关卡',
-        desc: '至少再过一次哈'
-      }]
-    }
+    data = {}
     config = {
       usingComponents: {
         'i-cell-group': '/iview/cell-group/index',
@@ -48,12 +45,14 @@
     }
     methods = {
       handleTapItem(item) {
-        console.log('tap item:', item)
         this.methods.setActiveStoryAction(item)
-        wepy.navigateTo({
+        wepy.navigateTo({ gjh0432
           url: '/pages/storyDetailPage'
         })
       }
+    }
+    onLoad() {
+      this.methods.fetchStoriesAction(1, 3)
     }
   }
 </script>

@@ -45,7 +45,7 @@
           <repeat for="{{myCards}}" key="index" index="index" item="item">
             <i-col span="6" i-class="col-class" @tap="tgMCardDetailShow({{item}})">
               <view style="display: block;text-align: center; margin-bottom: 20px;">
-                <image mode="widthFix" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+                <image mode="widthFix" src="{{item.file.URL + '-card.small'}}" class="card-image" />
                 <view class="card-title">{{ item.name }}</view>
                 <i-tag>{{ item.category }} </i-tag>
               </view>
@@ -62,7 +62,7 @@
         <i-row>
           <repeat for="{{goods}}" key="index" index="index" item="item">
             <i-col span="6" i-class="col-class">
-              <image mode="widthFix" src="{{item.detail.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+              <image mode="widthFix" src="{{item.detail.file.URL + '-card.small'}}" class="card-image" />
               <view class="card-title">{{ item.name }} </view>
               <i-button wx:if="{{ item && (userId == item.owner._id) }}" bind:click="revertCard({{item}})" type="ghost" size="small" shape="circle">撤下
               </i-button>
@@ -82,7 +82,7 @@
         <i-row>
           <repeat for="{{cardPools}}" key="index" index="index" item="item">
             <i-col span="8" i-class="col-class">
-              <image mode="widthFix" src="{{item.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" />
+              <image mode="widthFix" src="{{item.file.URL + '-card.small'}}" class="card-image" />
               <view class="card-title">{{ item.name }}</view>
               <i-button bind:click="buyCardPool({{item}})" type="ghost" shape="circle">
                 <image style="width: 20px; height: 20px;" src="../assets/images/gold.png" alt="" /> {{ item.ticketPrice }}
@@ -98,7 +98,7 @@
     <view wx:if="{{ current === 'tab4' }}" class="tab-container">
       <view wx:if="{{myLotterys.length > 0}}">
         <repeat for="{{myLotterys}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{ item.cardPool.file.URL + '?imageView2/2/h/200/q/128|imageslim' || ''}}" class="card-image" /> {{ item.cardPool.name }} {{ item.cardPool.description }}
+          <image mode="scaleToFill" src="{{ item.cardPool.file.URL + '-card.small'}}" class="card-image" /> {{ item.cardPool.name }} {{ item.cardPool.description }}
           <i-button bind:click="openLottery({{item._id}})" type="success" shape="circle">抽奖</i-button>
         </repeat>
       </view>
