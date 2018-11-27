@@ -46,7 +46,7 @@
     methods = {
       handleTapItem(item) {
         this.methods.setActiveStoryAction(item)
-        wepy.navigateTo({ gjh0432
+        wepy.navigateTo({
           url: '/pages/storyDetailPage'
         })
       }

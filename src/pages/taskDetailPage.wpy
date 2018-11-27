@@ -65,7 +65,6 @@
     font-size: 10pt;
     color: white;
     opacity: 0.6;
-
   }
   .msg-container {
     margin-bottom: 100rpx;
@@ -80,10 +79,64 @@
   }
   .play-video {
     margin: 0 auto;
-  } // .play-video video{
-  //   height:100%;
-  //   width: 100%;
-  // }
+  }
+  .button-group {
+    display:flex;
+    justify-content: space-around;
+  }
+  .recorder-status {
+    text-align: center;
+    color: #fff;
+    padding: 0.5rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    font-size: 1rem;
+    background-color: #26a2ff;
+    padding: .3rem 0;
+    display: block;
+  }
+  .record-status-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+  .button {
+    text-align: center;
+    font-size: 1rem;
+    width: 4rem;
+    /*padding-top: 1rem;*/
+    margin: 0 auto;
+    /*border-radius: 50%;*/
+    /*background-color: #ccc;*/
+  }
+  .button-record {
+    color: red;
+  }
+  .button-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  .cancel {
+    padding: 1rem 2rem;
+  }
+  .disabled {
+    color: #ddd;
+  }
+  .icon-large {
+    width: 40px;
+    height: 40px;
+  }
+  .preview {
+    width: 90%;
+    display: block;
+    height: 20px;
+  }
+  .recorder {
+    margin: 10px auto;
+    border: 2px dashed green;
+  }
 </style>
 
 <template>
@@ -102,7 +155,6 @@
     </view>
     <view class="wxParse md-container">
       <template is="wxParse" wx:if="{{activeTask.description}}" data="{{wxParseData:question.nodes}}" />
-
       <image mode="widthFix" src="{{activeTask.contentImage.URL}}" />
       <view class="" wx:if="{{activeTask.audioFile || activeTask.videoFile}}">
         <view class="wxParse-h1">任务素材</view>
@@ -118,32 +170,59 @@
       <template is="wxParse" wx:if="{{activeTask.summary}}" data="{{wxParseData:summary.nodes}}" />
     </view>
     <button open-type="share" class="share-button">
-                <image src="/assets/images/share.png" style="width: 20px; height: 20px;" /> 分享
-              </button>
+                  <image src="/assets/images/share.png" style="width: 20px; height: 20px;" /> 分享
+                </button>
     <view class="md-container">
-      <completeList :completeUsers.sync="taskDoneUsers"></completeList>
+      <complete-list :completeUsers.sync="taskDoneUsers"></complete-list>
     </view>
-
+    <!--view class="msg-container" wx-if="{{!taskOrder}}">
+        <view>提交作业：</view>
+        <i-avatar src="/assets/images/file-image.png" size="small" shape="square"></i-avatar>
+        <i-avatar src="/assets/images/file-audio.png" size="small" shape="square"></i-avatar>
+        <i-avatar src="/assets/images/file-video.png" size="small" shape="square"></i-avatar>
+      </view-->
+    <view class="recorder" wx:if="{{showRecordBox}}">
+      <view class="recorder-status">
+        <image wx:if="{{recordStatus=='录音中'}}" class="record-status-icon" src="../assets/images/record-red.png" alt="" /> {{recordStatus}}
+      </view>
+      <view class="preview">
+        <progress percent="{{progress}}" wx:if="{{progress > 0}}" show-info></progress>
+      </view>
+      <view class="button-group" wx-if="{{!uploadFileURL}}">
+        <view class="button button-play" wx:if="{{recordStatus=='已停止' && tempFilePath}}" @tap="playRecord">
+          <image class="icon-large {{playDisabled?'disabled':''}}" style="" src="../assets/images/play.png" alt="" />
+          <view class="button-text">播放</view>
+        </view>
+        <view class="button button-stop" wx:if="{{recordStatus=='录音中' || recordStatus == '播放中'}}" @tap="stopRecord">
+          <image class="icon-large" src="../assets/images/stop.png" alt="" />
+          <view class="button-text">停止</view>
+        </view>
+        <view class="button button-record {{recordDisabled?'disabled':''}}" wx:if="{{recordStatus=='已停止'}}" @tap="startRecord">
+          <image class="icon-large" style="" src="../assets/images/voice.png" alt="" />
+          <view class="button-text">开始录制</view>
+        </view>
+        <view wx-if="{{recordStatus=='已停止' && tempFilePath}}" class="button button-play {{uploadDisabled?'disabled':''}}" @tap="uploadVoice">
+          <image class="icon-large" style="" src="../assets/images/upload.png" alt="" />
+          <view class="button-text">上传</view>
+        </view>
+      </view>
+      <view class="cancel" @tap="cancel">
+        <button @tap="submitTheOrder" wx-if="{{uploadFileURL}}" type="primary" size="large" plain>提交作业</button>
+        <button type="default" size="large" plain>取消</button>
+      </view>
+    </view>
     <view class="msg-container" wx-if="{{taskOrder}}">
-        <view>作业状态： {{ taskOrder.status == 0 ? '已提交 0 ' : '已批改 1' }}</view>
-        <repeat for="{{taskOrder.files}}" key="index" index="index" item="file">
-          <i-avatar src="/assets/images/file-image.png" wx-if="{{file.type == 0}}" size="small" shape="square"></i-avatar>
-          <i-avatar src="/assets/images/file-audio.png" wx-if="{{file.type == 1}}" size="small" shape="square"></i-avatar>
-          <i-avatar src="/assets/images/file-video.png" wx-if="{{file.type == 2}}" size="small" shape="square"></i-avatar>
-        </repeat>
+      <view>作业状态： {{ taskOrder.status == 0 ? '已提交 0 ' : '已批改 1' }}</view>
+      <repeat for="{{taskOrder.files}}" key="index" index="index" item="file">
+        <i-avatar src="/assets/images/file-image.png" wx-if="{{file.type == 0}}" size="small" shape="square"></i-avatar>
+        <i-avatar src="/assets/images/file-audio.png" wx-if="{{file.type == 1}}" size="small" shape="square"></i-avatar>
+        <i-avatar src="/assets/images/file-video.png" wx-if="{{file.type == 2}}" size="small" shape="square"></i-avatar>
+      </repeat>
       </repeat>
     </view>
-
-    <view class="msg-container" wx-if="{{!taskOrder}}">
-      <view>提交作业：</view>
-      <i-avatar src="/assets/images/file-image.png" size="small" shape="square">+图片</i-avatar>
-      <i-avatar src="/assets/images/file-audio.png" size="small" shape="square">+音频</i-avatar>
-      <i-avatar src="/assets/images/file-video.png" size="small" shape="square">+视频</i-avatar>
-    </view>
-
     <view class="msg-container">
       <repeat for="{{taskComments}}" key="index" index="index" item="item">
-        <msgItem :msgData.sync="item"></msgItem>
+        <msg-item :msgData.sync="item"></msg-item>
       </repeat>
     </view>
     <button wx:if="{{!activeTask.isDone}}" class="submit" @tap="open">上传作业</button>
@@ -152,13 +231,16 @@
 
 <script>
   import wepy from 'wepy'
+  import config from '../config'
   import completeList from '../components/taskDetailPage/completeList'
   import msgItem from '../components/taskDetailPage/msgItem'
   var WxParse = require('../plugin/wxParse/wxParse.js')
   import {
     getTaskComments,
     setActiveTasksAction,
-    getTaskOrdersAction
+    getTaskOrdersAction,
+    submitOrder,
+    setExpGoldAfterSubmitOrder
   } from '../store/actions'
   import {
     connect
@@ -176,7 +258,7 @@
     },
     taskOrder(state) {
       if (state.task.activeTaskOrders && state.task.activeTaskOrders.length > 0) {
-        return state.task.activeTaskOrders[0]  // just fucking one order!
+        return state.task.activeTaskOrders[0] // just fucking one order!
       } else {
         return null
       }
@@ -190,13 +272,29 @@
   }, {
     getTaskComments,
     setActiveTasksAction,
-    getTaskOrdersAction
+    getTaskOrdersAction,
+    submitOrder,
+    setExpGoldAfterSubmitOrder
   })
   export default class TaskDetailPage extends wepy.page {
     data = {
       tempAudioFile: '',
       tempVideoFile: '',
-      defaultImgUrl: '../assets/images/title.png'
+      defaultImgUrl: '../assets/images/title.png',
+      showRecordBox: false,
+      recordStatus: '已停止',
+      tempFilePath: '',
+      fileTypeIndex: 0,
+      uploadFileURL: '',
+      progress: 0,
+      taskId: '',
+      playDisabled: true,
+      recordDisabled: false,
+      uploadDisabled: true,
+      audioCtx: null,
+      recorderManager: null,
+      taskRewardExp: 0,
+      taskRewardGold: 0
     }
     config = {
       usingComponents: {
@@ -205,8 +303,8 @@
       }
     }
     components = {
-      completeList,
-      msgItem
+      'complete-list': completeList,
+      'msg-item': msgItem
     }
     onShareAppMessage(res) {
       let imgUrl = this.defaultImgUrl
@@ -257,12 +355,131 @@
       //   console.log(e)
       // }
     }
+    setButtonDisabled(play, record, upload) {
+      this.playDisabled = play
+      this.recordDisabled = record
+      this.uploadDisabled = upload
+      this.$apply()
+    }
     methods = {
       handleSubmit() {
         console.log('handleSubmit')
       },
       handleError(e) {
         console.log(e.detail)
+      },
+      showToastAfterSubmit(exp, gold) {
+        let title1 = `成长值+${exp}`
+        let title2 = `悦币+${gold}`
+        wepy.showToast({
+          title: title1,
+          icon: 'success',
+          duration: 1000
+        })
+        setTimeout(function() {
+          wepy.showToast({
+            title: title2,
+            icon: 'success',
+            duration: 1000
+          })
+        }, 1300)
+      },
+      startRecord() {
+        var that = this
+        if (!this.recordDisabled) {
+          this.recordStatus = '录音中'
+          this.recorderManager.start({
+            format: 'mp3' // 如果录制acc类型音频则改成aac
+          })
+          this.recorderManager.onStop(function(data) {
+            that.tempFilePath = data.tempFilePath
+            console.log('录音停止', data)
+            if (that.tempFilePath) {
+              wepy.showToast({
+                title: '成功录音',
+                icon: 'success',
+                duration: 1000
+              })
+            }
+            that.$apply()
+          })
+        }
+      },
+      stopRecord() {
+        if (this.recordStatus === '录音中') {
+          this.recordStatus = '已停止'
+          this.setButtonDisabled(false, false, false)
+          this.recorderManager.stop()
+        } else if (this.recordStatus === '播放中' && this.audioCtx) {
+          this.audioCtx.stop()
+          this.recordStatus = '已停止'
+        }
+        this.$apply()
+      },
+      playRecord() {
+        if (!this.playDisabled) {
+          const that = this
+          that.recordStatus = '播放中'
+          that.audioCtx.src = that.tempFilePath
+          that.audioCtx.onPlay(function() {
+            console.log('开始播放', that.tempFilePath)
+          })
+          that.audioCtx.play()
+        }
+        this.$apply()
+      },
+      uploadVoice() {
+        const that = this
+        if (that.tempFilePath) {
+          let uploadTask = wx.uploadFile({
+            url: config.server.uploadServer,
+            filePath: that.tempFilePath,
+            name: 'file',
+            formData: {
+              'fileType': 'audio'
+            },
+            success: function(res) {
+              let data = res.data
+              that.progress = 100
+              that.uploadFileURL = JSON.parse(data).data.URL
+              console.log(' that.uploadFileURL:', that.uploadFileURL)
+              that.$apply()
+            }
+          })
+          uploadTask.onProgressUpdate((res) => {
+            console.log(`提交上传中 ${res.progress}%`)
+            if (res.progress < 95) {
+              that.progress = res.progress
+              that.$apply()
+            }
+          })
+        }
+      },
+      submitTheOrder() {
+        this.methods.submitOrder({
+          taskId: this.taskId,
+          serverId: this.uploadFileURL,
+          type: this.fileTypeIndex
+        })
+        let that = this
+        this.methods.showToastAfterSubmit(that.taskRewardExp, that.taskRewardGold)
+        setTimeout(function() {
+          console.log('now go to succ page')
+          that.uploadFileURL = ''
+          that.progress = 0
+          that.uploadText = ''
+          that.methods.setExpGoldAfterSubmitOrder({
+            exp: that.taskRewardExp,
+            gold: that.taskRewardGold
+          })
+          wx.navigateTo({
+            url: '/pages/successPage'
+          })
+        }, 2300)
+      },
+      cancel() {
+        // wx.navigateBack()
+        this.showRecordBox = false
       },
       open() {
         let that = this
@@ -271,9 +488,18 @@
           success: function(res) {
             console.log(res.tapIndex)
             if (res.tapIndex === 1) {
-              wx.navigateTo({
-                url: `/pages/recordPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}`
-              })
+              // wx.navigateTo({
+              //   url: `/pages/recordPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}`
+              // })
+              console.log('set show record box')
+              that.showRecordBox = true
+              that.$apply()
+              that.fileTypeIndex = 1
+              that.taskId = that.activeTask._id
+              that.taskRewardExp = that.activeTask.exp
+              that.taskRewardGold = that.activeTask.goldToken
+              that.audioCtx = wx.createInnerAudioContext()
+              that.recorderManager = wx.getRecorderManager()
             } else if (res.tapIndex !== undefined) {
               wx.navigateTo({
                 url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}`

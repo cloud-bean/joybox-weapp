@@ -1,29 +1,13 @@
 
 <style lang="less" scoped>
-  .recorder {}
-  .recorder-icon {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 0 auto;
-    margin-top: 5rem;
-    width: 6rem;
-    height: 6rem;
-    border: 1px solid #555;
-    border-radius: 10px;
-    font-size: 3rem;
-    color: #555;
-    background-color: #eee;
-  }
+
   .button-group {
     margin-top: 3rem;
     margin-bottom: 3rem;
     display: flex;
     justify-content: space-around;
   }
-  .recorder-icon i {
-    margin-top: 1.5rem;
-  }
+
   .recorder-status {
     text-align: center;
     color: #fff;
@@ -36,11 +20,7 @@
     padding: .3rem 0;
     display: block;
   }
-  .recorder-time {
-    text-align: center;
-    color: #999;
-    padding: 0.5rem;
-  }
+
   .button {
     text-align: center;
     font-size: 4rem;
@@ -64,9 +44,7 @@
   .disabled {
     color: #ddd;
   }
-  .recorder-active {
-    color: red;
-  }
+
   .icon-large {
     width: 60px;
     height: 60px;
