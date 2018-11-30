@@ -234,7 +234,6 @@
         <i-avatar src="/assets/images/file-audio.png" wx-if="{{file.type == 1}}" shape="square" @tap="showOrderFile({{file}})"></i-avatar>
         <i-avatar src="/assets/images/file-video.png" wx-if="{{file.type == 2}}" shape="square" @tap="showOrderFile({{file}})"></i-avatar>
       </repeat>
-      </repeat>
     </view>
     <view class="msg-container">
       <repeat for="{{taskComments}}" key="index" index="index" item="item">
@@ -513,20 +512,38 @@
           type: this.fileTypeIndex
         })
         let that = this
-        this.methods.showToastAfterSubmit(that.taskRewardExp, that.taskRewardGold)
-        setTimeout(function() {
-          console.log('now go to succ page')
-          that.uploadFileURL = ''
-          that.progress = 0
-          that.uploadText = ''
-          that.methods.setExpGoldAfterSubmitOrder({
-            exp: that.taskRewardExp,
-            gold: that.taskRewardGold
+        if (this.taskOrder) { // 已经提交过作业
+          console.log('// 已经提交过作业')
+          wepy.showToast({
+            title: '更新作业成功',
+            icon: 'success',
+            duration: 1000
           })
-          wx.navigateTo({
-            url: '/pages/successPage'
-          })
-        }, 2300)
+          setTimeout(function() {
+            that.uploadFileURL = ''
+            that.progress = 0
+            that.uploadText = ''
+            wx.navigateTo({
+              url: '/pages/successPage'
+            })
+          }, 1300)
+        } else { // 从未提交过作业
+          console.log('从未提交过作业')
+          this.methods.showToastAfterSubmit(that.taskRewardExp, that.taskRewardGold)
+          setTimeout(function() {
+            console.log('now go to succ page')
+            that.uploadFileURL = ''
+            that.progress = 0
+            that.uploadText = ''
+            that.methods.setExpGoldAfterSubmitOrder({
+              exp: that.taskRewardExp,
+              gold: that.taskRewardGold
+            })
+            wx.navigateTo({
+              url: '/pages/successPage'
+            })
+          }, 2300)
+        }
       },
       cancel() {
         // wx.navigateBack()
@@ -551,7 +568,7 @@
               that.taskRewardGold = that.activeTask.goldToken
             } else if (res.tapIndex !== undefined) {
               wx.navigateTo({
-                url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}`
+                url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}&taskOrder=${that.taskOrder}`
               })
             }
           },

@@ -103,7 +103,8 @@
       taskRewardGold: 0,
       uploadFileURL: '',
       progress: 0,
-      uploadText: ''
+      uploadText: '',
+      taskOrder: null
     }
     methods = {
       showToastAfterSubmit(exp, gold) {
@@ -126,22 +127,39 @@
         console.log(`form发生了submit事件, formId: ${e.detail.formId}，携带数据为：${JSON.stringify(e.detail.value)}`)
         this.methods.submitOrder(e.detail.value) // dispatch submit order action
         var that = this
-        console.log('wait for succ page')
-        setTimeout(function() {
-          console.log('now go to succ page')
-          that.uploadFileURL = ''
-          that.progress = 0
-          that.uploadText = ''
-          that.methods.setExpGoldAfterSubmitOrder({
-            exp: that.taskRewardExp,
-            gold: that.taskRewardGold
+        if (this.taskOrder) { // 已经提交过作业
+          console.log('// 已经提交过作业')
+          wepy.showToast({
+            title: '更新作业成功',
+            icon: 'success',
+            duration: 1000
           })
-          that.methods.getUserInfoAction(that.userId)
-          wx.navigateTo({
-            url: '/pages/successPage'
-          })
-        }, 2300)
-        this.methods.showToastAfterSubmit(that.taskRewardExp, that.taskRewardGold)
+          setTimeout(function() {
+            that.uploadFileURL = ''
+            that.progress = 0
+            that.uploadText = ''
+            wx.navigateTo({
+              url: '/pages/successPage'
+            })
+          }, 1300)
+        } else { // 从未提交过作业
+          console.log('从未提交过作业')
+          setTimeout(function() {
+            console.log('now go to succ page')
+            that.uploadFileURL = ''
+            that.progress = 0
+            that.uploadText = ''
+            that.methods.setExpGoldAfterSubmitOrder({
+              exp: that.taskRewardExp,
+              gold: that.taskRewardGold
+            })
+            that.methods.getUserInfoAction(that.userId)
+            wx.navigateTo({
+              url: '/pages/successPage'
+            })
+          }, 2300)
+          this.methods.showToastAfterSubmit(that.taskRewardExp, that.taskRewardGold)
+        }
       },
       formReset() {
         console.log('form发生了reset事件')
@@ -221,6 +239,7 @@
       this.taskId = option.taskId
       this.taskRewardExp = option.exp
       this.taskRewardGold = option.gold
+      this.taskOrder = option.taskOrder
       this.uploadText = ['提交图片，支持最大10MB图片', '提交录音，开发中，敬请期待~', '提交视频, 支持最长录制60秒视频'][typeIndex]
     }
   }
