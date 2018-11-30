@@ -137,6 +137,11 @@
     margin: 10px auto;
     border: 2px dashed green;
   }
+  .order-div {
+    margin: 10px;
+    padding: 30px;
+    border: 1px solid rgba(215, 215, 215, 0.53);
+  }
 </style>
 
 <template>
@@ -227,7 +232,7 @@
       <video wx-if="{{orderFile.type == 2}}"  style="display: block; margin: 10px auto; width: 80%" src="{{orderFile.URL}}"/>
     </i-modal>
 
-    <view class="msg-container" wx-if="{{taskOrder}}">
+    <view class="msg-container order-div" wx-if="{{taskOrder}}">
       <view>已提交作业(点击可预览作业)：</view>
       <repeat for="{{taskOrder.files}}" key="index" index="index" item="file">
         <i-avatar src="/assets/images/file-image.png" wx-if="{{file.type == 0}}" shape="square" @tap="showOrderFile({{file}})"></i-avatar>
