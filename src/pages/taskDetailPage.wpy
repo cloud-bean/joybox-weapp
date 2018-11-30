@@ -211,12 +211,28 @@
         <button type="default" size="large" plain>取消</button>
       </view>
     </view>
+
+    <i-modal title="预览作业" visible="{{ isOrderModalOpen }}" bind:ok="onCloseOrderFileOK" show-cancel="{{false}}">
+      <image wx-if="{{orderFile.type == 0}}"  style="display: block; margin: 10px auto; width: 80%" mode="widthFix" src="{{orderFile.URL}}"/>
+      <view  wx-if="{{orderFile.type == 1}}"  style="display: block; margin: 10px auto; width: 80%">
+        <view class="button button-play" wx:if="{{!isAudioPlaying}}" @tap="playOrderAudio">
+          <image class="icon-large" style="" src="../assets/images/play.png" alt="" />
+          <view class="button-text">播放</view>
+        </view>
+        <view class="button button-stop" wx:if="{{isAudioPlaying}}" @tap="stopOrderAudio">
+          <image class="icon-large" src="../assets/images/stop.png" alt="" />
+          <view class="button-text">停止</view>
+        </view>
+      </view>
+      <video wx-if="{{orderFile.type == 2}}"  style="display: block; margin: 10px auto; width: 80%" src="{{orderFile.URL}}"/>
+    </i-modal>
+
     <view class="msg-container" wx-if="{{taskOrder}}">
-      <view>作业状态： {{ taskOrder.status == 0 ? '已提交 0 ' : '已批改 1' }}</view>
+      <view>已提交作业(点击可预览作业)：</view>
       <repeat for="{{taskOrder.files}}" key="index" index="index" item="file">
-        <i-avatar src="/assets/images/file-image.png" wx-if="{{file.type == 0}}" size="small" shape="square"></i-avatar>
-        <i-avatar src="/assets/images/file-audio.png" wx-if="{{file.type == 1}}" size="small" shape="square"></i-avatar>
-        <i-avatar src="/assets/images/file-video.png" wx-if="{{file.type == 2}}" size="small" shape="square"></i-avatar>
+        <i-avatar src="/assets/images/file-image.png" wx-if="{{file.type == 0}}" shape="square" @tap="showOrderFile({{file}})"></i-avatar>
+        <i-avatar src="/assets/images/file-audio.png" wx-if="{{file.type == 1}}" shape="square" @tap="showOrderFile({{file}})"></i-avatar>
+        <i-avatar src="/assets/images/file-video.png" wx-if="{{file.type == 2}}" shape="square" @tap="showOrderFile({{file}})"></i-avatar>
       </repeat>
       </repeat>
     </view>
@@ -225,7 +241,8 @@
         <msg-item :msgData.sync="item"></msg-item>
       </repeat>
     </view>
-    <button wx:if="{{!activeTask.isDone}}" class="submit" @tap="open">上传作业</button>
+    <button wx:if="{{!taskOrder}}" class="submit" @tap="open">上传作业</button>
+    <button wx:if="{{taskOrder.status == 0}}" class="submit" @tap="open">重新提交作业</button>
   </view>
 </template>
 
@@ -294,12 +311,16 @@
       audioCtx: null,
       recorderManager: null,
       taskRewardExp: 0,
-      taskRewardGold: 0
+      taskRewardGold: 0,
+      isOrderModalOpen: false,
+      orderFile: null,
+      isAudioPlaying: false
     }
     config = {
       usingComponents: {
         'txv-video': 'plugin://tencentvideo/video',
-        'i-avatar': '/iview/avatar/index'
+        'i-avatar': '/iview/avatar/index',
+        'i-modal': '/iview/modal2/index'
       }
     }
     components = {
@@ -337,6 +358,9 @@
         this.methods.getTaskComments(this.activeTask._id)
         this.methods.getTaskOrdersAction(this.activeTask._id)
       }
+
+      this.audioCtx = wx.createInnerAudioContext()
+      this.recorderManager = wx.getRecorderManager()
     }
     computed = {}
     async onShow() {
@@ -362,6 +386,33 @@
       this.$apply()
     }
     methods = {
+      onCloseOrderFileOK() {
+        this.orderFile = null
+        this.isOrderModalOpen = false
+        this.methods.stopOrderAudio()
+      },
+      showOrderFile (file) {
+        this.orderFile = file
+        this.isOrderModalOpen = true
+        this.isAudioPlaying = false
+      },
+      playOrderAudio() {
+        this.audioCtx.src = this.orderFile.URL
+        this.isAudioPlaying = true
+        this.audioCtx.onPlay(function() {
+          console.log('开始播放')
+        })
+        this.audioCtx.play()
+      },
+      stopOrderAudio() {
+        if (this.audioCtx) {
+          this.audioCtx.onStop(function() {
+            console.log('播放停止')
+          })
+          this.audioCtx.stop()
+        }
+        this.isAudioPlaying = false
+      },
       handleSubmit() {
         console.log('handleSubmit')
       },
@@ -498,8 +549,6 @@
               that.taskId = that.activeTask._id
               that.taskRewardExp = that.activeTask.exp
               that.taskRewardGold = that.activeTask.goldToken
-              that.audioCtx = wx.createInnerAudioContext()
-              that.recorderManager = wx.getRecorderManager()
             } else if (res.tapIndex !== undefined) {
               wx.navigateTo({
                 url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}`
