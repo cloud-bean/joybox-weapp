@@ -10,6 +10,10 @@
     font-size: 10pt;
     display: block;
     text-align:center;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    width: 98%;
   }
   .test-class {
     background-color: red;
@@ -45,7 +49,7 @@
           <repeat for="{{myCards}}" key="index" index="index" item="item">
             <i-col span="6" i-class="col-class" @tap="tgMCardDetailShow({{item}})">
               <view style="display: block;text-align: center; margin-bottom: 20px;">
-                <image mode="widthFix" src="{{item.file.URL + '-card.small'}}" class="card-image" />
+                <image style="max-height: 123.8px;" mode="widthFix" src="{{item.file.URL + '-card.small'}}" class="card-image" />
                 <view class="card-title">{{ item.name }}</view>
                 <i-tag>{{ item.category }} </i-tag>
               </view>

@@ -260,8 +260,7 @@
     getTaskComments,
     setActiveTasksAction,
     getTaskOrdersAction,
-    submitOrder,
-    setExpGoldAfterSubmitOrder
+    submitOrder
   } from '../store/actions'
   import {
     connect
@@ -294,8 +293,7 @@
     getTaskComments,
     setActiveTasksAction,
     getTaskOrdersAction,
-    submitOrder,
-    setExpGoldAfterSubmitOrder
+    submitOrder
   })
   export default class TaskDetailPage extends wepy.page {
     data = {
@@ -540,10 +538,6 @@
             that.uploadFileURL = ''
             that.progress = 0
             that.uploadText = ''
-            that.methods.setExpGoldAfterSubmitOrder({
-              exp: that.taskRewardExp,
-              gold: that.taskRewardGold
-            })
             wx.navigateTo({
               url: '/pages/successPage'
             })
@@ -573,7 +567,7 @@
               that.taskRewardGold = that.activeTask.goldToken
             } else if (res.tapIndex !== undefined) {
               wx.navigateTo({
-                url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}&taskOrder=${that.taskOrder}`
+                url: `/pages/submitOrderPage?type=${res.tapIndex}&taskId=${that.activeTask._id}&exp=${that.activeTask.exp}&gold=${that.activeTask.goldToken}&hasOrder=${that.taskOrder ? 1 : 0}`
               })
             }
           },

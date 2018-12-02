@@ -4,7 +4,7 @@
  */
 
 import { handleActions } from 'redux-actions'
-import { SET_USER_INFO, GET_USER_INFO, UPDATE_EXP_GOLD_AFTER_SUBMIT_ORDER } from '../types/user'
+import { SET_USER_INFO, GET_USER_INFO } from '../types/user'
 
 function level (exp) {
   return Math.round(exp / 200)
@@ -23,7 +23,8 @@ const baseUserState = {
   profileImageURL: '../../assets/images/avatar.png',
   option: baseOption,
   provider: '',
-  providerData: {}
+  providerData: {},
+  speedRate: 0
 }
 export default handleActions({
   [SET_USER_INFO] (state, action) {
@@ -46,7 +47,8 @@ export default handleActions({
         isLogged: true,
         provider: action.payload.provider,
         providerData: action.payload.providerData,
-        created: action.payload.created
+        created: action.payload.created,
+        speedRate: parseInt(action.payload.speedRate, 10)
       }
     }
   },
@@ -70,16 +72,9 @@ export default handleActions({
         isLogged: true,
         provider: action.payload.provider,
         providerData: action.payload.providerData,
-        created: action.payload.created
+        created: action.payload.created,
+        speedRate: parseInt(action.payload.speedRate, 10)
       }
     }
-  },
-  [UPDATE_EXP_GOLD_AFTER_SUBMIT_ORDER] (state, action) {
-    console.log('enter UPDATE_EXP_GOLD_AFTER_SUBMIT_ORDER', action)
-    if (action.payload) {
-      state.option.exp += parseInt(action.payload.exp, 10)
-      state.option.goldToken += parseInt(action.payload.goldToken, 10)
-    }
-    return state
   }
 }, baseUserState)

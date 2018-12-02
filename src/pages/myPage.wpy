@@ -47,7 +47,7 @@
       <!--</i-badge>-->
     </view>
     <view>
-      <keepBar :keepInfo="keepInfo"></keepBar>
+      <keepBar :keepInfo="keepInfo" :speedRate="user.speedRate"></keepBar>
     </view>
     <!--view>
       排行: {{ rank.me }}

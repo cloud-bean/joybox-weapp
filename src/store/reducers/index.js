@@ -9,6 +9,7 @@ import mine from './mine'
 import world from './world'
 import shop from './shop'
 import story from './story'
+import team from './team'
 
 export default combineReducers({
   user,
@@ -20,5 +21,6 @@ export default combineReducers({
   mine,
   world,
   shop,
-  story
+  story,
+  team
 })

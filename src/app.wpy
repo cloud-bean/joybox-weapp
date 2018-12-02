@@ -32,6 +32,7 @@
     config = {
       pages: [
         'pages/initPage',
+        'pages/teamListPage',
         'pages/recordPage',
         'pages/teacherSetScorePage',
         'pages/teacherOrderListPage',
@@ -43,7 +44,6 @@
         'pages/cardListPage',
         'pages/storyListPage',
         'pages/storyDetailPage',
-        'pages/teamListPage',
         'pages/worldPage',
         'pages/myPage',
         'pages/shopPage'

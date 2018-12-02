@@ -17,7 +17,7 @@ export const getTeam = (teamId) =>
   new Promise((resolve, reject) => {
     fetchWithAccessToken(`/teams/${teamId}`, 'get')
       .then((result) => {
-        resolve(result)
+        resolve(result.data.data)
       })
       .catch((err) => {
         reject(err)
@@ -25,4 +25,23 @@ export const getTeam = (teamId) =>
   })
 
 // todo: get the teams which the user is in.
+export const getMyTeams = () =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessToken('/myTeams', 'get')
+      .then((result) => {
+        if (result.data && (result.data.code === 'success')) {
+          resolve({
+            myTeams: result.data.data
+          })
+        } else {
+          resolve({
+            myTeams: []
+          })
+        }
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+
 // todo: get the battle results of the team

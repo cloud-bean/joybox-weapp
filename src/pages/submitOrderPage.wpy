@@ -77,7 +77,6 @@
   import config from '../config'
   import {
     submitOrder,
-    setExpGoldAfterSubmitOrder,
     getUserInfoAction
   } from '../store/actions'
   import {
@@ -92,7 +91,6 @@
     }
   }, {
     submitOrder,
-    setExpGoldAfterSubmitOrder,
     getUserInfoAction
   })
   export default class SubmitOrderPage extends wepy.page {
@@ -149,10 +147,6 @@
             that.uploadFileURL = ''
             that.progress = 0
             that.uploadText = ''
-            that.methods.setExpGoldAfterSubmitOrder({
-              exp: that.taskRewardExp,
-              gold: that.taskRewardGold
-            })
             that.methods.getUserInfoAction(that.userId)
             wx.navigateTo({
               url: '/pages/successPage'
@@ -239,7 +233,8 @@
       this.taskId = option.taskId
       this.taskRewardExp = option.exp
       this.taskRewardGold = option.gold
-      this.taskOrder = option.taskOrder
+      this.taskOrder = option.hasOrder === '1'
+      console.log('this.taskOrder', this.taskOrder)
       this.uploadText = ['提交图片，支持最大10MB图片', '提交录音，开发中，敬请期待~', '提交视频, 支持最长录制60秒视频'][typeIndex]
     }
   }
