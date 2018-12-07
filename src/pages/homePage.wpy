@@ -17,6 +17,7 @@
 </style>
 <template>
   <view class="layout">
+    <official-account></official-account>
     <view class="layout-content" @tap="goTaskListPage">
       <p style="font-size: 28pt; color: #f5f7f9">今日挑战</p>
     </view>
@@ -26,6 +27,7 @@
     <view class="layout-content" @tap="goTeamListPage">
       <p style="font-size: 28pt; color: #f5f7f9">团队</p>
     </view>
+
   </view>
 </template>
 <script>

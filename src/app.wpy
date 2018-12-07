@@ -33,6 +33,7 @@
       pages: [
         'pages/initPage',
         'pages/teamListPage',
+        'pages/bindPage',
         'pages/recordPage',
         'pages/teacherSetScorePage',
         'pages/teacherOrderListPage',
