@@ -1,5 +1,6 @@
 export default {
   appid: 'wxb3762a929cf9e070',
+  appName: 'joyBox',
   // appid: 'wxf8e294c011cd47e1',//dev
   server: {
     midServer: 'https://joywill.cc', // for wechat auth server end point, tinyServer
