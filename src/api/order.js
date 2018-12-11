@@ -7,6 +7,7 @@ export const submitOrder = (taskId, serverId, type) => {
       filename: serverId,
       URL: serverId,
       type, // 0: image; 1: audio; 2: video
+      flag: 'speed', // used for calculate speed rate
       created: Date.now()
     }
   }

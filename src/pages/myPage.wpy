@@ -35,7 +35,7 @@
         <div class="imgs">
           <image class="icon-small" src="../assets/images/gold.png" alt=""/>
         </div>
-        <div class="infos">悦币 {{user.option.goldToken}}</div>
+        <div class="infos">悦币 {{goldToken}}</div>
       </view>
     </view>
     <view slot="footer">
@@ -47,7 +47,7 @@
       <!--</i-badge>-->
     </view>
     <view>
-      <keepBar :keepInfo="keepInfo" :speedRate="user.speedRate"></keepBar>
+      <keepBar :keepInfo="keepInfo" :speedRate="speedRate"></keepBar>
     </view>
     <!--view>
       排行: {{ rank.me }}
@@ -85,6 +85,9 @@
       newUser.created = dayjs(new Date(newUser.created)).toNow(true)
       return newUser
     },
+    speedRate(state) {
+      return '+' + (state.user.speedRate / 100).toFixed(2) + '%'
+    },
     keepInfo(state) {
       return state.mine.keepInfo
     },
@@ -115,7 +118,15 @@
     components = {
       keepBar: KeepBar
     }
-    computed = {}
+    computed = {
+      goldToken() {
+        if (this.user && this.user.option && this.user.option.goldToken) {
+          return parseInt(this.user.option.goldToken, 10).toFixed(2)
+        } else {
+          return 0
+        }
+      }
+    }
     onReady() {
       this.methods.getMyBagCards()
       // this.methods.getRank()

@@ -102,8 +102,7 @@
     <view wx:if="{{ current === 'tab4' }}" class="tab-container">
       <view wx:if="{{myLotterys.length > 0}}">
         <repeat for="{{myLotterys}}" key="index" index="index" item="item">
-          <image mode="scaleToFill" src="{{ item.cardPool.file.URL + '-card.small'}}" class="card-image" /> {{ item.cardPool.name }} {{ item.cardPool.description }}
-          <i-button bind:click="openLottery({{item._id}})" type="success" shape="circle">抽奖</i-button>
+          <i-button bind:click="openLottery({{item._id}})" type="success" shape="circle">{{ item.cardPool.description }} 抽奖</i-button>
         </repeat>
       </view>
       <view wx:else>
@@ -311,7 +310,7 @@
       },
       async openLottery(id) {
         const result = await api.openLottery(id)
-        this.methods.showMsg(result.msg, null, 3)
+        this.methods.showMsg(result.msg, null, 5)
         this.methods.getMyLotterys()
         this.methods.getMyBagCards(this.myCardsPage, this.myCardsLimit)
       }
