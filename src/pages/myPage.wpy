@@ -49,6 +49,17 @@
     <view>
       <keepBar :keepInfo="keepInfo" :speedRate="speedRate"></keepBar>
     </view>
+
+    <view wx:if="{{logs.length > 0}}">
+      <repeat for="{{logs}}" key="index" index="index" item="item">
+        <view style="display: block; margin: 5px; border-bottom: 1px solid gray;">
+          <span>悦币:{{item.option.goldToken > 0 ? '+' + item.option.goldToken  : item.option.goldToken }}</span>
+          <span style="margin-left: 10px;">经验值:{{'+' + item.option.exp}}</span>
+          <p style="margin-left: 10px; border: 1px solid green">{{item.created}}</p>
+        </view>
+      </repeat>
+    </view>
+
     <!--view>
       排行: {{ rank.me }}
     </view>
@@ -69,6 +80,7 @@
     connect
   } from 'wepy-redux'
   import dayjs from '../utils/dayJS'
+  import { getActivityLogs } from '../api/mine'
   const level = function(experience) {
     const levelExp = [50, 100, 200, 350, 550, 800, 1100, 1450, 1850, 2300, 2800, 3350, 3950, 4600, 5300, 6050, 6850, 7700, 8600, 9550]
     const maxlevel = levelExp.length
@@ -86,7 +98,7 @@
       return newUser
     },
     speedRate(state) {
-      return '+' + (state.user.speedRate / 100).toFixed(2) + '%'
+      return '+' + (state.user.speedRate).toFixed(0) + '%'
     },
     keepInfo(state) {
       return state.mine.keepInfo
@@ -102,6 +114,9 @@
     getRank
   })
   export default class myPage extends wepy.page {
+    data = {
+      logs: []
+    }
     config = {
       usingComponents: {
         'i-card': '/iview/card/index',
@@ -127,9 +142,15 @@
         }
       }
     }
-    onReady() {
+    async onReady() {
       this.methods.getMyBagCards()
       // this.methods.getRank()
+      let logs = await getActivityLogs()
+      this.logs = logs.map(function(item) {
+        item.created = dayjs(new Date(item.created)).fromNow()
+        return item
+      })
+      this.$apply()
     }
   }
 </script>
