@@ -59,7 +59,7 @@
     }
     data = {
       page: 1,
-      limit: 30,
+      limit: 15,
       selectedCard: null,
       showCardModal: false
     }
@@ -100,8 +100,8 @@
     background-color: #f8f8f9;
   }
   .card-image {
-    width: 64px;
-    height: 100px;
+    width: 96px;
+    height: 150px;
     margin: 5px;
   }
 </style>

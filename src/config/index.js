@@ -1,7 +1,7 @@
 export default {
-  appid: 'wxb3762a929cf9e070',
-  // appid: 'wxf8e294c011cd47e1',//dev
+  appName: 'joyBox',
   server: {
+    // midServer: 'http://localhost:5555',
     midServer: 'https://joywill.cc', // for wechat auth server end point, tinyServer
     bigServer: 'https://joywill.cc/api', // for kf-admin api end point, api v1  /api/base
     // bigServer: 'http://localhost:7000/api/base', // for kf-admin api end point, api v1  /api/base

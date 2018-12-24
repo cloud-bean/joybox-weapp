@@ -32,6 +32,8 @@
     config = {
       pages: [
         'pages/initPage',
+        'pages/teamListPage',
+        'pages/bindPage',
         'pages/recordPage',
         'pages/teacherSetScorePage',
         'pages/teacherOrderListPage',
@@ -43,7 +45,6 @@
         'pages/cardListPage',
         'pages/storyListPage',
         'pages/storyDetailPage',
-        'pages/teamListPage',
         'pages/worldPage',
         'pages/myPage',
         'pages/shopPage'
@@ -86,7 +87,7 @@
       },
       plugins: {
         tencentvideo: {
-          version: '1.2.3',
+          version: '1.2.4',
           provider: 'wxa75efa648b60994b'
         }
       }

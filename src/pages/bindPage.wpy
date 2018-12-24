@@ -50,7 +50,7 @@
       <button type="primary" open-type="getUserInfo" bindgetuserinfo="handleUserInfo">加  入</button>
     </view>
     <view wx:if="{{!formVisable}}">
-      <button @tap="showForm">创建新用户</button>
+      <button bindtap="showForm">创建新用户</button>
     </view>
   </view>
 </template>

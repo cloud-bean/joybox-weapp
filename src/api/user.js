@@ -42,7 +42,8 @@ export const login = async function() {
     const res = await wepy.request({
       url: config.server.midServer + '/weapp/getUserInfo',
       data: {
-        code: codeInfo.code
+        code: codeInfo.code,
+        appName: config.appName
       },
       method: 'POST'
     })

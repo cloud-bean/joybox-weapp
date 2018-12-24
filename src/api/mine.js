@@ -48,3 +48,14 @@ export const getMyHonours = () =>
         reject(err)
       })
   })
+
+export const getActivityLogs = () =>
+  new Promise((resolve, reject) => {
+    fetchWithAccessToken('/activityLogs', 'get')
+      .then(result => {
+        resolve(result.data.data)
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })

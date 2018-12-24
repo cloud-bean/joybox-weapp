@@ -3,12 +3,40 @@
 </style>
 
 <template>
-  <div>
-    敬请期待~ 我的战队： logo，队名，battle记录，胜负情况，团队积分 所有战队排名
-  </div>
+  <view>
+    <repeat for="{{myTeams}}" key="index" index="index" item="team">
+      {{ team.name }}
+      {{ team.description }}
+      战队积分 {{ team.score || 0 }}
+      <image src="{{ team.logo.URL }}"></image>
+      <repeat for="{{team.students}}" key="index" index="index" item="student">
+        {{ student.displayName }}
+      </repeat>
+      <repeat wx:if="{{team.battles}}" for="{{team.battles}}" key="index" index="index" item="battle">
+        {{ battle.created }}
+      </repeat>
+      <view wx:if="{{!team.battles}}" >
+        没有战绩
+      </view>
+    </repeat>
+  </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  export default class teamListPage extends wepy.page {}
+  import { connect } from 'wepy-redux'
+  import { getMyTeamsAction } from '../store/actions'
+
+  @connect({
+    myTeams(state) {
+      return state.team.myTeams
+    }
+  }, {
+    getMyTeamsAction
+  })
+  export default class teamListPage extends wepy.page {
+    onReady() {
+      this.methods.getMyTeamsAction()
+    }
+  }
 </script>
