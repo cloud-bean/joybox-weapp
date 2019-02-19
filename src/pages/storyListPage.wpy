@@ -7,14 +7,16 @@
 
 <template>
   <view class="layout">
-    <view wx:if="{{myStories.length > 0}}">
-      <repeat for="{{myStories}}" key="index" index="index" item="item">
-        <i-cell title="{{item.name}}" value="{{item.desc}}" is-link @tap="handleTapItem({{item}})"></i-cell>
-      </repeat>
-    </view>
-    <view wx:else>
-      近期上线~ 敬请期待~
-    </view>
+    近期上线~ 敬请期待~
+
+    <!--<view wx:if="{{myStories.length > 0}}">-->
+      <!--<repeat for="{{myStories}}" key="index" index="index" item="item">-->
+        <!--<i-cell title="{{item.name}}" value="{{item.desc}}" is-link @tap="handleTapItem({{item}})"></i-cell>-->
+      <!--</repeat>-->
+    <!--</view>-->
+    <!--<view wx:else>-->
+      <!--近期上线~ 敬请期待~-->
+    <!--</view>-->
   </view>
 </template>
 

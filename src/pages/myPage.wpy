@@ -20,9 +20,11 @@
 <template>
   <div class="layout">
     <i-message id="message" />
-    <view>
-      <i-avatar src="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}" size="large" shape="circle"></i-avatar>
-      {{user.displayName}} - 已加入{{user.created}}
+    <view style="padding: 10px;">
+      <view style="margin-bottom: 10px;">
+        <i-avatar src="{{user.profileImageURL || 'https://i.loli.net/2017/08/21/599a521472424.jpg'}}" size="large" shape="circle"></i-avatar>
+        {{user.displayName}} - 已加入{{user.created}}
+      </view>
       <view class="divs">
         <div class="imgs">
           <image class="icon-small" style="" src="../assets/images/level.png" alt=""/>
@@ -31,34 +33,27 @@
         <div class="imgs">
           <image class="icon-small" style="" src="../assets/images/exp.png" alt=""/>
         </div>
-        <div class="infos" style="margin-right: 10px;">经验值 {{user.option.exp}}</div>
+        <div class="infos" style="margin-right: 10px;">经验值 {{exp}}</div>
         <div class="imgs">
           <image class="icon-small" src="../assets/images/gold.png" alt=""/>
         </div>
         <div class="infos">悦币 {{goldToken}}</div>
       </view>
     </view>
-    <view slot="footer">
-      <!--<i-badge count="1.8" style="margin: 0 10px;">-->
-      <!--<i-icon type="redpacket" size="36" color="red" />-->
-      <!--</i-badge>-->
-      <!--<i-badge count="2.6" style="margin: 0 10px;" i-class="demo">-->
-      <!--<i-icon type="integral" size="36" color="brown" />-->
-      <!--</i-badge>-->
-    </view>
+
     <view>
       <keepBar :keepInfo="keepInfo" :speedRate="speedRate"></keepBar>
     </view>
 
-    <view wx:if="{{logs.length > 0}}">
-      <repeat for="{{logs}}" key="index" index="index" item="item">
-        <view style="display: block; margin: 5px; border-bottom: 1px solid gray;">
-          <span>悦币:{{item.option.goldToken > 0 ? '+' + item.option.goldToken  : item.option.goldToken }}</span>
-          <span style="margin-left: 10px;">经验值:{{'+' + item.option.exp}}</span>
-          <p style="margin-left: 10px; border: 1px solid green">{{item.created}}</p>
-        </view>
-      </repeat>
-    </view>
+    <!--<view wx:if="{{logs.length > 0}}">-->
+      <!--<repeat for="{{logs}}" key="index" index="index" item="item">-->
+        <!--<view style="display: block; margin: 5px; border-bottom: 1px solid gray;">-->
+          <!--<span>悦币:{{item.option.goldToken > 0 ? '+' + item.option.goldToken  : item.option.goldToken }}</span>-->
+          <!--<span style="margin-left: 10px;">经验值:{{'+' + item.option.exp}}</span>-->
+          <!--<p style="margin-left: 10px; border: 1px solid green">{{item.created}}</p>-->
+        <!--</view>-->
+      <!--</repeat>-->
+    <!--</view>-->
 
     <!--view>
       排行: {{ rank.me }}
@@ -80,7 +75,7 @@
     connect
   } from 'wepy-redux'
   import dayjs from '../utils/dayJS'
-  import { getActivityLogs } from '../api/mine'
+  // import { getActivityLogs } from '../api/mine'
   const level = function(experience) {
     const levelExp = [50, 100, 200, 350, 550, 800, 1100, 1450, 1850, 2300, 2800, 3350, 3950, 4600, 5300, 6050, 6850, 7700, 8600, 9550]
     const maxlevel = levelExp.length
@@ -136,7 +131,14 @@
     computed = {
       goldToken() {
         if (this.user && this.user.option && this.user.option.goldToken) {
-          return parseInt(this.user.option.goldToken, 10).toFixed(2)
+          return parseInt(this.user.option.goldToken, 10).toFixed(0)
+        } else {
+          return 0
+        }
+      },
+      exp() {
+        if (this.user && this.user.option && this.user.option.exp) {
+          return parseInt(this.user.option.exp, 10).toFixed(0)
         } else {
           return 0
         }
@@ -145,11 +147,11 @@
     async onReady() {
       this.methods.getMyBagCards()
       // this.methods.getRank()
-      let logs = await getActivityLogs()
-      this.logs = logs.map(function(item) {
-        item.created = dayjs(new Date(item.created)).fromNow()
-        return item
-      })
+      // let logs = await getActivityLogs()
+      // this.logs = logs.map(function(item) {
+      //   item.created = dayjs(new Date(item.created)).fromNow()
+      //   return item
+      // })
       this.$apply()
     }
   }

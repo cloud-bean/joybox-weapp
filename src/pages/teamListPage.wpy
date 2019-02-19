@@ -4,21 +4,22 @@
 
 <template>
   <view>
-    <repeat for="{{myTeams}}" key="index" index="index" item="team">
-      {{ team.name }}
-      {{ team.description }}
-      战队积分 {{ team.score || 0 }}
-      <image src="{{ team.logo.URL }}"></image>
-      <repeat for="{{team.students}}" key="index" index="index" item="student">
-        {{ student.displayName }}
-      </repeat>
-      <repeat wx:if="{{team.battles}}" for="{{team.battles}}" key="index" index="index" item="battle">
-        {{ battle.created }}
-      </repeat>
-      <view wx:if="{{!team.battles}}" >
-        没有战绩
-      </view>
-    </repeat>
+    近期上线~ 敬请期待~
+    <!--<repeat for="{{myTeams}}" key="index" index="index" item="team">-->
+      <!--{{ team.name }}-->
+      <!--{{ team.description }}-->
+      <!--战队积分 {{ team.score || 0 }}-->
+      <!--<image src="{{ team.logo.URL }}"></image>-->
+      <!--<repeat for="{{team.students}}" key="index" index="index" item="student">-->
+        <!--{{ student.displayName }}-->
+      <!--</repeat>-->
+      <!--<repeat wx:if="{{team.battles}}" for="{{team.battles}}" key="index" index="index" item="battle">-->
+        <!--{{ battle.created }}-->
+      <!--</repeat>-->
+      <!--<view wx:if="{{!team.battles}}" >-->
+        <!--没有战绩-->
+      <!--</view>-->
+    <!--</repeat>-->
   </view>
 </template>
 

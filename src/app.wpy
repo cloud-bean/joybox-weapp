@@ -25,7 +25,7 @@
     setStore
   } from 'wepy-redux'
   import configStore from './store'
-  import './utils/sdk/ald-stat'
+  // import './utils/sdk/ald-stat'
   const store = configStore()
   setStore(store)
   export default class extends wepy.app {
