@@ -216,7 +216,6 @@
         <button type="default" size="large" plain>取消</button>
       </view>
     </view>
-
     <i-modal title="预览作业" visible="{{ isOrderModalOpen }}" bind:ok="onCloseOrderFileOK" show-cancel="{{false}}">
       <image wx-if="{{orderFile.type == 0}}"  style="display: block; margin: 10px auto; width: 80%" mode="widthFix" src="{{orderFile.URL}}"/>
       <view  wx-if="{{orderFile.type == 1}}"  style="display: block; margin: 10px auto; width: 80%">
