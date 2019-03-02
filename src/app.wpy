@@ -34,7 +34,7 @@
         'pages/initPage',
         'pages/teamListPage',
         'pages/bindPage',
-        'pages/recordPage',
+        // 'pages/recordPage',
         'pages/teacherSetScorePage',
         'pages/teacherOrderListPage',
         'pages/homePage',
@@ -52,7 +52,7 @@
       window: {
         backgroundTextStyle: 'dark',
         navigationBarTitleText: '悦盒Lite',
-        navigationBarTextStyle: '#eee',
+        navigationBarTextStyle: 'white',
         backgroundColor: '#eee',
         enablePullDownRefresh: false,
         navigationBarBackgroundColor: '#000'

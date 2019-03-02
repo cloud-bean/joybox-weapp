@@ -49,7 +49,7 @@
           <repeat for="{{myCards}}" key="index" index="index" item="item">
             <i-col span="6" i-class="col-class" @tap="tgMCardDetailShow({{item}})">
               <view style="display: block;text-align: center; margin-bottom: 20px;">
-                <image style="max-height: 123.8px;" mode="widthFix" src="{{item.file.URL + '-card.small'}}" class="card-image" />
+                <image style="max-height: 123.8px;" mode="widthFix" src="{{item.file ? item.file.URL + '?imageMogr2/thumbnail/100x158/format/png/interlace/1/blur/1x0/quality/75' : ''}}" class="card-image" />
                 <view class="card-title">{{ item.name }}</view>
                 <i-tag>{{ item.category }} </i-tag>
               </view>
@@ -66,7 +66,7 @@
         <i-row>
           <repeat for="{{goods}}" key="index" index="index" item="item">
             <i-col span="6" i-class="col-class">
-              <image mode="widthFix" src="{{item.detail.file.URL + '-card.small'}}" class="card-image" />
+              <image mode="widthFix" src="{{item.detail.file ? item.detail.file.URL + '?imageMogr2/thumbnail/100x158/format/png/interlace/1/blur/1x0/quality/75' : ''}}" class="card-image" />
               <view class="card-title">{{ item.name }} </view>
               <i-button wx:if="{{ item && (userId == item.owner._id) }}" bind:click="revertCard({{item}})" type="ghost" size="small" shape="circle">撤下
               </i-button>
@@ -86,7 +86,7 @@
         <i-row>
           <repeat for="{{cardPools}}" key="index" index="index" item="item">
             <i-col span="8" i-class="col-class">
-              <image mode="widthFix" src="{{item.file.URL + '-card.small'}}" class="card-image" />
+              <image mode="widthFix" src="{{item.file ? item.file.URL + '?imageMogr2/thumbnail/100x158/format/png/interlace/1/blur/1x0/quality/75' : ''}}" class="card-image" />
               <view class="card-title">{{ item.name }}</view>
               <i-button bind:click="buyCardPool({{item}})" type="ghost" shape="circle">
                 <image style="width: 20px; height: 20px;" src="../assets/images/gold.png" alt="" /> {{ item.ticketPrice }}
